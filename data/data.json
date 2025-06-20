@@ -1,22 +1,14 @@
 [
   {
-    "Category": "",
-    "Name_ar": "",
     "Name": "Abod",
     "Description_ar": "",
-    "Description": "",
+    "options": [],
     "ImageURL": "https://i.imgur.com/zzfgAD9.png",
     "TelegramLink": "",
-    "options": [],
     "Status": "",
-    "Category_ar": ""
-  },
-  {
-    "TelegramLink": "https://t.me/neurosub1y",
-    "Status": "In Stock",
     "Description": "",
-    "ImageURL": "",
-    "options": [],
-    "Name": ""
+    "Category": "",
+    "Category_ar": "",
+    "Name_ar": ""
   }
 ]
