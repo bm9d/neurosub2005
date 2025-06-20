@@ -175,13 +175,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productDetailsApp = (() => {
         // --- CONFIG & STATE ---
-        const GOOGLE_SHEET_ID = '10o3Yv5aXXT-0A5umhBNDFCg_1CGfUDCH54UWVO60Gs4';
-        const GOOGLE_SHEET_TAB_NAME = 'Products';
+        const DATA_FILE_PATH = 'data/data.json'; // Use the local JSON file
         const ICONS = {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
             moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
         };
-        let state = { currentLang: 'en', theme: 'dark', allProducts: [], isModalOpen: false };
+        let state = { currentLang: 'en', theme: 'dark', isModalOpen: false };
         
         // --- DOM ELEMENTS ---
         const dom = {
@@ -310,7 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             dom.detailsContainer.querySelector('.order-button')?.addEventListener('click', () => {
-                showModal(product.TelegramLink || 'https://t.me/neurosub1');
+                const selectedIndex = parseInt(optionsContainer.querySelector('input:checked').value, 10);
+                const selectedOption = product.options[selectedIndex];
+                const optionName = isRTL ? (selectedOption.name_ar || selectedOption.name) : selectedOption.name;
+                const message = `I would like to order: ${productName} - ${optionName}`;
+                const telegramLink = `${product.TelegramLink || 'https://t.me/neurosub1'}?text=${encodeURIComponent(message)}`;
+                showModal(telegramLink);
             });
         };
 
@@ -318,42 +322,13 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.skeletonLoader.style.display = 'none';
             dom.notFoundContainer.classList.remove('hidden');
         };
-
-        const parseCsvToJson = (csvText) => {
-            const lines = csvText.trim().split(/\r?\n/);
-            if (lines.length < 2) return [];
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-            
-            return lines.slice(1).map(line => {
-                const values = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-                const rawProduct = headers.reduce((obj, header, index) => {
-                    obj[header] = (values[index] || '').trim().replace(/^"|"$/g, '');
-                    return obj;
-                }, {});
-                
-                if (!rawProduct.Name) return null;
-
-                const product = { ...rawProduct, options: [] };
-                for (let i = 1; i <= 3; i++) {
-                    const name = rawProduct[`Option ${i} Name`];
-                    const price = rawProduct[`Option ${i} Price`];
-                    const isVisible = (String(rawProduct[`Option ${i} Visible`] || 'false').toUpperCase() === 'TRUE');
-                    
-                    if (name && price && isVisible) {
-                        product.options.push({
-                            name,
-                            name_ar: rawProduct[`Option ${i} Name_ar`] || name,
-                            price,
-                            info: rawProduct[`Option ${i} Info`] || rawProduct.Description,
-                            info_ar: rawProduct[`Option ${i} Info_ar`] || rawProduct.Description_ar || rawProduct.Description,
-                        });
-                    }
-                }
-                 if (product.options.length === 0 && product.Price) {
-                    product.options.push({ name: product.Name, name_ar: product.Name_ar || product.Name, price: product.Price, info: product.Description, info_ar: product.Description_ar || product.Description });
-                }
-                return product;
-            }).filter(p => p && p.options.length > 0);
+        
+        const processJsonData = (rawData) => {
+            if (!Array.isArray(rawData)) {
+                console.error("Data is not an array:", rawData);
+                return [];
+            }
+            return rawData.map(p => ({ ...p })).filter(p => p && p.Name && p.options && p.options.length > 0);
         };
 
         const fetchAndFindProduct = async () => {
@@ -366,23 +341,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             try {
-                const cacheKey = `neurosub-data-${GOOGLE_SHEET_ID}`;
-                let products = [];
-                const cachedData = sessionStorage.getItem(cacheKey);
+                const response = await fetch(DATA_FILE_PATH);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const rawJsonData = await response.json();
+                const products = processJsonData(rawJsonData);
 
-                if (cachedData) {
-                    products = JSON.parse(cachedData);
-                } else {
-                    const encodedTabName = encodeURIComponent(GOOGLE_SHEET_TAB_NAME);
-                    const API_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodedTabName}`;
-                    const response = await fetch(API_URL);
-                    if (!response.ok) throw new Error(`HTTP error!`);
-                    const csvText = await response.text();
-                    products = parseCsvToJson(csvText);
-                    sessionStorage.setItem(cacheKey, JSON.stringify(products));
-                }
-
-                const foundProduct = products.find(p => encodeURIComponent(p.Name.replace(/ /g, '-').toLowerCase()) === productId);
+                const foundProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
 
                 if (foundProduct) {
                     renderProductDetails(foundProduct);
@@ -426,3 +390,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
