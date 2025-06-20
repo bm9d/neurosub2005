@@ -533,8 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const neurosubApp = (() => {
 
         // --- CONFIGURATION ---
-        const GOOGLE_SHEET_ID = '10o3Yv5aXXT-0A5umhBNDFCg_1CGfUDCH54UWVO60Gs4';
-        const GOOGLE_SHEET_TAB_NAME = 'Products';
+        const DATA_FILE_PATH = 'data/data.json'; // Path to your new JSON data file
         const ICONS = {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
             moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
@@ -577,8 +576,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- TRANSLATIONS ---
         const translations = {
-            en: { contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Your Products!", error_instructions: `<p class="text-left mt-2">This is usually caused by one of these issues:</p><ul class="list-disc list-inside text-left mt-2 space-y-1"><li><strong>Incorrect Sheet ID:</strong> Double-check the <code>GOOGLE_SHEET_ID</code> in the script.</li><li><strong>Incorrect Tab Name:</strong> Make sure <code>GOOGLE_SHEET_TAB_NAME</code> exactly matches the name of the tab in your sheet (it's case-sensitive).</li><li><strong>Permissions Not Public:</strong> Your Google Sheet must be public. In the sheet, click <strong>Share</strong> &rarr; <strong>General access</strong> &rarr; and set to "<strong>Anyone with the link</strong>" can <strong>Viewer</strong>.</li></ul><p class="mt-3 font-bold">Displaying example data until this is fixed.</p>`},
-            ar: { contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="text-right mt-2">عادة ما يكون سبب هذه المشكلة أحد الأمور التالية:</p><ul class="list-disc list-inside text-right mt-2 space-y-1"><li><strong>معرف ورقة عمل غير صحيح:</strong> تحقق مرة أخرى من <code>GOOGLE_SHEET_ID</code> في السكريبت.</li><li><strong>اسم علامة تبويب غير صحيح:</strong> تأكد من أن <code>GOOGLE_SHEET_TAB_NAME</code> يطابق تمامًا اسم علامة التبويب في ورقة العمل الخاصة بك (إنه حساس لحالة الأحرف).</li><li><strong>الأذونات ليست عامة:</strong> يجب أن تكون ورقة عمل جوجل الخاصة بك عامة. في ورقة العمل، انقر فوق <strong>مشاركة</strong> &rarr; <strong>الوصول العام</strong> &rarr; واضبطه على "<strong>أي شخص لديه الرابط</strong>" يمكنه <strong>العرض</strong>.</li></ul><p class="mt-3 font-bold">يتم عرض بيانات مثال حتى يتم إصلاح ذلك.</p>`}
+            en: { contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Products!", error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`},
+            ar: { contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`}
         };
 
         // --- UTILITY FUNCTIONS ---
@@ -688,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 dom.orderModal.classList.remove('opacity-0');
                 dom.modalContent.classList.remove('scale-95', 'opacity-0');
-                dom.modalCancelBtn.focus();
+                dom.modalProceedBtn.focus();
             }, 10);
         };
 
@@ -829,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const productName = product[`Name_${lang}`] || product.Name;
             const isOutOfStock = product.Status && product.Status.toLowerCase() === 'out of stock';
-            const productSlug = encodeURIComponent(product.Name.replace(/ /g, '-').toLowerCase());
+            const productSlug = product.Name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
             
             let statusBadge = '';
             if (product.Status) {
@@ -839,10 +838,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const optionsHTML = product.options.map((option, index) => {
                 const optionName = isRTL ? (option.name_ar || option.name) : option.name;
-                const uniqueId = `option-${product.Name.replace(/[^a-zA-Z0-9]/g, '-')}-${index}`;
+                const uniqueId = `option-${productSlug}-${index}`;
                 return `
                     <label for="${uniqueId}" class="product-option">
-                        <input type="radio" name="product-option-${product.Name.replace(/[^a-zA-Z0-9]/g, '-')}" id="${uniqueId}" value="${index}" ${index === 0 ? 'checked' : ''}>
+                        <input type="radio" name="product-option-${productSlug}" id="${uniqueId}" value="${index}" ${index === 0 ? 'checked' : ''}>
                         <span class="option-label">
                             <span class="option-name">${optionName}</span>
                             <span class="option-price">${option.price}</span>
@@ -893,100 +892,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return card;
         };
-
-        const parseCsvToJson = (csvText) => {
-            const lines = csvText.trim().split(/\r?\n/);
-            if (lines.length < 2) return [];
-            
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-            
-            const products = lines.slice(1).map(line => {
-                const values = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-                
-                const rawProduct = headers.reduce((obj, header, index) => {
-                    obj[header] = (values[index] || '').trim().replace(/^"|"$/g, '');
-                    return obj;
-                }, {});
-                
-                if (!rawProduct.Name) return null;
-
-                const product = { ...rawProduct, options: [] };
-                
-                for (let i = 1; i <= 3; i++) {
-                    const name = rawProduct[`Option ${i} Name`];
-                    const price = rawProduct[`Option ${i} Price`];
-                    const visibleStr = String(rawProduct[`Option ${i} Visible`] || 'false').toUpperCase();
-                    const isVisible = visibleStr === 'TRUE' || visibleStr === 'ON';
-                    
-                    if (name && price && isVisible) {
-                        product.options.push({
-                            name: name,
-                            name_ar: rawProduct[`Option ${i} Name_ar`] || name,
-                            price: price,
-                            info: rawProduct[`Option ${i} Info`] || rawProduct.Description,
-                            info_ar: rawProduct[`Option ${i} Info_ar`] || rawProduct.Description_ar || rawProduct.Description,
-                        });
-                    }
-                }
-
-                if (product.options.length === 0 && product.Price) {
-                         product.options.push({
-                            name: product.Name, name_ar: product.Name_ar || product.Name,
-                            price: product.Price,
-                            info: product.Description, info_ar: product.Description_ar || product.Description
-                        });
-                }
-                
-                return product;
-            }).filter(p => p && p.options.length > 0);
-
-            return products;
+        
+        /**
+         * Takes the raw JSON array from the fetch response and processes it
+         * into the standard product format used by the application.
+         */
+        const processJsonData = (rawData) => {
+            if (!Array.isArray(rawData)) {
+                console.error("Data is not an array:", rawData);
+                return [];
+            }
+            return rawData.map(p => ({ ...p })).filter(p => p && p.Name && p.options && p.options.length > 0);
         };
 
-        const fetchFromSheet = async () => {
-            renderProducts([]); // Show skeletons
-            const cacheKey = `neurosub-data-${GOOGLE_SHEET_ID}`;
-            const cachedData = sessionStorage.getItem(cacheKey);
+        const fetchData = async () => {
+            renderProducts([]); // Show skeletons while fetching
+            console.log("Fetching products from JSON file...");
 
-            if (cachedData) {
-                console.log("Loading products from session cache.");
-                state.allProducts = JSON.parse(cachedData);
-                initAppWithData();
-                return;
-            }
-
-            console.log("Fetching products from Google Sheet...");
             try {
-                const encodedTabName = encodeURIComponent(GOOGLE_SHEET_TAB_NAME);
-                const API_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodedTabName}`;
-                const response = await fetch(API_URL);
+                const response = await fetch(DATA_FILE_PATH);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const csvText = await response.text();
-                if (csvText.includes("<html")) throw new Error("Permission Denied. Check sheet sharing settings.");
-                const products = parseCsvToJson(csvText);
-                if (products.length === 0) console.warn("Sheet might be empty or have no visible products.");
+                const rawJsonData = await response.json();
                 
-                state.allProducts = products;
-                sessionStorage.setItem(cacheKey, JSON.stringify(products));
+                state.allProducts = processJsonData(rawJsonData);
+                if (state.allProducts.length === 0) console.warn("JSON file might be empty or formatted incorrectly.");
+
                 dom.errorMessage.classList.add('hidden');
                 initAppWithData();
 
             } catch (error) {
-                console.warn("Could not load from Google Sheet:", error);
+                console.error("Could not load from JSON file:", error);
                 const lang = state.currentLang;
                 dom.errorMessage.innerHTML = `<strong>${translations[lang].error_title}</strong>${translations[lang].error_instructions}`;
                 dom.errorMessage.classList.remove('hidden');
                 
-                state.allProducts = [{
-                    Name: "ChatGPT Plus (Example)", Name_ar: "ChatGPT Plus (مثال)",
-                    Description: "Default description for the service.", Description_ar: "الوصف الافتراضي للخدمة.",
-                    ImageURL: "https://i.imgur.com/wE0092L.png", TelegramLink: "https://t.me/neurosub1",
-                    Category: "AI Tools", Category_ar: "أدوات الذكاء الاصطناعي", Status: "Bestseller",
-                    options: [
-                        { name: "Personal Account", name_ar: "حساب شخصي", price: "15,000 IQD", info: "A private account just for you. Full access and privacy.", info_ar: "حساب خاص لك فقط. وصول كامل وخصوصية تامة." },
-                        { name: "Shared Account", name_ar: "حساب مشترك", price: "7,500 IQD", info: "A shared account with others. Great for casual use.", info_ar: "حساب مشترك مع الآخرين. رائع للاستخدام العادي." }
-                    ]
-                }];
+                // Clear products and update display to show no results
+                state.allProducts = [];
                 initAppWithData();
             }
         };
@@ -1052,7 +993,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initTheme(); // Set theme early
             bindEvents();
             handleScroll(); // Initial check
-            fetchFromSheet();
+            fetchData(); // Fetch from JSON instead of Google Sheet
         };
 
         return { init };
@@ -1065,3 +1006,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
