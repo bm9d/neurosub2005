@@ -1,16 +1,14 @@
-{
-  "array": [
-    1,
-    2,
-    3
-  ],
-  "boolean": true,
-  "color": "gold",
-  "null": null,
-  "number": 123,
-  "object": {
-    "a": "b",
-    "c": "d"
-  },
-  "string": "Hello World"
-}
+[
+  {
+    "Category": "",
+    "Name_ar": "",
+    "Description": "",
+    "Status": "",
+    "ImageURL": "https://i.imgur.com/zzfgAD9.png",
+    "Description_ar": "",
+    "options": [],
+    "Category_ar": "",
+    "TelegramLink": "",
+    "Name": "Abod"
+  }
+]
