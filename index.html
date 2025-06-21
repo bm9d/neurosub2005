@@ -753,6 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const productName = product[`Name_${lang}`] || product.Name;
+            const productDescription = product[`Description_${lang}`] || product.Description || '';
             const isOutOfStock = product.Status && product.Status.toLowerCase() === 'out of stock';
             const productSlug = product.Name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
             
@@ -795,7 +796,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.ImageURL}" alt="Image for ${productName}" loading="lazy" class="w-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=Image';">
                 </div>
                 <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-base md:text-lg font-bold flex-grow" style="color: var(--text-primary);">${productName}</h3>
+                    <h3 class="text-base md:text-lg font-bold" style="color: var(--text-primary);">${productName}</h3>
+                    <p class="text-sm my-2 flex-grow" style="color: var(--text-secondary);">${productDescription}</p>
                     
                     <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${priceDisplay}</p>
                     
