@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "Description": "",
+    "Name": "Chat GPT",
+    "options": [
+      {
+        "price": "15,000 IQD",
+        "info": "Full access ",
+        "name": "Personally "
+      },
+      {
+        "info": "Shared with 1,000",
+        "name": "Shared",
+        "price": "40,000 IQD"
+      }
+    ],
+    "TelegramLink": "https://t.me/neurosub1",
+    "Status": "In Stock",
+    "ImageURL": "https://i.imgur.com/zzfgAD9.png"
+  }
+]
