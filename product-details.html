@@ -18,11 +18,11 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* All CSS from the main page is reused here for consistency */
+        /* CSS Variables for Theming */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f3f4f6;
-            --bg-secondary-translucent: rgba(243, 244, 0.7);
+            --bg-secondary-translucent: rgba(243, 244, 246, 0.7);
             --bg-tertiary: #e5e7eb;
             --bg-modal: #ffffff;
             --border-color: #d1d5db;
@@ -35,11 +35,14 @@
             --accent-secondary-color: #a855f7;
             --accent-secondary-glow: #c084fc;
             --header-bg: rgba(255, 255, 255, 0.5);
+            --motion-text-from: #111827;
+            --motion-text-via: #0ea5e9;
+            --motion-text-to: #111827;
         }
 
         html.dark {
             --bg-primary: #0a0a0a;
-            --bg-secondary: #1f2937;
+            --bg-secondary: #0a0a0a;
             --bg-secondary-translucent: rgba(31, 41, 55, 0.5);
             --bg-tertiary: #374151;
             --bg-modal: #1f2937;
@@ -53,8 +56,12 @@
             --accent-secondary-color: #c084fc;
             --accent-secondary-glow: #a855f7;
             --header-bg: rgba(10, 10, 10, 0.3);
+            --motion-text-from: #e5e7eb;
+            --motion-text-via: #0ea5e9;
+            --motion-text-to: #e5e7eb;
         }
-
+        
+        /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
@@ -66,20 +73,31 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        /* --- LOGO & HEADER STYLING --- */
+        .motion-light-text {
+            background: linear-gradient(90deg, var(--motion-text-from), var(--motion-text-via), var(--motion-text-to));
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-motion 4s linear infinite;
+        }
+
+        @keyframes gradient-motion {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        html[lang="ar"] .logo-container {
+            flex-direction: row-reverse;
+        }
+        
+        /* Product Details Specific Styles */
         .neon-highlight {
              box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
         }
 
-        .modal-backdrop {
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-content {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            background-color: var(--bg-modal);
-            border-color: var(--border-color);
-        }
-        
         .product-option input[type="radio"]:checked + .option-label {
             border-color: var(--accent-primary);
             background-color: var(--accent-primary-glow);
@@ -118,7 +136,6 @@
         /* --- STYLES FOR RENDERED MARKDOWN --- */
         .markdown-content > *:first-child { margin-top: 0; }
         .markdown-content > *:last-child { margin-bottom: 0; }
-
         .markdown-content h1, .markdown-content h2, .markdown-content h3 {
             color: var(--text-primary);
             font-weight: 700;
@@ -129,109 +146,48 @@
         .markdown-content h1 { font-size: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
         .markdown-content h2 { font-size: 1.25em; }
         .markdown-content h3 { font-size: 1.125em; }
-
-        .markdown-content p {
-            color: var(--text-secondary);
-            line-height: 1.65;
-            margin-bottom: 1rem;
-        }
-        .markdown-content ul, .markdown-content ol {
-            color: var(--text-secondary);
-            padding-left: 1.75rem;
-            margin-bottom: 1rem;
-        }
+        .markdown-content p { color: var(--text-secondary); line-height: 1.65; margin-bottom: 1rem; }
+        .markdown-content ul, .markdown-content ol { color: var(--text-secondary); padding-left: 1.75rem; margin-bottom: 1rem; }
         .markdown-content li { margin-bottom: 0.5rem; }
         .markdown-content ul li { list-style-type: disc; }
         .markdown-content ol li { list-style-type: decimal; }
+        .markdown-content a { color: var(--accent-primary); text-decoration: none; font-weight: 500; transition: color 0.2s ease, text-decoration-color 0.2s ease; text-decoration-line: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+        .markdown-content a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover); }
+        .markdown-content blockquote { border-left: 4px solid var(--accent-primary); padding: 0.5rem 1rem; margin: 1.5rem 0; background-color: var(--bg-secondary); border-radius: 0 0.5rem 0.5rem 0; }
+        .markdown-content blockquote p { color: var(--text-secondary); margin: 0; font-style: italic; }
+        html.dark .markdown-content p, html.dark .markdown-content ul, html.dark .markdown-content ol, html.dark .markdown-content blockquote p { color: var(--text-primary); }
+        .markdown-content pre { background-color: var(--bg-tertiary); color: var(--text-primary); padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; margin: 1.5rem 0; }
+        .markdown-content code { background-color: var(--bg-tertiary); color: var(--accent-secondary-color); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+        .markdown-content pre code { padding: 0; background-color: transparent; color: inherit; }
+        .markdown-content hr { border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0; }
+        .markdown-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; box-shadow: 0 0 0 1px var(--border-color); border-radius: 0.5rem; overflow: hidden; }
+        .markdown-content th, .markdown-content td { border: 1px solid var(--border-color); padding: 0.75rem 1rem; text-align: left; }
+        .markdown-content th { background-color: var(--bg-secondary); color: var(--text-primary); font-weight: 600; }
+        .markdown-content tr:nth-child(even) { background-color: var(--bg-secondary-translucent); }
+        html.dark .markdown-content tr:nth-child(even) { background-color: var(--bg-secondary); }
 
-        .markdown-content a {
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease, text-decoration-color 0.2s ease;
-            text-decoration-line: underline;
-            text-decoration-color: transparent;
-            text-underline-offset: 3px;
+        /* --- FOOTER & SOCIAL ICONS STYLES --- */
+        .social-icon { transition: transform 0.3s ease; }
+        .social-icon:hover { transform: scale(1.1); }
+        .telegram-glow { animation: telegram-pulse 2s infinite alternate; }
+        @keyframes telegram-pulse {
+            from { color: #2AABEE; filter: drop-shadow(0 0 4px #2AABEE); }
+            to { color: #87cefa; filter: drop-shadow(0 0 10px #2AABEE) drop-shadow(0 0 2px #fff); }
         }
-        .markdown-content a:hover {
-            color: var(--accent-hover);
-            text-decoration-color: var(--accent-hover);
-        }
-
-        .markdown-content blockquote {
-            border-left: 4px solid var(--accent-primary);
-            padding: 0.5rem 1rem;
-            margin: 1.5rem 0;
-            background-color: var(--bg-secondary);
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-        .markdown-content blockquote p {
-            color: var(--text-secondary);
-            margin: 0;
-            font-style: italic;
-        }
+        .instagram-logo-new { position: relative; width: 4rem; height: 4rem; }
+        .instagram-logo-new, .instagram-logo-new::before, .instagram-logo-new::after { --insta-color: #a855f7; }
+        .instagram-logo-new { border: 6px solid var(--insta-color); border-radius: 18px; background-color: transparent; box-shadow: 0 0 10px var(--insta-color), 0 0 20px var(--insta-color), inset 0 0 5px var(--insta-color); }
+        .instagram-logo-new::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; border: 6px solid var(--insta-color); border-radius: 50%; background-color: transparent; box-shadow: 0 0 10px var(--insta-color); }
+        .instagram-logo-new::after { content: ''; position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background-color: var(--insta-color); box-shadow: 0 0 10px var(--insta-color); }
         
-        /* UPDATED RULE FOR DARK MODE TEXT */
-        html.dark .markdown-content p,
-        html.dark .markdown-content ul,
-        html.dark .markdown-content ol,
-        html.dark .markdown-content blockquote p {
-            color: var(--text-primary);
-        }
-
-        .markdown-content pre {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9em;
-            margin: 1.5rem 0;
-        }
-        .markdown-content code {
-            background-color: var(--bg-tertiary);
-            color: var(--accent-secondary-color);
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-size: 0.9em;
-        }
-        .markdown-content pre code {
-           padding: 0;
-           background-color: transparent;
-           color: inherit;
-        }
-
-        .markdown-content hr {
-            border: 0;
-            border-top: 1px solid var(--border-color);
-            margin: 2rem 0;
-        }
-
-        .markdown-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            box-shadow: 0 0 0 1px var(--border-color);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .markdown-content th, .markdown-content td {
-            border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
-            text-align: left;
-        }
-        .markdown-content th {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .markdown-content tr:nth-child(even) {
-            background-color: var(--bg-secondary-translucent);
-        }
-        html.dark .markdown-content tr:nth-child(even) {
-            background-color: var(--bg-secondary);
-        }
+        /* --- MODAL STYLES --- */
+        .modal-backdrop { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; background-color: var(--bg-modal); border-color: var(--border-color); }
+        
+        /* --- BACK TO TOP BUTTON --- */
+        #back-to-top { position: fixed; right: 2rem; bottom: calc(2rem + env(safe-area-inset-bottom)); background-color: var(--accent-primary); color: var(--text-on-accent); width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(100px); z-index: 45; border: none; cursor: pointer; }
+        #back-to-top.visible { opacity: 1; transform: translateY(0); }
+        html[dir="rtl"] #back-to-top { right: auto; left: 2rem; }
     </style>
 </head>
 <body class="antialiased">
@@ -239,8 +195,9 @@
     <!-- Header -->
     <header class="p-4 border-b sticky top-0 z-40" style="border-color: var(--border-color); background-color: var(--header-bg); backdrop-filter: blur(8px);">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold" style="color: var(--text-primary);">
-                neurosub
+             <a href="index.html" class="logo-container flex items-center gap-3 text-2xl font-bold">
+                <span class="motion-light-text">neurosub</span>
+                <img src="https://i.imgur.com/sPngqN7.jpeg" alt="neurosub Logo" class="h-10 w-10 object-cover rounded-full">
             </a>
             <div class="flex items-center gap-4">
                 <button id="theme-toggle" class="p-2 rounded-full" style="color: var(--text-secondary); background-color: var(--bg-tertiary);"></button>
@@ -291,12 +248,34 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="text-center py-20 md:py-24 px-4" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-bottom: calc(5rem + env(safe-area-inset-bottom));">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" data-translate="follow_us">Follow Us</h2>
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="https://t.me/neurosub1" target="_blank" class="social-icon telegram-glow">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" aria-label="Telegram Logo"><path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" /></svg>
+                </a>
+                <a href="https://www.instagram.com/neurosub?igsh=MTU0aXFlZHN3MXE0YQ==" target="_blank" class="social-icon">
+                    <div class="instagram-logo-new"></div>
+                </a>
+            </div>
+            <p class="text-sm" data-translate="footer_copyright" style="color: var(--text-secondary);">&copy; 2024 neurosub. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const productDetailsApp = (() => {
         // --- CONFIG & STATE ---
-        const DATA_FILE_PATH = 'data/data.json'; // Use the local JSON file
+        const DATA_FILE_PATH = 'data/data.json';
         const ICONS = {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
             moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
@@ -314,18 +293,26 @@ document.addEventListener('DOMContentLoaded', () => {
             modalContent: document.querySelector('#order-modal .modal-content'),
             modalCancelBtn: document.getElementById('modal-cancel-btn'),
             modalProceedBtn: document.getElementById('modal-proceed-btn'),
+            backToTopBtn: document.getElementById('back-to-top'),
         };
         
         // --- TRANSLATIONS ---
         const translations = {
-            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", details: "Details" },
-            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة إلى المنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل" }
+            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", details: "Details", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us" },
+            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة إلى المنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا" }
         };
 
-        // --- UTILS & THEME ---
+        // --- UTILITY & THEME ---
         const storage = {
             get: (key, defaultValue) => localStorage.getItem(key) || defaultValue,
             set: (key, value) => localStorage.setItem(key, value),
+        };
+        const debounce = (func, delay) => {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
         };
 
         const applyTheme = (theme) => {
@@ -333,6 +320,12 @@ document.addEventListener('DOMContentLoaded', () => {
             storage.set('neurosub-theme', theme);
             dom.html.classList.toggle('dark', theme === 'dark');
             dom.themeToggleBtn.innerHTML = theme === 'dark' ? ICONS.sun : ICONS.moon;
+        };
+
+        const initTheme = () => {
+            const savedTheme = storage.get('neurosub-theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(savedTheme || (systemPrefersDark ? 'dark' : 'light'));
         };
         
         const setLanguage = (lang) => {
@@ -343,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const key = el.getAttribute('data-translate');
                 if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
             });
+            storage.set('neurosub-lang', lang);
         };
         
         // --- MODAL LOGIC ---
@@ -361,6 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.orderModal.classList.add('opacity-0');
             dom.modalContent.classList.add('scale-95', 'opacity-0');
             setTimeout(() => dom.orderModal.classList.add('hidden'), 300);
+        };
+        
+        const handleScroll = () => {
+            dom.backToTopBtn.classList.toggle('visible', window.scrollY > 300);
         };
 
         // --- CORE APPLICATION LOGIC ---
@@ -432,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const selectedOption = product.options[index];
                 if (selectedOption) {
                     const descriptionMarkdown = isRTL ? (selectedOption.info_ar || selectedOption.info) : selectedOption.info;
-                    // Use marked.js to parse the markdown into HTML
                     descriptionEl.innerHTML = marked.parse(descriptionMarkdown || '');
                     priceEl.innerHTML = selectedOption.price;
                 }
@@ -460,35 +457,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         const processJsonData = (rawData) => {
-            if (!Array.isArray(rawData)) {
-                console.error("Data is not an array:", rawData);
-                return [];
-            }
+            if (!Array.isArray(rawData)) { console.error("Data is not an array:", rawData); return []; }
             return rawData.map(p => ({ ...p })).filter(p => p && p.Name && p.options && p.options.length > 0);
         };
 
         const fetchAndFindProduct = async () => {
             const params = new URLSearchParams(window.location.search);
             const productId = params.get('id');
-
-            if (!productId) {
-                displayNotFound();
-                return;
-            }
+            if (!productId) { displayNotFound(); return; }
             
             try {
                 const response = await fetch(DATA_FILE_PATH);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const rawJsonData = await response.json();
                 const products = processJsonData(rawJsonData);
-
                 const foundProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
-
-                if (foundProduct) {
-                    renderProductDetails(foundProduct);
-                } else {
-                    displayNotFound();
-                }
+                if (foundProduct) { renderProductDetails(foundProduct); } 
+                else { displayNotFound(); }
             } catch (error) {
                 console.error("Error fetching product data:", error);
                 displayNotFound();
@@ -497,24 +482,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const bindEvents = () => {
             dom.themeToggleBtn.addEventListener('click', () => {
-                applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+                const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
             });
             dom.modalCancelBtn.addEventListener('click', hideModal);
             dom.orderModal.addEventListener('click', (e) => { if (e.target === dom.orderModal) hideModal(); });
-             dom.modalProceedBtn.addEventListener('click', () => setTimeout(hideModal, 200));
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && state.isModalOpen) hideModal();
-            });
+            dom.modalProceedBtn.addEventListener('click', () => setTimeout(hideModal, 200));
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.isModalOpen) hideModal(); });
+            window.addEventListener('scroll', debounce(handleScroll, 15));
+            dom.backToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
         };
 
         const init = () => {
-            const savedTheme = storage.get('neurosub-theme', 'dark');
             const savedLang = storage.get('neurosub-lang', 'en');
-            
-            applyTheme(savedTheme);
-            setLanguage(savedLang); // Set language before rendering product
+            initTheme();
+            setLanguage(savedLang); 
             bindEvents();
             fetchAndFindProduct();
+            handleScroll(); // Initial check
         };
 
         return { init };
