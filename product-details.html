@@ -34,10 +34,31 @@
             --accent-hover: #06b6d4;
             --accent-secondary-color: #a855f7;
             --accent-secondary-glow: #c084fc;
-            --header-bg: rgba(255, 255, 255, 0.5); /* Semi-transparent background for blur effect */
+            --header-bg: rgba(255, 255, 255, 0.5);
             --motion-text-from: #111827;
             --motion-text-via: #0ea5e9;
             --motion-text-to: #111827;
+        }
+
+        html.dark {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #0a0a0a;
+            --bg-secondary-translucent: rgba(31, 41, 55, 0.5);
+            --bg-tertiary: #374151;
+            --bg-modal: #1f2937;
+            --border-color: #4b5563;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --text-on-accent: #ffffff;
+            --accent-primary: #0ea5e9;
+            --accent-primary-glow: #0ea5e9;
+            --accent-hover: #38bdf8;
+            --accent-secondary-color: #c084fc;
+            --accent-secondary-glow: #a855f7;
+            --header-bg: rgba(10, 10, 10, 0.3);
+            --motion-text-from: #e5e7eb;
+            --motion-text-via: #0ea5e9;
+            --motion-text-to: #e5e7eb;
         }
         
         /* Base Styles */
@@ -101,13 +122,19 @@
 
         .product-option input[type="radio"]:checked + .option-label {
             border-color: var(--accent-primary);
-            background-color: var(--accent-primary);
+            background-color: var(--accent-primary-glow);
             box-shadow: 0 0 10px var(--accent-primary-glow);
+        }
+        html:not(.dark) .product-option input[type="radio"]:checked + .option-label {
+             background-color: var(--accent-primary);
         }
         .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
             border-color: var(--accent-secondary-color);
-            background-color: var(--accent-secondary-color);
+            background-color: var(--accent-secondary-glow);
             box-shadow: 0 0 10px var(--accent-secondary-glow);
+        }
+        html:not(.dark) .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
+             background-color: var(--accent-secondary-color);
         }
         
         .product-options-container { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
@@ -150,6 +177,7 @@
         .markdown-content a:hover { color: var(--accent-hover); text-decoration-color: var(--accent-hover); }
         .markdown-content blockquote { border-left: 4px solid var(--accent-primary); padding: 0.5rem 1rem; margin: 1.5rem 0; background-color: var(--bg-secondary); border-radius: 0 0.5rem 0.5rem 0; }
         .markdown-content blockquote p { color: var(--text-secondary); margin: 0; font-style: italic; }
+        html.dark .markdown-content p, html.dark .markdown-content ul, html.dark .markdown-content ol, html.dark .markdown-content blockquote p { color: var(--text-primary); }
         .markdown-content pre { background-color: var(--bg-tertiary); color: var(--text-primary); padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; margin: 1.5rem 0; }
         .markdown-content code { background-color: var(--bg-tertiary); color: var(--accent-secondary-color); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
         .markdown-content pre code { padding: 0; background-color: transparent; color: inherit; }
@@ -158,6 +186,7 @@
         .markdown-content th, .markdown-content td { border: 1px solid var(--border-color); padding: 0.75rem 1rem; text-align: left; }
         .markdown-content th { background-color: var(--bg-secondary); color: var(--text-primary); font-weight: 600; }
         .markdown-content tr:nth-child(even) { background-color: var(--bg-secondary-translucent); }
+        html.dark .markdown-content tr:nth-child(even) { background-color: var(--bg-secondary); }
 
         /* --- FOOTER & SOCIAL ICONS STYLES --- */
         .social-icon { transition: transform 0.3s ease; }
@@ -295,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productDetailsApp = (() => {
         // --- CONFIG & STATE ---
         const DATA_FILE_PATH = 'data/data.json';
-        let state = { currentLang: 'en', isModalOpen: false, currentProduct: null };
+        let state = { currentLang: 'en', theme: 'dark', isModalOpen: false, currentProduct: null };
         
         // --- DOM ELEMENTS ---
         const dom = {
@@ -317,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة للمنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", back_button_text: "رجوع" }
         };
 
-        // --- UTILITIES ---
+        // --- UTILITY & THEME ---
         const storage = {
             get: (key, defaultValue) => localStorage.getItem(key) || defaultValue,
             set: (key, value) => localStorage.setItem(key, value),
@@ -328,6 +357,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => func.apply(this, args), delay);
             };
+        };
+
+        const applyTheme = (theme) => {
+            state.theme = theme;
+            // Note: We don't save the theme here because this page should only reflect the theme set on index.html
+            dom.html.classList.toggle('dark', theme === 'dark');
+        };
+
+        const initTheme = () => {
+            const savedTheme = storage.get('neurosub-theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(savedTheme || (systemPrefersDark ? 'dark' : 'light'));
         };
         
         const setLanguage = (lang, isInitialSetup = false) => {
@@ -524,6 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const init = () => {
             const savedLang = storage.get('neurosub-lang', 'en');
+            initTheme(); // Initialize the theme on page load
             setLanguage(savedLang, true); // Set language initially
             bindEvents();
             fetchAndFindProduct();
