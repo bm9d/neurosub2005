@@ -116,7 +116,7 @@
 <body class="antialiased">
 
     <!-- Header -->
-    <header class="p-4 border-b" style="border-color: var(--border-color);">
+    <header class="p-4 border-b sticky top-0 z-40" style="border-color: var(--border-color); background-color: var(--header-bg); backdrop-filter: blur(8px);">
         <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold" style="color: var(--text-primary);">
                 neurosub
@@ -197,8 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // --- TRANSLATIONS ---
         const translations = {
-            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", view_details: "View Details" },
-            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة إلى المنتجات", out_of_stock: "نفدت الكمية", view_details: "عرض التفاصيل" }
+            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", details: "Details" },
+            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة إلى المنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل" }
         };
 
         // --- UTILS & THEME ---
@@ -269,31 +269,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<button disabled class="w-full text-lg font-bold py-3 px-6 rounded-lg mt-6 transition-colors cursor-not-allowed bg-red-500 text-white">${translations[lang].out_of_stock}</button>`
                 : `<button class="order-button w-full text-lg font-bold py-3 px-6 rounded-lg mt-6 transition-colors neon-highlight" style="background-color: var(--accent-primary); color: var(--text-on-accent);">${translations[lang].order_now}</button>`;
 
-            const detailsToggleHTML = `
-                <div class="mt-6 border-t pt-4" style="border-color: var(--border-color);">
-                    <button id="view-details-btn" class="text-left w-full flex justify-between items-center text-lg font-semibold focus:outline-none" style="color: var(--text-primary);">
-                        <span data-translate="view_details">${translations[lang].view_details}</span>
-                        <svg id="details-chevron" class="w-5 h-5 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                    <div id="details-content" class="overflow-hidden" style="max-height: 0px; transition: max-height 0.5s ease-in-out;">
-                         <div data-product-description class="text-base leading-relaxed pt-3 pb-2" style="color: var(--text-secondary);"></div>
+            const detailsSectionHTML = `
+                <div class="mt-8">
+                    <div class="border-b" style="border-color: var(--border-color);">
+                        <button class="py-3 px-5 text-base font-semibold rounded-t-lg" style="color: var(--text-on-accent); background-color: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary-glow);">
+                             <span data-translate="details">${translations[lang].details}</span>
+                        </button>
+                    </div>
+                    <div class="border-x border-b rounded-b-lg p-4" style="border-color: var(--border-color);">
+                         <div data-product-description class="text-base leading-relaxed" style="color: var(--text-secondary);"></div>
                     </div>
                 </div>
             `;
 
             const productHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 fade-in">
-                    <div class="rounded-2xl overflow-hidden border md:order-last self-start" style="border-color: var(--border-color);">
+                    <div class="rounded-2xl overflow-hidden border self-start md:order-last md:sticky md:top-28" style="border-color: var(--border-color);">
                         <img src="${product.ImageURL}" alt="${productName}" class="w-full h-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0a0a0a/e5e7eb?text=Image';">
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col self-start">
                         <h1 class="text-3xl md:text-4xl font-extrabold" style="color: var(--text-primary);">${productName}</h1>
                         <p data-product-price class="text-2xl md:text-3xl font-bold my-4" style="color: var(--accent-primary);"></p>
                         <div class="product-options-container">
                             ${optionsHTML}
                         </div>
                         ${orderButtonHTML}
-                        ${detailsToggleHTML}
+                        ${detailsSectionHTML}
                     </div>
                 </div>
             `;
@@ -305,24 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const descriptionEl = dom.detailsContainer.querySelector('[data-product-description]');
             const priceEl = dom.detailsContainer.querySelector('[data-product-price]');
             const optionsContainer = dom.detailsContainer.querySelector('.product-options-container');
-            const viewDetailsBtn = dom.detailsContainer.querySelector('#view-details-btn');
-            const detailsContent = dom.detailsContainer.querySelector('#details-content');
-            const detailsChevron = dom.detailsContainer.querySelector('#details-chevron');
-
 
             const updateOptionDetails = (index) => {
                 const selectedOption = product.options[index];
                 if (selectedOption) {
                     descriptionEl.innerHTML = isRTL ? (selectedOption.info_ar || selectedOption.info) : selectedOption.info;
                     priceEl.innerHTML = selectedOption.price;
-                    
-                    if (detailsContent && detailsContent.style.maxHeight !== '0px') {
-                        // Use a timeout to allow the DOM to update with the new description's text
-                        // before calculating its scrollHeight for a smooth transition.
-                         setTimeout(() => {
-                           detailsContent.style.maxHeight = detailsContent.scrollHeight + 'px';
-                        }, 50);
-                    }
                 }
             };
 
@@ -331,19 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             optionsContainer.addEventListener('change', (e) => {
                 updateOptionDetails(parseInt(e.target.value, 10));
             });
-
-            if (viewDetailsBtn) {
-                viewDetailsBtn.addEventListener('click', () => {
-                    const isOpen = detailsContent.style.maxHeight !== '0px';
-                    if (isOpen) {
-                        detailsContent.style.maxHeight = '0px';
-                        detailsChevron.classList.remove('rotate-180');
-                    } else {
-                        detailsContent.style.maxHeight = detailsContent.scrollHeight + 'px';
-                        detailsChevron.classList.add('rotate-180');
-                    }
-                });
-            }
 
             dom.detailsContainer.querySelector('.order-button')?.addEventListener('click', () => {
                 const selectedIndex = parseInt(optionsContainer.querySelector('input:checked').value, 10);
