@@ -170,6 +170,14 @@
             margin: 0;
             font-style: italic;
         }
+        
+        /* UPDATED RULE FOR DARK MODE TEXT */
+        html.dark .markdown-content p,
+        html.dark .markdown-content ul,
+        html.dark .markdown-content ol,
+        html.dark .markdown-content blockquote p {
+            color: var(--text-primary);
+        }
 
         .markdown-content pre {
             background-color: var(--bg-tertiary);
