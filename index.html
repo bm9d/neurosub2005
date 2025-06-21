@@ -171,8 +171,8 @@
             border-radius: 18px;
             background-color: transparent;
             box-shadow: 0 0 10px var(--insta-color),
-                        0 0 20px var(--insta-color),
-                        inset 0 0 5px var(--insta-color);
+                          0 0 20px var(--insta-color),
+                          inset 0 0 5px var(--insta-color);
         }
 
         .instagram-logo-new::before {
@@ -468,11 +468,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- STATE ---
         let state = {
             allProducts: [],
-            currentLang: 'en',
+            currentLang: 'ar', // Default language is now Arabic
             activeCategory: 'All',
             sortOption: 'default',
             isModalOpen: false,
-            theme: 'dark', // default theme
+            theme: 'dark', // default theme, will be overridden by user preference or system setting
         };
 
         // --- DOM ELEMENTS ---
@@ -523,7 +523,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- THEME LOGIC ---
         const applyTheme = (theme) => {
             state.theme = theme;
-            storage.set('neurosub-theme', theme);
+            // Note: We only save the theme to storage when the user *manually* toggles it.
+            // This is handled in the toggleTheme function.
             if (theme === 'dark') {
                 dom.html.classList.add('dark');
                 dom.themeToggleBtn.innerHTML = ICONS.sun;
@@ -535,13 +536,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const toggleTheme = () => {
             const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+            // When user manually toggles, save their preference. This will now override the system setting.
+            storage.set('neurosub-theme', newTheme);
             applyTheme(newTheme);
         };
         
         const initTheme = () => {
-            const savedTheme = storage.get('neurosub-theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(savedTheme || (systemPrefersDark ? 'dark' : 'light'));
+            const systemMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // This function checks for a user-saved theme, otherwise uses the system theme.
+            const decideAndApplyTheme = () => {
+                const savedTheme = storage.get('neurosub-theme');
+                applyTheme(savedTheme || (systemMedia.matches ? 'dark' : 'light'));
+            };
+
+            // Apply the theme on initial load
+            decideAndApplyTheme();
+            
+            // Add a listener to automatically update the theme when the system preference changes.
+            systemMedia.addEventListener('change', decideAndApplyTheme);
         };
 
         // --- CORE LOGIC ---
@@ -890,7 +903,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const loadPreferences = () => {
-            state.currentLang = storage.get('neurosub-lang', 'en');
+            // UPDATED: Set 'ar' as the fallback language
+            state.currentLang = storage.get('neurosub-lang', 'ar'); 
             state.activeCategory = storage.get('neurosub-category', 'All');
             state.sortOption = storage.get('neurosub-sort', 'default');
             dom.sortOptions.value = state.sortOption;
@@ -905,7 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- INITIALIZATION ---
         const init = () => {
             loadPreferences();
-            initTheme(); // Set theme early
+            initTheme(); // Set theme early, based on saved preference or system setting
             bindEvents();
             handleScroll(); // Initial check
             fetchData(); // Fetch from JSON instead of Google Sheet
