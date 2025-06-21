@@ -92,6 +92,14 @@
         html[lang="ar"] .logo-container {
             flex-direction: row-reverse;
         }
+
+        .header-back-btn {
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+        }
+        .header-back-btn:hover {
+            background-color: var(--accent-hover);
+        }
         
         /* Product Details Specific Styles */
         .neon-highlight {
@@ -184,9 +192,11 @@
         .modal-backdrop { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; background-color: var(--bg-modal); border-color: var(--border-color); }
         
-        /* --- FLOATING BUTTONS --- */
-        #back-to-top, #back-to-products-btn {
+        /* --- BACK TO TOP BUTTON --- */
+        #back-to-top {
             position: fixed;
+            right: 2rem;
+            bottom: calc(2rem + env(safe-area-inset-bottom));
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
@@ -197,11 +207,6 @@
             border: none;
             cursor: pointer;
             text-decoration: none;
-        }
-
-        #back-to-top {
-            right: 2rem;
-            bottom: calc(2rem + env(safe-area-inset-bottom));
             background-color: var(--accent-primary);
             color: var(--text-on-accent);
             box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
@@ -211,20 +216,6 @@
         }
         #back-to-top.visible { opacity: 1; transform: translateY(0); }
         html[dir="rtl"] #back-to-top { right: auto; left: 2rem; }
-        
-        #back-to-products-btn {
-            left: 2rem;
-            bottom: calc(2rem + env(safe-area-inset-bottom));
-            background-color: var(--accent-primary); /* CHANGED COLOR */
-            color: var(--text-on-accent);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); /* CHANGED SHADOW COLOR */
-            transition: transform 0.3s ease, opacity 0.5s ease;
-            opacity: 0;
-            transform: scale(0.5);
-        }
-        #back-to-products-btn.visible { opacity: 1; transform: scale(1); }
-        #back-to-products-btn:hover { transform: scale(1.1) !important; }
-        html[dir="rtl"] #back-to-products-btn { left: auto; right: 2rem; }
 
     </style>
 </head>
@@ -238,8 +229,12 @@
                 <img src="https://i.imgur.com/sPngqN7.jpeg" alt="neurosub Logo" class="h-10 w-10 object-cover rounded-full">
             </a>
             <div class="flex items-center gap-4">
+                <a href="index.html#products" class="header-back-btn p-2 rounded-full transition-colors" title="Back to Products">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                    </svg>
+                </a>
                 <button id="theme-toggle" class="p-2 rounded-full" style="color: var(--text-secondary); background-color: var(--bg-tertiary);"></button>
-                <a href="https://t.me/neurosub1" target="_blank" class="bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors" data-translate="contact_us">Contact Us</a>
             </div>
         </div>
     </header>
@@ -302,13 +297,6 @@
         </div>
     </footer>
     
-    <!-- Back to Products Floating Button -->
-    <a href="index.html#products" id="back-to-products-btn" title="Back to Products">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-        </svg>
-    </a>
-    
     <!-- Back to Top Button -->
     <button id="back-to-top" title="Back to top">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -325,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
             moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
         };
-        let state = { currentLang: 'en', theme: 'dark', isModalOpen: false };
+        let state = { currentLang: 'en', theme: 'dark', isModalOpen: false, currentProduct: null };
         
         // --- DOM ELEMENTS ---
         const dom = {
@@ -339,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
             modalCancelBtn: document.getElementById('modal-cancel-btn'),
             modalProceedBtn: document.getElementById('modal-proceed-btn'),
             backToTopBtn: document.getElementById('back-to-top'),
-            backToProductsBtn: document.getElementById('back-to-products-btn'),
         };
         
         // --- TRANSLATIONS ---
@@ -374,15 +361,24 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(savedTheme || (systemPrefersDark ? 'dark' : 'light'));
         };
         
-        const setLanguage = (lang) => {
+        const setLanguage = (lang, isInitialSetup = false) => {
             state.currentLang = lang;
             dom.html.lang = lang;
             dom.html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.getAttribute('data-translate');
-                if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
             });
-            storage.set('neurosub-lang', lang);
+            
+            if (!isInitialSetup) {
+                storage.set('neurosub-lang', lang);
+                if (state.currentProduct) {
+                    renderProductDetails(); // Re-render with new language
+                }
+            }
         };
         
         // --- MODAL LOGIC ---
@@ -408,7 +404,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // --- CORE APPLICATION LOGIC ---
-        const renderProductDetails = (product) => {
+        const renderProductDetails = () => {
+            if (!state.currentProduct) return;
+            const product = state.currentProduct;
+
             dom.skeletonLoader.style.display = 'none';
             
             const lang = state.currentLang;
@@ -517,9 +516,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const rawJsonData = await response.json();
                 const products = processJsonData(rawJsonData);
-                const foundProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
-                if (foundProduct) { renderProductDetails(foundProduct); } 
-                else { displayNotFound(); }
+                state.currentProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
+                
+                if (state.currentProduct) { 
+                    renderProductDetails();
+                } else { 
+                    displayNotFound();
+                }
             } catch (error) {
                 console.error("Error fetching product data:", error);
                 displayNotFound();
@@ -542,15 +545,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const init = () => {
             const savedLang = storage.get('neurosub-lang', 'en');
             initTheme();
-            setLanguage(savedLang); 
+            setLanguage(savedLang, true); // Set language initially
             bindEvents();
             fetchAndFindProduct();
             handleScroll(); // Initial check
-
-            // Make the floating back button visible after a short delay
-            setTimeout(() => {
-                if(dom.backToProductsBtn) dom.backToProductsBtn.classList.add('visible');
-            }, 500);
         };
 
         return { init };
