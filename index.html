@@ -295,80 +295,6 @@
             bottom: calc(7rem + env(safe-area-inset-bottom));
         }
 
-        /* --- Styles for Product Options --- */
-        .product-options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .product-option {
-            display: block;
-            position: relative;
-        }
-
-        .product-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-        }
-
-        .product-option .option-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0.875rem; /* Reduced padding */
-            border-radius: 0.5rem;
-            border: 2px solid var(--border-color);
-            background-color: var(--bg-tertiary);
-            transition: all 0.2s ease-in-out;
-            font-size: 0.75rem; /* text-xs, Reduced font size */
-            font-weight: 600; /* semibold */
-        }
-
-        .product-option .option-label .option-name {
-            color: var(--text-primary);
-        }
-        .product-option .option-label .option-price {
-            color: var(--accent-primary);
-        }
-
-        .product-option input[type="radio"]:hover:not(:checked) + .option-label {
-            border-color: var(--accent-hover);
-        }
-        
-        /* Default style for ANY selected option (blue) */
-        .product-option input[type="radio"]:checked + .option-label {
-            border-color: var(--accent-primary);
-            background-color: var(--accent-primary-glow);
-            box-shadow: 0 0 10px var(--accent-primary-glow);
-        }
-        html.light .product-option input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-primary);
-        }
-
-        /* Override for the SECOND option when selected (violet) */
-        .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
-            border-color: var(--accent-secondary-color);
-            background-color: var(--accent-secondary-glow);
-            box-shadow: 0 0 10px var(--accent-secondary-glow);
-        }
-        html.light .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-secondary-color);
-        }
-
-
-        /* Text color for any selected option */
-        .product-option input[type="radio"]:checked + .option-label .option-name,
-        .product-option input[type="radio"]:checked + .option-label .option-price {
-            color: var(--text-on-accent);
-        }
-
         /* --- New styles for Details Button --- */
         .details-btn {
             background-color: var(--accent-primary);
@@ -821,10 +747,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.border = '1px solid var(--border-color)';
 
             const lang = state.currentLang;
-            const isRTL = lang === 'ar';
             
-            const defaultOption = product.options[0];
-            if (!defaultOption) return document.createDocumentFragment();
+            if (!product.options || product.options.length === 0) {
+                return document.createDocumentFragment(); // Return empty if no options
+            }
 
             const productName = product[`Name_${lang}`] || product.Name;
             const isOutOfStock = product.Status && product.Status.toLowerCase() === 'out of stock';
@@ -836,26 +762,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusBadge = `<div class="status-badge ${statusClass}">${product.Status}</div>`;
             }
 
-            const optionsHTML = product.options.map((option, index) => {
-                const optionName = isRTL ? (option.name_ar || option.name) : option.name;
-                const uniqueId = `option-${productSlug}-${index}`;
-                return `
-                    <label for="${uniqueId}" class="product-option">
-                        <input type="radio" name="product-option-${productSlug}" id="${uniqueId}" value="${index}" ${index === 0 ? 'checked' : ''}>
-                        <span class="option-label">
-                            <span class="option-name">${optionName}</span>
-                            <span class="option-price">${option.price}</span>
-                        </span>
-                    </label>
-                `;
-            }).join('');
+            // --- Price Range Logic ---
+            const prices = product.options
+                .map(opt => parseFloat(String(opt.price).replace(/[^0-9.]+/g, '')))
+                .filter(p => !isNaN(p));
+            
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+
+            // Extract currency symbol/text from the first price string
+            const currency = (product.options[0]?.price || '').replace(/[0-9.,\s]/g, '');
+
+            let priceDisplay;
+            if (prices.length > 0) {
+                if (minPrice === maxPrice) {
+                    priceDisplay = `${minPrice} ${currency}`;
+                } else {
+                    priceDisplay = `${minPrice} - ${maxPrice} ${currency}`;
+                }
+            } else {
+                 priceDisplay = 'N/A'; // Fallback if no valid prices
+            }
+            // --- End Price Range Logic ---
 
             const actionButtonHTML = isOutOfStock
-                ? `<button disabled class="mt-auto bg-red-500 text-white font-bold py-2 px-4 rounded-md w-full text-sm cursor-not-allowed">${translations[lang].out_of_stock}</button>`
-                : `<a href="product-details.html?id=${productSlug}" class="details-btn text-center mt-auto font-bold py-2 px-4 rounded-md transition-colors w-full text-sm block">${translations[lang].view_details}</a>`;
-
-            const initialDescription = isRTL ? (defaultOption.info_ar || defaultOption.info) : defaultOption.info;
-            const initialPrice = defaultOption.price;
+                ? `<button disabled class="mt-auto bg-red-500 text-white font-bold py-3 px-4 rounded-lg w-full text-base cursor-not-allowed">${translations[lang].out_of_stock}</button>`
+                : `<a href="product-details.html?id=${productSlug}" class="details-btn text-center mt-auto font-bold py-3 px-4 rounded-lg transition-colors w-full text-base block">${translations[lang].view_details}</a>`;
 
             card.innerHTML = `
                 <div class="relative">
@@ -863,33 +795,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.ImageURL}" alt="Image for ${productName}" loading="lazy" class="w-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=Image';">
                 </div>
                 <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-base md:text-lg font-bold" style="color: var(--text-primary);">${productName}</h3>
+                    <h3 class="text-base md:text-lg font-bold flex-grow" style="color: var(--text-primary);">${productName}</h3>
                     
-                    <div class="product-options-container my-3">
-                        ${optionsHTML}
-                    </div>
-
-                    <p data-product-description class="text-xs md:text-sm flex-grow mb-2" style="color: var(--text-secondary);">${initialDescription}</p>
-                    <p data-product-price class="text-lg md:text-xl font-extrabold text-cyan-400 my-3">${initialPrice}</p>
+                    <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${priceDisplay}</p>
                     
                     ${actionButtonHTML}
                 </div>
             `;
-
-            const optionsContainer = card.querySelector('.product-options-container');
-            const descriptionEl = card.querySelector('[data-product-description]');
-            const priceEl = card.querySelector('[data-product-price]');
-
-            optionsContainer.addEventListener('change', (e) => {
-                const selectedIndex = parseInt(e.target.value, 10);
-                const selectedOption = product.options[selectedIndex];
-                
-                if (selectedOption) {
-                    descriptionEl.innerHTML = isRTL ? (selectedOption.info_ar || selectedOption.info) : selectedOption.info;
-                    priceEl.innerHTML = selectedOption.price;
-                }
-            });
-
+            
             return card;
         };
         
@@ -1006,4 +919,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
