@@ -2,15 +2,15 @@
   {
     "ImageURL": "https://i.imgur.com/zzfgAD9.png",
     "Status": "In Stock",
+    "Name": "Chat GPT",
     "options": [
       {
-        "info": "Full access ",
         "name": "Personally ",
-        "price": "15,000 IQD"
+        "price": "15,000 IQD",
+        "info": "لك يا هلا شلونك"
       }
     ],
-    "Description": "Shared and personal accounts ",
-    "Name": "Chat GPT",
-    "TelegramLink": "https://t.me/neurosub1"
+    "TelegramLink": "https://t.me/neurosub1",
+    "Description": "Shared and personal accounts "
   }
 ]
