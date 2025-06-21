@@ -184,10 +184,48 @@
         .modal-backdrop { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; background-color: var(--bg-modal); border-color: var(--border-color); }
         
-        /* --- BACK TO TOP BUTTON --- */
-        #back-to-top { position: fixed; right: 2rem; bottom: calc(2rem + env(safe-area-inset-bottom)); background-color: var(--accent-primary); color: var(--text-on-accent); width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4); transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateY(100px); z-index: 45; border: none; cursor: pointer; }
+        /* --- FLOATING BUTTONS --- */
+        #back-to-top, #back-to-products-btn {
+            position: fixed;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 45;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #back-to-top {
+            right: 2rem;
+            bottom: calc(2rem + env(safe-area-inset-bottom));
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            transform: translateY(100px);
+        }
         #back-to-top.visible { opacity: 1; transform: translateY(0); }
         html[dir="rtl"] #back-to-top { right: auto; left: 2rem; }
+        
+        #back-to-products-btn {
+            left: 2rem;
+            bottom: calc(2rem + env(safe-area-inset-bottom));
+            background-color: var(--accent-secondary-color);
+            color: var(--text-on-accent);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+            transition: transform 0.3s ease, opacity 0.5s ease;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        #back-to-products-btn.visible { opacity: 1; transform: scale(1); }
+        #back-to-products-btn:hover { transform: scale(1.1) !important; }
+        html[dir="rtl"] #back-to-products-btn { left: auto; right: 2rem; }
+
     </style>
 </head>
 <body class="antialiased">
@@ -264,6 +302,13 @@
         </div>
     </footer>
     
+    <!-- Back to Products Floating Button -->
+    <a href="index.html#products" id="back-to-products-btn" title="Back to Products">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+    
     <!-- Back to Top Button -->
     <button id="back-to-top" title="Back to top">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -294,6 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalCancelBtn: document.getElementById('modal-cancel-btn'),
             modalProceedBtn: document.getElementById('modal-proceed-btn'),
             backToTopBtn: document.getElementById('back-to-top'),
+            backToProductsBtn: document.getElementById('back-to-products-btn'),
         };
         
         // --- TRANSLATIONS ---
@@ -401,22 +447,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            const backButtonHTML = `
-                <a href="index.html#products" class="inline-flex items-center gap-2 text-sm font-semibold mb-6 transition-colors hover:text-cyan-400" style="color: var(--text-secondary);">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                    </svg>
-                    <span data-translate="back_to_products">${translations[lang].back_to_products}</span>
-                </a>
-            `;
-
             const productHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 fade-in">
                     <div class="rounded-2xl overflow-hidden border self-start md:order-last md:sticky md:top-28" style="border-color: var(--border-color);">
                         <img src="${product.ImageURL}" alt="${productName}" class="w-full h-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0a0a0a/e5e7eb?text=Image';">
                     </div>
                     <div class="flex flex-col self-start">
-                        ${backButtonHTML}
                         <h1 class="text-3xl md:text-4xl font-extrabold" style="color: var(--text-primary);">${productName}</h1>
                         <p data-product-price class="text-2xl md:text-3xl font-bold my-4" style="color: var(--accent-primary);"></p>
                         <div class="product-options-container">
@@ -510,6 +546,11 @@ document.addEventListener('DOMContentLoaded', () => {
             bindEvents();
             fetchAndFindProduct();
             handleScroll(); // Initial check
+
+            // Make the floating back button visible after a short delay
+            setTimeout(() => {
+                if(dom.backToProductsBtn) dom.backToProductsBtn.classList.add('visible');
+            }, 500);
         };
 
         return { init };
