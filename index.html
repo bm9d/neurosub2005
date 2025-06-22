@@ -831,10 +831,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const setupCategoryFilters = () => {
             const lang = state.currentLang;
             const allCatText = translations[lang].all_category;
+            // UPDATED: Define the category key based on the current language
             const categoryKey = `Category_${lang}`;
 
             // Use non-special-offer products for categories
             const productsForCategories = state.allProducts.filter(p => !p.isSpecialOffer);
+            
+            // UPDATED: Use the language-specific category key, with a fallback to the default 'Category'
             const uniqueCategories = [...new Set(productsForCategories.map(p => p[categoryKey] || p.Category).filter(Boolean))];
             const categories = [allCatText, ...uniqueCategories];
 
@@ -867,11 +870,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show skeletons only on initial load before data is ready
                      if (state.allProducts.length === 0) {
                          for (let i = 0; i < 4; i++) {
-                            const skeleton = document.createElement('div');
-                            skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
-                            skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
-                            dom.productGrid.appendChild(skeleton);
-                        }
+                             const skeleton = document.createElement('div');
+                             skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
+                             skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
+                             dom.productGrid.appendChild(skeleton);
+                         }
                      }
                 }
                 return;
@@ -904,7 +907,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let statusBadge = '';
             if (product.Status) {
                 const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
-                statusBadge = `<div class="status-badge ${statusClass}">${product.Status}</div>`;
+                // UPDATED: Prioritize translated status from data file (e.g., Status_ar)
+                const statusText = lang === 'ar' && product.Status_ar ? product.Status_ar : product.Status;
+                statusBadge = `<div class="status-badge ${statusClass}">${statusText}</div>`;
             }
 
             // --- Price Range Logic ---
