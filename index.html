@@ -564,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const neurosubApp = (() => {
 
         // --- CONFIGURATION ---
-        const DATA_FILE_PATH = 'data/data.json'; // Path to your new JSON data file
+        const DATA_FILE_PATH = 'https://raw.githubusercontent.com/DevYounes/neurosub-data/main/data.json'; // Path to your new JSON data file
         
         // NEW: Configuration for the Special Offer section
         const SPECIAL_OFFER_CONFIG = {
@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let state = {
             allProducts: [], // Holds all products fetched from JSON
             currentLang: 'ar', // Default language is now Arabic
-            activeCategory: 'All',
+            activeCategory: 'All', // This will store the ENGLISH category key
             sortOption: 'default',
             isModalOpen: false,
             theme: 'dark', // default theme, will be overridden by user preference or system setting
@@ -631,8 +631,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- TRANSLATIONS ---
         const translations = {
-            en: { contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Products!", error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`, offer_title: "Limited Time Special Offers!", offer_description: "Check out these exclusive deals, available for a short time only. Don't miss out!", offer_cta: "Claim Offer", countdown_days: "Days", countdown_hours: "Hours", countdown_minutes: "Mins", countdown_seconds: "Secs", offer_expired: "Offer Expired!"},
-            ar: { contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`, offer_title: "عروض خاصة لفترة محدودة!", offer_description: "اكتشف هذه العروض الحصرية، متاحة لفترة قصيرة فقط. لا تفوت الفرصة!", offer_cta: "احصل على العرض", countdown_days: "أيام", countdown_hours: "ساعات", countdown_minutes: "دقائق", countdown_seconds: "ثواني", offer_expired: "انتهى العرض!"}
+            en: { 
+                contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Products!", error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`, offer_title: "Limited Time Special Offers!", offer_description: "Check out these exclusive deals, available for a short time only. Don't miss out!", offer_cta: "Claim Offer", countdown_days: "Days", countdown_hours: "Hours", countdown_minutes: "Mins", countdown_seconds: "Secs", offer_expired: "Offer Expired!",
+                // DYNAMIC TRANSLATIONS
+                "status_bestseller": "Bestseller", "status_in_stock": "In Stock", "status_limited": "Limited", "status_out_of_stock": "Out of Stock",
+                "category_Design": "Design", "category_Development": "Development", "category_Productivity": "Productivity", "category_Streaming": "Streaming"
+            },
+            ar: { 
+                contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`, offer_title: "عروض خاصة لفترة محدودة!", offer_description: "اكتشف هذه العروض الحصرية، متاحة لفترة قصيرة فقط. لا تفوت الفرصة!", offer_cta: "احصل على العرض", countdown_days: "أيام", countdown_hours: "ساعات", countdown_minutes: "دقائق", countdown_seconds: "ثواني", offer_expired: "انتهى العرض!",
+                // DYNAMIC TRANSLATIONS
+                "status_bestseller": "الأكثر مبيعاً", "status_in_stock": "متوفر", "status_limited": "محدود", "status_out_of_stock": "نفدت الكمية",
+                "category_Design": "تصميم", "category_Development": "تطوير", "category_Productivity": "إنتاجية", "category_Streaming": "بث"
+            }
         };
 
         // --- UTILITY FUNCTIONS ---
@@ -648,6 +658,20 @@ document.addEventListener('DOMContentLoaded', () => {
             get: (key, defaultValue) => localStorage.getItem(key) || defaultValue,
             set: (key, value) => localStorage.setItem(key, value),
         };
+        
+        /**
+         * NEW: Translates dynamic data like Status and Category.
+         * @param {('status'|'category')} type - The type of data to translate.
+         * @param {string} key - The English key from the JSON file (e.g., "In Stock").
+         * @returns {string} The translated string or the original key if not found.
+         */
+        const translateDynamic = (type, key) => {
+            if (!key) return '';
+            // Create a lookup key e.g., "status_in_stock" or "category_Design"
+            const translationKey = `${type}_${key.replace(/\s+/g, '_')}`;
+            return translations[state.currentLang][translationKey] || key;
+        };
+
 
         // --- THEME LOGIC ---
         const applyTheme = (theme) => {
@@ -772,9 +796,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const searchTerm = dom.searchInput.value.toLowerCase();
 
             // 1. Filter by Category
-            const categoryKey = `Category_${lang}`;
-            if (state.activeCategory !== 'All' && state.activeCategory !== 'الكل') {
-                productsToDisplay = productsToDisplay.filter(p => (p[categoryKey] || p.Category) === state.activeCategory);
+            if (state.activeCategory !== 'All') {
+                // IMPORTANT: We filter using the original English category name from the JSON
+                productsToDisplay = productsToDisplay.filter(p => p.Category === state.activeCategory);
             }
 
             // 2. Filter by Search
@@ -829,53 +853,71 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         const setupCategoryFilters = () => {
-            const lang = state.currentLang;
-            const allCatText = translations[lang].all_category;
-            // UPDATED: Define the category key based on the current language
-            const categoryKey = `Category_${lang}`;
+            const allCatText = translations[state.currentLang].all_category;
 
             // Use non-special-offer products for categories
             const productsForCategories = state.allProducts.filter(p => !p.isSpecialOffer);
-            
-            // UPDATED: Use the language-specific category key, with a fallback to the default 'Category'
-            const uniqueCategories = [...new Set(productsForCategories.map(p => p[categoryKey] || p.Category).filter(Boolean))];
-            const categories = [allCatText, ...uniqueCategories];
+            // Get unique ENGLISH category names from the data
+            const uniqueEnglishCategories = [...new Set(productsForCategories.map(p => p.Category).filter(Boolean))];
 
-            dom.categoryFilters.innerHTML = '';
+            dom.categoryFilters.innerHTML = ''; // Clear previous buttons
             
-            categories.forEach(category => {
+            // Create "All" button
+            const allButton = document.createElement('button');
+            allButton.textContent = allCatText;
+            allButton.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
+            allButton.dataset.categoryKey = 'All'; // The key to filter by
+            if (state.activeCategory === 'All') {
+                allButton.classList.add('active');
+            }
+            dom.categoryFilters.appendChild(allButton);
+
+            // Create buttons for each unique category
+            uniqueEnglishCategories.forEach(englishCategory => {
                 const button = document.createElement('button');
-                button.textContent = category;
+                // Display the translated name, but store the English key
+                button.textContent = translateDynamic('category', englishCategory);
+                button.dataset.categoryKey = englishCategory; // Store the original English key
                 button.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
                 
-                const isActive = (category === state.activeCategory) || (category === allCatText && (state.activeCategory === 'All' || state.activeCategory === 'الكل'));
-                if(isActive) button.classList.add('active');
-
-                button.addEventListener('click', () => {
-                    state.activeCategory = category;
-                    storage.set('neurosub-category', category);
-                    dom.categoryFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                if (englishCategory === state.activeCategory) {
                     button.classList.add('active');
-                    updateDisplay(true);
-                });
+                }
                 dom.categoryFilters.appendChild(button);
             });
+
+            // Add a single event listener to the container
+            dom.categoryFilters.addEventListener('click', (e) => {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                const englishCategoryKey = button.dataset.categoryKey;
+                state.activeCategory = englishCategoryKey; // Update state with the English key
+                storage.set('neurosub-category', englishCategoryKey);
+                
+                // Update UI
+                dom.categoryFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                updateDisplay(true);
+            });
         };
+
 
         const renderProducts = (products) => {
             dom.productGrid.innerHTML = '';
             
             if (!products || products.length === 0) {
-                 if (dom.searchInput.value === '' && (state.activeCategory === 'All' || state.activeCategory === 'الكل')) {
-                    // Show skeletons only on initial load before data is ready
-                     if (state.allProducts.length === 0) {
-                         for (let i = 0; i < 4; i++) {
-                             const skeleton = document.createElement('div');
-                             skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
-                             skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
-                             dom.productGrid.appendChild(skeleton);
-                         }
-                     }
+                 if (dom.searchInput.value === '' && state.activeCategory === 'All') {
+                     // Show skeletons only on initial load before data is ready
+                      if (state.allProducts.length === 0) {
+                          for (let i = 0; i < 4; i++) {
+                              const skeleton = document.createElement('div');
+                              skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
+                              skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
+                              dom.productGrid.appendChild(skeleton);
+                          }
+                       }
                 }
                 return;
             }
@@ -907,9 +949,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let statusBadge = '';
             if (product.Status) {
                 const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
-                // UPDATED: Prioritize translated status from data file (e.g., Status_ar)
-                const statusText = lang === 'ar' && product.Status_ar ? product.Status_ar : product.Status;
-                statusBadge = `<div class="status-badge ${statusClass}">${statusText}</div>`;
+                const translatedStatus = translateDynamic('status', product.Status); // Use the translator
+                statusBadge = `<div class="status-badge ${statusClass}">${translatedStatus}</div>`;
             }
 
             // --- Price Range Logic ---
@@ -1000,7 +1041,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let statusBadgeHTML = '';
                 if (product.Status) {
                     const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
-                    statusBadgeHTML = `<div class="status-badge ${statusClass}">${product.Status}</div>`;
+                    const translatedStatus = translateDynamic('status', product.Status);
+                    statusBadgeHTML = `<div class="status-badge ${statusClass}">${translatedStatus}</div>`;
                 }
                 dom.offerVisualContainer.innerHTML = `
                     ${statusBadgeHTML}
@@ -1171,6 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const loadPreferences = () => {
             // UPDATED: Set 'ar' as the fallback language
             state.currentLang = storage.get('neurosub-lang', 'ar'); 
+            // Load the English key for the category
             state.activeCategory = storage.get('neurosub-category', 'All');
             state.sortOption = storage.get('neurosub-sort', 'default');
             dom.sortOptions.value = state.sortOption;
