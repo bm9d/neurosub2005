@@ -1,6 +1,6 @@
 [
   {
-    "SPECIAL_OFFER_CONFIG": "true",
+    "special_offer": true,
     "Status": "Limited",
     "options": [
       {
