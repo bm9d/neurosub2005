@@ -347,6 +347,11 @@
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
+        
+        /* Pause animation on hover */
+        .offer-scroller:hover .offer-track.is-scrolling {
+            animation-play-state: paused;
+        }
 
         .offer-track {
             display: flex;
@@ -1013,10 +1018,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         const setupSpecialOffers = (products) => {
-            dom.offerVisualContainer.innerHTML = ''; // Clear existing placeholder
+            dom.offerVisualContainer.innerHTML = ''; // Clear existing content
 
             if (products.length === 1) {
-                // SINGLE OFFER: Display a static card
+                // SINGLE OFFER: Display a static card, and ensure it's centered.
+                dom.offerVisualContainer.classList.add('flex', 'justify-center', 'items-center');
                 const product = products[0];
                 const lang = state.currentLang;
                 
@@ -1038,7 +1044,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.ImageURL}" alt="Special Offer: ${product.Name}" class="rounded-2xl shadow-2xl max-w-sm w-full card-hover-effect" onerror="this.onerror=null;this.src='https://placehold.co/500x500/0ea5e9/ffffff?text=Special+Offer';">`;
 
             } else if (products.length > 1) {
-                // MULTIPLE OFFERS: Display scrolling cards
+                // MULTIPLE OFFERS: Display scroller, remove centering classes to prevent layout issues.
+                dom.offerVisualContainer.classList.remove('flex', 'justify-center', 'items-center');
+                
                 dom.offerTitle.textContent = translations[state.currentLang].offer_title;
                 dom.offerDescription.textContent = translations[state.currentLang].offer_description;
                 dom.offerCtaBtn.classList.add('hidden');
@@ -1049,22 +1057,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const track = document.createElement('div');
                 track.className = 'offer-track';
 
-                // *** FIX: Duplicate the products twice to ensure a seamless loop ***
-                // This creates [p1, p2, p3, p1, p2, p3]
-                // The animation translates by -50% (the length of the original set), 
-                // so it loops perfectly.
+                // Duplicate products for a seamless loop
                 const duplicatedProducts = [...products, ...products];
                 duplicatedProducts.forEach(p => track.appendChild(createSpecialOfferCard(p)));
 
                 scroller.appendChild(track);
                 dom.offerVisualContainer.appendChild(scroller);
                 
-                // Set dynamic animation duration based on the number of items
-                // This makes the scroll speed consistent regardless of the item count
-                const animationDuration = products.length * 10; // 10s per item
+                const animationDuration = products.length * 10;
                 track.style.animationDuration = `${animationDuration}s`;
 
-                // Use a short timeout to ensure the elements are in the DOM before adding the class
                 setTimeout(() => track.classList.add('is-scrolling'), 100);
             }
         };
