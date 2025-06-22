@@ -340,7 +340,7 @@
             box-shadow: 0 0 15px var(--accent-secondary-glow), 0 0 30px var(--accent-secondary-glow);
         }
 
-        /* --- New styles for Special Offer Scroller --- */
+        /* --- Updated styles for Special Offer Scroller --- */
         .offer-scroller {
             width: 100%;
             overflow: hidden;
@@ -356,9 +356,13 @@
         }
 
         .offer-track.is-scrolling {
-            animation: scroll-left 40s linear infinite;
+            /* Animation duration is now calculated in JS based on content */
+            animation-name: scroll-left;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
         }
-
+        
+        /* The keyframe remains the same, the magic is in the JS duplication */
         @keyframes scroll-left {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
@@ -390,8 +394,8 @@
         <div class="w-full flex justify-end items-center relative gap-4">
              <button id="theme-toggle" class="p-2 rounded-full text-gray-300 dark:text-gray-400 hover:bg-gray-700/50 dark:hover:bg-gray-600 transition-colors" title="Toggle theme">
                  <!-- Icon will be inserted by JS -->
-            </button>
-            <a href="https://t.me/neurosub1" target="_blank" class="hidden md:inline-block bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors" data-translate="contact_us">Contact Us</a>
+             </button>
+             <a href="https://t.me/neurosub1" target="_blank" class="hidden md:inline-block bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors" data-translate="contact_us">Contact Us</a>
         </div>
     </header>
 
@@ -1045,12 +1049,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const track = document.createElement('div');
                 track.className = 'offer-track';
 
-                products.forEach(p => track.appendChild(createSpecialOfferCard(p)));
-                products.forEach(p => track.appendChild(createSpecialOfferCard(p))); // Duplicate for infinite loop
+                // *** FIX: Duplicate the products twice to ensure a seamless loop ***
+                // This creates [p1, p2, p3, p1, p2, p3]
+                // The animation translates by -50% (the length of the original set), 
+                // so it loops perfectly.
+                const duplicatedProducts = [...products, ...products];
+                duplicatedProducts.forEach(p => track.appendChild(createSpecialOfferCard(p)));
 
                 scroller.appendChild(track);
                 dom.offerVisualContainer.appendChild(scroller);
+                
+                // Set dynamic animation duration based on the number of items
+                // This makes the scroll speed consistent regardless of the item count
+                const animationDuration = products.length * 10; // 10s per item
+                track.style.animationDuration = `${animationDuration}s`;
 
+                // Use a short timeout to ensure the elements are in the DOM before adding the class
                 setTimeout(() => track.classList.add('is-scrolling'), 100);
             }
         };
