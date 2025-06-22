@@ -22,6 +22,7 @@
   },
   {
     "ImageURL": "https://i.imgur.com/2apLHiX.jpeg",
+    "special_offer": true,
     "Status": "In Stock",
     "options": [
       {
