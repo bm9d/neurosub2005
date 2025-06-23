@@ -380,25 +380,16 @@
         }
 
         .offer-track.is-scrolling {
-            /* Animation duration is calculated in JS. Default animation is for LTR. */
-            animation-name: scroll-left;
+            /* MODIFICATION: Animation now always scrolls left-to-right */
+            animation-name: scroll-left-to-right;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
         
-        /* Apply the right-scrolling animation for RTL layouts */
-        html[dir="rtl"] .offer-track.is-scrolling {
-            animation-name: scroll-right;
-        }
+        /* MODIFICATION: Removed RTL-specific animation override */
         
-        /* Animation for left-to-right languages (scrolls left) */
-        @keyframes scroll-left {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* Animation for right-to-left languages (scrolls right) */
-        @keyframes scroll-right {
+        /* MODIFICATION: Renamed and simplified to one left-to-right scroll animation */
+        @keyframes scroll-left-to-right {
             from { transform: translateX(-50%); }
             to { transform: translateX(0); }
         }
