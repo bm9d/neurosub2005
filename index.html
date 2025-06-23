@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- FIX: Added color-scheme meta tag for better dark mode handling -->
     <meta name="color-scheme" content="light dark">
     <title>neurosub</title>
-    <!-- FIX: Added favicon -->
     <link rel="icon" href="https://i.imgur.com/sPngqN7.jpeg" type="image/jpeg">
     
     <!-- Tailwind CSS -->
@@ -16,7 +14,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- FIX: Preload fonts to prevent render-blocking -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -27,19 +24,19 @@
         /* CSS Variables for Theming */
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f3f4f6; /* gray-100 */
+            --bg-secondary: #f3f4f6;
             --bg-secondary-translucent: rgba(243, 244, 246, 0.7);
-            --bg-tertiary: #e5e7eb; /* gray-200 */
+            --bg-tertiary: #e5e7eb;
             --bg-modal: #ffffff;
-            --border-color: #d1d5db; /* gray-300 */
-            --text-primary: #111827; /* gray-900 */
-            --text-secondary: #4b5563; /* gray-600 */
+            --border-color: #d1d5db;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
             --text-on-accent: #ffffff;
-            --accent-primary: #0891b2; /* cyan-600 */
-            --accent-primary-glow: #0ea5e9; /* sky-500 */
-            --accent-hover: #06b6d4; /* cyan-500 */
-            --accent-secondary-color: #a855f7; /* violet-500 */
-            --accent-secondary-glow: #c084fc; /* violet-400 */
+            --accent-primary: #0891b2;
+            --accent-primary-glow: #0ea5e9;
+            --accent-hover: #06b6d4;
+            --accent-secondary-color: #a855f7;
+            --accent-secondary-glow: #c084fc;
             --header-bg: rgba(255, 255, 255, 0.5);
             --motion-text-from: #111827;
             --motion-text-via: #0ea5e9;
@@ -48,28 +45,28 @@
 
         html.dark {
             --bg-primary: #0a0a0a;
-            --bg-secondary: #0a0a0a; /* black */
+            --bg-secondary: #0a0a0a;
             --bg-secondary-translucent: rgba(31, 41, 55, 0.5);
-            --bg-tertiary: #374151; /* gray-700 */
-            --bg-modal: #1f2937; /* gray-800 */
-            --border-color: #4b5563; /* gray-600 */
-            --text-primary: #e5e7eb; /* gray-200 */
-            --text-secondary: #9ca3af; /* gray-400 */
+            --bg-tertiary: #374151;
+            --bg-modal: #1f2937;
+            --border-color: #4b5563;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
             --text-on-accent: #ffffff;
-            --accent-primary: #0ea5e9; /* sky-500 */
+            --accent-primary: #0ea5e9;
             --accent-primary-glow: #0ea5e9;
-            --accent-hover: #38bdf8; /* sky-400 */
-            --accent-secondary-color: #c084fc; /* violet-400 */
-            --accent-secondary-glow: #a855f7; /* violet-500 */
+            --accent-hover: #38bdf8;
+            --accent-secondary-color: #c084fc;
+            --accent-secondary-glow: #a855f7;
             --header-bg: rgba(10, 10, 10, 0.3);
             --motion-text-from: #e5e7eb;
             --motion-text-via: #0ea5e9;
             --motion-text-to: #e5e7eb;
         }
         
-        /* FIX: Moved base font to HTML for cleaner language override */
         html {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
 
         /* Custom Styles */
@@ -79,7 +76,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* FIX: Override font on the HTML element for the specified language */
         html[lang="ar"] {
             font-family: 'Cairo', sans-serif;
         }
@@ -166,17 +162,16 @@
             to { color: #87cefa; filter: drop-shadow(0 0 10px #2AABEE) drop-shadow(0 0 2px #fff); }
         }
 
-        /* New CSS-based Instagram Logo */
         .instagram-logo-new {
             position: relative;
-            width: 4rem; /* 64px */
-            height: 4rem; /* 64px */
+            width: 4rem;
+            height: 4rem;
         }
 
         .instagram-logo-new,
         .instagram-logo-new::before,
         .instagram-logo-new::after {
-            --insta-color: #a855f7; /* Violet Color */
+            --insta-color: #a855f7;
         }
 
         .instagram-logo-new {
@@ -247,7 +242,6 @@
         .status-in-stock { background-color: #10b981; }
         .status-limited { background-color: #f97316; }
         .status-out-of-stock { background-color: #ef4444; }
-        /* ADDED: New style for special offers */
         .status-special-offer { background-color: var(--accent-secondary-color); }
 
         .modal-backdrop {
@@ -274,11 +268,9 @@
             color: var(--text-on-accent);
         }
 
-        /* Styles for Back to Top Button */
         #back-to-top {
             position: fixed;
             right: 2rem;
-            /* Adjust for safe area on mobile browsers like Safari */
             bottom: calc(2rem + env(safe-area-inset-bottom));
             background-color: var(--accent-primary);
             color: var(--text-on-accent);
@@ -306,11 +298,9 @@
         }
 
         #scroll-prompt {
-             /* 7rem is tailwind's bottom-28. Adjust for safe area. */
             bottom: calc(7rem + env(safe-area-inset-bottom));
         }
 
-        /* --- New styles for Details Button --- */
         .details-btn {
             background-color: var(--accent-primary);
             color: var(--text-on-accent);
@@ -322,27 +312,19 @@
 </head>
 <body class="antialiased">
 
-    <!-- FIX: Added role="banner" for accessibility -->
     <header id="header-bar" role="banner" class="fixed top-0 left-0 w-full px-6 md:px-12 py-4 flex justify-between items-center z-40 transition-opacity duration-500 opacity-0">
-        <!-- Background element -->
         <div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-500" id="header-bg" style="background-color: var(--header-bg);"></div>
-        <!-- Content on top of the background -->
         <div class="w-full flex justify-end items-center relative gap-4">
-             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 dark:text-gray-400 hover:bg-gray-700/50 dark:hover:bg-gray-600 transition-colors" title="Toggle theme">
-                 <!-- Icon will be inserted by JS -->
-             </button>
+             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 dark:text-gray-400 hover:bg-gray-700/50 dark:hover:bg-gray-600 transition-colors" title="Toggle theme"></button>
              <a href="https://t.me/neurosub1" target="_blank" class="hidden md:inline-block bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors" data-translate="contact_us">Contact Us</a>
         </div>
     </header>
 
-    <!-- Scrolling Logo & Name Container -->
     <div id="scrolling-header-content" class="fixed z-50 flex flex-col justify-center space-y-4 transition-all duration-500 ease-in-out top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="will-change: transform, top, left, right;">
         <div class="flex items-center space-x-4 rtl:space-x-reverse mx-auto">
-            <!-- Logo is now circular -->
             <img src="https://i.imgur.com/sPngqN7.jpeg" alt="neurosub Logo" id="scrolling-logo" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full transition-all duration-500 ease-in-out">
             <span id="scrolling-name" class="text-4xl md:text-6xl font-bold motion-light-text transition-all duration-500 ease-in-out">neurosub</span>
         </div>
-        <!-- FIX: Made language selector width responsive -->
         <div id="language-selector-container" class="animated-border-container transition-all duration-500 ease-in-out w-44 sm:w-52 mx-auto">
             <div class="lang-selector relative z-10 grid grid-cols-2 rounded-full p-1">
                 <button data-lang="ar" class="px-4 py-1 text-sm font-semibold rounded-full">العربية</button>
@@ -351,14 +333,11 @@
         </div>
     </div>
 
-
-    <!-- Scroll Down Prompt -->
     <div id="scroll-prompt" class="fixed left-1/2 -translate-x-1/2 z-50 text-center transition-opacity duration-500 ease-in-out">
         <span class="motion-light-text text-sm font-semibold tracking-widest" data-translate="scroll_down">SCROLL DOWN</span>
         <svg class="w-6 h-6 mx-auto mt-1 text-cyan-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
     </div>
 
-    <!-- Order Confirmation Modal -->
     <div id="order-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center p-4 modal-backdrop opacity-0" 
          role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 opacity-0 border">
@@ -374,13 +353,9 @@
         </div>
     </div>
 
-
-    <!-- FIX: Added role="main" for accessibility -->
     <main role="main">
-        <!-- Intro Spacer Section -->
         <div class="h-screen"></div>
 
-        <!-- Hero Section -->
         <section id="hero-section" class="text-center py-20 md:py-32 px-4">
             <div>
                 <h1 class="text-4xl md:text-6xl font-extrabold leading-tight" data-translate="hero_title" style="color: var(--text-primary);">
@@ -395,15 +370,12 @@
             </div>
         </section>
 
-        <!-- Products Section -->
         <section id="products" class="py-16 md:py-24" style="background-color: var(--bg-secondary-translucent);">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center mb-8" data-translate="our_products">Our Products</h2>
                 
-                <!-- Filters and Sorting Controls -->
                 <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-8 flex-wrap" id="filter-controls">
                     <div id="category-filters" class="flex flex-wrap justify-center gap-2">
-                        <!-- Category buttons will be inserted here -->
                     </div>
                     <div class="w-full md:w-auto">
                         <select id="sort-options" class="w-full md:w-auto rounded-full py-2 px-4 focus:outline-none focus:ring-2" style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); focus-ring-color: var(--accent-primary);">
@@ -415,7 +387,6 @@
                     </div>
                 </div>
 
-                <!-- Search Input -->
                 <div class="w-full max-w-md mx-auto mb-12">
                     <div class="animated-border-container">
                         <div class="relative w-full">
@@ -435,7 +406,6 @@
 
             <div id="error-message" class="hidden text-center text-yellow-300 max-w-4xl mx-auto mb-8 p-4 bg-yellow-900/50 border border-yellow-700 rounded-lg"></div>
             <div id="product-grid" class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
-                <!-- Skeletons and product cards are now generated entirely by JavaScript -->
             </div>
             <div id="no-results-message" class="hidden text-center mt-8 text-lg" style="color: var(--text-secondary);">
                 <p data-translate="no_products_found">No products found matching your search.</p>
@@ -443,7 +413,6 @@
         </section>
     </main>
 
-    <!-- FIX: Added role="contentinfo" for accessibility -->
     <footer role="contentinfo" class="text-center py-20 md:py-32 px-4" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-bottom: calc(5rem + env(safe-area-inset-bottom));">
         <div class="container mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold mb-6" data-translate="follow_us">Follow Us</h2>
@@ -459,7 +428,6 @@
         </div>
     </footer>
     
-    <!-- Back to Top Button -->
     <button id="back-to-top" title="Back to top">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
@@ -470,25 +438,21 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Self-invoking function to encapsulate all logic and avoid polluting the global scope
     const neurosubApp = (() => {
 
-        // --- CONFIGURATION ---
-        const DATA_FILE_PATH = 'data/data.json'; // Relative path to the JSON file
-        
+        // --- CONFIGURATION & STATE ---
+        const DATA_FILE_PATH = 'data/data.json';
         const ICONS = {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
             moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
         };
-
-        // --- STATE ---
         let state = {
-            allProducts: [], // Holds all products fetched from JSON
-            currentLang: 'ar', // Default language is now Arabic
-            activeCategory: 'All', // This will store the ENGLISH category key
+            allProducts: [],
+            currentLang: 'ar',
+            activeCategory: 'All',
             sortOption: 'default',
             isModalOpen: false,
-            theme: 'dark', // default theme, will be overridden by user preference or system setting
+            theme: 'dark',
         };
 
         // --- DOM ELEMENTS ---
@@ -516,26 +480,24 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggleBtn: document.getElementById('theme-toggle'),
         };
 
-        // --- TRANSLATIONS ---
+        // --- TRANSLATIONS (FIXED: All keys are now consistently lowercase) ---
         const translations = {
             en: { 
                 contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Products!", error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`,
-                // DYNAMIC TRANSLATIONS
                 "status_bestseller": "Bestseller", "status_in_stock": "In Stock", "status_limited": "Limited", "status_out_of_stock": "Out of Stock", "status_special_offer": "Special Offer",
-                "category_Design": "Design", "category_Development": "Development", "category_Productivity": "Productivity", "category_Streaming": "Streaming", "category_Special_Offers": "Special Offers"
+                "category_design": "Design", "category_development": "Development", "category_productivity": "Productivity", "category_streaming": "Streaming", "category_special_offers": "Special Offers"
             },
             ar: { 
                 contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`, 
-                // DYNAMIC TRANSLATIONS
                 "status_bestseller": "الأكثر مبيعاً", "status_in_stock": "متوفر", "status_limited": "محدود", "status_out_of_stock": "نفدت الكمية", "status_special_offer": "عرض خاص",
-                "category_Design": "تصميم", "category_Development": "تطوير", "category_Productivity": "إنتاجية", "category_Streaming": "بث", "category_Special_Offers": "عروض خاصة"
+                "category_design": "تصميم", "category_development": "تطوير", "category_productivity": "إنتاجية", "category_streaming": "بث", "category_special_offers": "عروض خاصة"
             }
         };
 
         // --- UTILITY FUNCTIONS ---
         const debounce = (func, delay) => {
             let timeout;
-            return function(...args) {
+            return (...args) => {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => func.apply(this, args), delay);
             };
@@ -547,29 +509,25 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         /**
-         * Translates dynamic data like Status and Category.
+         * FIX: This function is now case-insensitive and more robust.
+         * It translates dynamic data like Status and Category.
          * @param {('status'|'category')} type - The type of data to translate.
-         * @param {string} key - The English key from the JSON file (e.g., "In Stock" or "Special Offers").
+         * @param {string} key - The English key from the JSON file (e.g., "In Stock").
          * @returns {string} The translated string or the original key if not found.
          */
         const translateDynamic = (type, key) => {
             if (!key) return '';
-            // Create a lookup key e.g., "status_in_stock" or "category_Special_Offers"
-            const translationKey = `${type}_${key.replace(/\s+/g, '_')}`;
+            // Standardize the key to be lowercase and use underscores.
+            const standardizedKey = key.toLowerCase().replace(/\s+/g, '_');
+            const translationKey = `${type}_${standardizedKey}`;
             return translations[state.currentLang][translationKey] || key;
         };
-
 
         // --- THEME LOGIC ---
         const applyTheme = (theme) => {
             state.theme = theme;
-            if (theme === 'dark') {
-                dom.html.classList.add('dark');
-                dom.themeToggleBtn.innerHTML = ICONS.sun;
-            } else {
-                dom.html.classList.remove('dark');
-                dom.themeToggleBtn.innerHTML = ICONS.moon;
-            }
+            dom.html.classList.toggle('dark', theme === 'dark');
+            dom.themeToggleBtn.innerHTML = theme === 'dark' ? ICONS.sun : ICONS.moon;
         };
 
         const toggleTheme = () => {
@@ -608,10 +566,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
 
-            // FIX: On language change by user, save pref and re-initialize the app content
             if (!isInitial) {
                 storage.set('neurosub-lang', lang);
-                initAppWithData(true); // Re-initialize with new language
+                initAppWithData(true);
             }
         };
 
@@ -619,12 +576,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollPosition = window.scrollY;
             const scrollThreshold = 50;
             
-            // Scroll Prompt Fade
             dom.scrollPrompt.classList.toggle('opacity-0', scrollPosition > 20);
 
-            // Header Transformation
-            if (scrollPosition > scrollThreshold) {
-                dom.headerBar.classList.add('opacity-100');
+            const isScrolled = scrollPosition > scrollThreshold;
+            dom.headerBar.classList.toggle('opacity-100', isScrolled);
+            dom.langSelectorContainer.classList.toggle('hidden', isScrolled);
+
+            if (isScrolled) {
                 dom.scrollingHeaderContent.classList.remove('top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'flex-col', 'space-y-4');
                 dom.scrollingHeaderContent.classList.add('top-4', 'start-6', 'md:start-12', 'flex-row', 'items-center');
                 dom.scrollingHeaderContent.querySelector('.flex').classList.add('space-x-4', 'rtl:space-x-reverse');
@@ -632,9 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.scrollingLogo.classList.add('w-8', 'h-8');
                 dom.scrollingName.classList.remove('text-4xl', 'md:text-6xl');
                 dom.scrollingName.classList.add('text-xl');
-                dom.langSelectorContainer.classList.add('hidden');
             } else {
-                dom.headerBar.classList.remove('opacity-100');
                 dom.scrollingHeaderContent.classList.add('top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'flex-col', 'space-y-4');
                 dom.scrollingHeaderContent.classList.remove('top-4', 'start-6', 'md:start-12', 'flex-row', 'items-center');
                 dom.scrollingHeaderContent.querySelector('.flex').classList.remove('space-x-4', 'rtl:space-x-reverse');
@@ -642,10 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.scrollingLogo.classList.remove('w-8', 'h-8');
                 dom.scrollingName.classList.add('text-4xl', 'md:text-6xl');
                 dom.scrollingName.classList.remove('text-xl');
-                dom.langSelectorContainer.classList.remove('hidden');
             }
-
-            // Back to Top Button
             dom.backToTopBtn.classList.toggle('visible', scrollPosition > 300);
         };
 
@@ -653,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
             state.isModalOpen = true;
             dom.modalProceedBtn.href = link;
             dom.orderModal.classList.remove('hidden');
-            dom.orderModal.style.display = 'flex'; // Make it a flex container to center content
+            dom.orderModal.style.display = 'flex';
             setTimeout(() => {
                 dom.orderModal.classList.remove('opacity-0');
                 dom.modalContent.classList.remove('scale-95', 'opacity-0');
@@ -673,27 +626,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const updateDisplay = (shouldScroll = false) => {
             let productsToDisplay = [...state.allProducts];
-            
             const lang = state.currentLang;
             const searchTerm = dom.searchInput.value.toLowerCase();
 
-            // 1. Filter by Category
             if (state.activeCategory !== 'All') {
-                // IMPORTANT: We filter using the original English category name from the JSON
                 productsToDisplay = productsToDisplay.filter(p => p.Category === state.activeCategory);
             }
 
-            // 2. Filter by Search
             if (searchTerm) {
                 productsToDisplay = productsToDisplay.filter(p => {
                     const name = (p[`Name_${lang}`] || p.Name || '').toLowerCase();
                     const description = (p[`Description_${lang}`] || p.Description || '').toLowerCase();
-                    
-                    if (name.includes(searchTerm) || description.includes(searchTerm)) {
-                        return true;
-                    }
-                    
-                    // Also search within options
+                    if (name.includes(searchTerm) || description.includes(searchTerm)) return true;
                     return p.options.some(opt => {
                         const optionName = (lang === 'ar' ? opt.name_ar : opt.name).toLowerCase();
                         const optionInfo = (lang === 'ar' ? opt.info_ar : opt.info).toLowerCase();
@@ -702,20 +646,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // 3. Sort
             const sortValue = state.sortOption;
             if (sortValue === 'price-asc') {
-                productsToDisplay.sort((a, b) => {
-                    const priceA = parseFloat((a.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
-                    const priceB = parseFloat((b.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
-                    return priceA - priceB;
-                });
+                productsToDisplay.sort((a, b) => a.minPrice - b.minPrice);
             } else if (sortValue === 'price-desc') {
-                productsToDisplay.sort((a, b) => {
-                    const priceA = parseFloat((a.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
-                    const priceB = parseFloat((b.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
-                    return priceB - priceA;
-                });
+                productsToDisplay.sort((a, b) => b.minPrice - a.minPrice);
             } else if (sortValue === 'name-asc') {
                 productsToDisplay.sort((a, b) => {
                     const nameA = a[`Name_${lang}`] || a.Name || '';
@@ -726,8 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             renderProducts(productsToDisplay);
 
-            const hasAllProducts = state.allProducts.length > 0;
-            dom.noResultsMessage.classList.toggle('hidden', productsToDisplay.length > 0 || !hasAllProducts);
+            dom.noResultsMessage.classList.toggle('hidden', productsToDisplay.length > 0 || state.allProducts.length === 0);
             
             if (shouldScroll) {
                 dom.productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -736,62 +670,38 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const setupCategoryFilters = () => {
             const allCatText = translations[state.currentLang].all_category;
+            const uniqueEnglishCategories = [...new Set(state.allProducts.map(p => p.Category).filter(Boolean))];
 
-            const productsForCategories = state.allProducts;
-            // Get unique ENGLISH category names from the data
-            const uniqueEnglishCategories = [...new Set(productsForCategories.map(p => p.Category).filter(Boolean))];
-
-            dom.categoryFilters.innerHTML = ''; // Clear previous buttons
+            dom.categoryFilters.innerHTML = '';
             
-            // Create "All" button
-            const allButton = document.createElement('button');
-            allButton.textContent = allCatText;
-            allButton.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
-            allButton.dataset.categoryKey = 'All'; // The key to filter by
-            if (state.activeCategory === 'All') {
-                allButton.classList.add('active');
-            }
-            dom.categoryFilters.appendChild(allButton);
-
-            // Create buttons for each unique category
-            uniqueEnglishCategories.forEach(englishCategory => {
+            const createButton = (text, key, isActive) => {
                 const button = document.createElement('button');
-                // Display the translated name, but store the English key
-                button.textContent = translateDynamic('category', englishCategory);
-                button.dataset.categoryKey = englishCategory; // Store the original English key
+                button.textContent = text;
+                button.dataset.categoryKey = key;
                 button.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
-                
-                if (englishCategory === state.activeCategory) {
-                    button.classList.add('active');
-                }
-                dom.categoryFilters.appendChild(button);
+                if (isActive) button.classList.add('active');
+                return button;
+            };
+
+            dom.categoryFilters.appendChild(createButton(allCatText, 'All', state.activeCategory === 'All'));
+            uniqueEnglishCategories.forEach(englishCategory => {
+                const translated = translateDynamic('category', englishCategory);
+                dom.categoryFilters.appendChild(createButton(translated, englishCategory, state.activeCategory === englishCategory));
             });
         };
 
-
         const renderProducts = (products) => {
             dom.productGrid.innerHTML = '';
-            
-            if (!products || products.length === 0) {
-                 if (dom.searchInput.value === '' && state.activeCategory === 'All') {
-                      // Show skeletons only on initial load before data is ready
-                      if (state.allProducts.length === 0) {
-                          for (let i = 0; i < 4; i++) {
-                              const skeleton = document.createElement('div');
-                              skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
-                              skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
-                              dom.productGrid.appendChild(skeleton);
-                          }
-                      }
-                 }
-                 return;
-            }
-
-            products.forEach(product => {
-                if (product.Name && product.options.length > 0) {
-                    dom.productGrid.appendChild(createProductCard(product));
+            if (!products.length && state.allProducts.length === 0) {
+                for (let i = 0; i < 8; i++) {
+                    const skeleton = document.createElement('div');
+                    skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
+                    skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
+                    dom.productGrid.appendChild(skeleton);
                 }
-            });
+                return;
+            }
+            products.forEach(product => dom.productGrid.appendChild(createProductCard(product)));
         };
 
         const createProductCard = (product) => {
@@ -801,11 +711,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.border = '1px solid var(--border-color)';
 
             const lang = state.currentLang;
-            
-            if (!product.options || product.options.length === 0) {
-                return document.createDocumentFragment(); // Return empty if no options
-            }
-
             const productName = product[`Name_${lang}`] || product.Name;
             const productDescription = product[`Description_${lang}`] || product.Description || '';
             const isOutOfStock = product.Status && product.Status.toLowerCase() === 'out of stock';
@@ -813,39 +718,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let statusBadge = '';
             if (product.Status) {
-                const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
-                const translatedStatus = translateDynamic('status', product.Status); // Use the translator
+                const statusClass = 'status-' + product.Status.toLowerCase().replace(/\s+/g, '-');
+                const translatedStatus = translateDynamic('status', product.Status);
                 statusBadge = `<div class="status-badge ${statusClass}">${translatedStatus}</div>`;
             }
-
-            // --- Price Range Logic ---
-            const prices = product.options
-                .map(opt => parseFloat(String(opt.price).replace(/[^0-9.]+/g, '')))
-                .filter(p => !isNaN(p));
             
-            const minPrice = Math.min(...prices);
-            const maxPrice = Math.max(...prices);
-
-            // Extract currency symbol/text from the first price string
-            const currency = (product.options[0]?.price || '').replace(/[0-9.,\s]/g, '');
-
-            let priceDisplay;
-            if (prices.length > 0) {
-                if (minPrice === maxPrice) {
-                    priceDisplay = `${minPrice} ${currency}`;
-                } else {
-                    priceDisplay = `${minPrice} - ${maxPrice} ${currency}`;
-                }
-            } else {
-                 priceDisplay = 'N/A'; // Fallback if no valid prices
-            }
-            // --- End Price Range Logic ---
-
             const actionButtonHTML = isOutOfStock
                 ? `<button disabled class="mt-auto bg-red-500 text-white font-bold py-3 px-4 rounded-lg w-full text-base cursor-not-allowed">${translations[lang].out_of_stock}</button>`
                 : `<a href="product-details.html?id=${productSlug}" class="details-btn text-center mt-auto font-bold py-3 px-4 rounded-lg transition-colors w-full text-base block">${translations[lang].view_details}</a>`;
             
-            // FIX: Improved image alt text and onerror placeholder
             card.innerHTML = `
                 <div class="relative">
                     ${statusBadge}
@@ -854,9 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-base md:text-lg font-bold" style="color: var(--text-primary);">${productName}</h3>
                     <p class="text-sm my-2 flex-grow" style="color: var(--text-secondary);">${productDescription}</p>
-                    
-                    <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${priceDisplay}</p>
-                    
+                    <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${product.priceDisplay}</p>
                     ${actionButtonHTML}
                 </div>
             `;
@@ -869,45 +748,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Product data is not an array:", rawData);
                 return [];
             }
-            return rawData.reduce((acc, p) => {
-                // Ensure the product has the minimum required fields
-                if (p && p.Name && Array.isArray(p.options) && p.options.length > 0) {
-                    acc.push({ ...p });
+            return rawData.map(p => {
+                if (!p || !p.Name || !Array.isArray(p.options) || p.options.length === 0) return null;
+                const prices = p.options.map(opt => parseFloat(String(opt.price).replace(/[^0-9.]+/g, ''))).filter(price => !isNaN(price));
+                const minPrice = prices.length ? Math.min(...prices) : 0;
+                const maxPrice = prices.length ? Math.max(...prices) : 0;
+                const currency = (p.options[0]?.price || '').replace(/[0-9.,\s]/g, '');
+                let priceDisplay = 'N/A';
+                if (prices.length > 0) {
+                     priceDisplay = minPrice === maxPrice ? `${minPrice} ${currency}` : `${minPrice} - ${maxPrice} ${currency}`;
                 }
-                return acc;
-            }, []);
+                return { ...p, minPrice, priceDisplay };
+            }).filter(Boolean); // Filter out any null products
         };
 
         const fetchData = async () => {
-            renderProducts([]); // Show skeletons while fetching
-            console.log("Fetching products from JSON file...");
-
+            renderProducts([]); // Show skeletons
             try {
                 const response = await fetch(DATA_FILE_PATH);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const rawJsonData = await response.json();
-                
-                let products;
-                if (Array.isArray(rawJsonData)) {
-                    products = rawJsonData;
-                } else {
-                    products = rawJsonData.products || [];
-                }
-
-                state.allProducts = processJsonData(products);
-
-                if (state.allProducts.length === 0) console.warn("JSON file might be empty, formatted incorrectly, or no valid products were found.");
-
+                state.allProducts = processJsonData(rawJsonData.products || rawJsonData);
+                if (state.allProducts.length === 0) console.warn("JSON file is empty or no valid products found.");
                 dom.errorMessage.classList.add('hidden');
                 initAppWithData();
-
             } catch (error) {
-                console.error("Could not load from JSON file:", error);
+                console.error("Could not load products from JSON:", error);
                 const lang = state.currentLang;
                 dom.errorMessage.innerHTML = `<strong>${translations[lang].error_title}</strong>${translations[lang].error_instructions}`;
                 dom.errorMessage.classList.remove('hidden');
-                
-                // Clear products and update display to show no results
                 state.allProducts = [];
                 initAppWithData();
             }
@@ -917,8 +786,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('scroll', debounce(handleScroll, 15));
             dom.themeToggleBtn.addEventListener('click', toggleTheme);
             dom.langSelectorContainer.addEventListener('click', (e) => {
-                const btn = e.target.closest('button');
-                if (btn?.dataset.lang) setLanguage(btn.dataset.lang);
+                const btn = e.target.closest('button[data-lang]');
+                if (btn) setLanguage(btn.dataset.lang);
             });
 
             dom.modalCancelBtn.addEventListener('click', hideModal);
@@ -949,44 +818,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            document.querySelector('.smooth-scroll').addEventListener('click', function(e) {
+            document.querySelector('.smooth-scroll').addEventListener('click', (e) => {
                 e.preventDefault();
-                dom.productsSection.scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(e.currentTarget.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
-
-            // FIX: Moved category filter event listener here to avoid re-binding. This uses event delegation.
+            
             dom.categoryFilters.addEventListener('click', (e) => {
-                const button = e.target.closest('button');
+                const button = e.target.closest('button[data-category-key]');
                 if (!button) return;
-
-                const englishCategoryKey = button.dataset.categoryKey;
-                state.activeCategory = englishCategoryKey; // Update state with the English key
-                storage.set('neurosub-category', englishCategoryKey);
-                
-                // Update UI
+                state.activeCategory = button.dataset.categoryKey;
+                storage.set('neurosub-category', state.activeCategory);
                 dom.categoryFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-                
                 updateDisplay(true);
             });
         };
 
         const loadPreferences = () => {
-            // UPDATED: Set 'ar' as the fallback language
-            state.currentLang = storage.get('neurosub-lang', 'ar'); 
-            // Load the English key for the category
+            state.currentLang = storage.get('neurosub-lang', 'ar');
             state.activeCategory = storage.get('neurosub-category', 'All');
             state.sortOption = storage.get('neurosub-sort', 'default');
             dom.sortOptions.value = state.sortOption;
         };
 
         const initAppWithData = (languageChanged = false) => {
-            // This function is the single source of truth for re-rendering content
-            // after data is loaded or a setting (like language) changes.
             if (!languageChanged) {
                 setLanguage(state.currentLang, true);
             }
-            
             setupCategoryFilters();
             updateDisplay();
         };
@@ -994,10 +852,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- INITIALIZATION ---
         const init = () => {
             loadPreferences();
-            initTheme(); // Set theme early, based on saved preference or system setting
+            initTheme();
             bindEvents();
-            handleScroll(); // Initial check
-            fetchData(); // Fetch from JSON
+            handleScroll();
+            fetchData();
         };
 
         return { init };
