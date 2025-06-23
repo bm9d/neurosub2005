@@ -51,7 +51,7 @@
     "Name": "Netflix",
     "TelegramLink": "https://t.me/neurosub1",
     "Description": "نتفلكس الرسمي، أفلام، مسلسلات، 4K",
-    "Category": "None",
+    "Category": "",
     "ImageURL": "https://i.imgur.com/8bxE4q5.png",
     "Status": "Bestseller"
   },
@@ -59,7 +59,7 @@
     "Name": "Apple Music",
     "TelegramLink": "https://t.me/neurosub1",
     "special_offer": false,
-    "Category": "None",
+    "Category": "",
     "Description": "اشترك Apple Music رسمي، حساب خاص، جاهز",
     "ImageURL": "https://i.imgur.com/11Y1UAd.png",
     "options": [
@@ -90,6 +90,6 @@
     "Name": "Canva",
     "special_offer": false,
     "Description": "",
-    "Category": "None"
+    "Category": ""
   }
 ]
