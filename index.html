@@ -379,11 +379,22 @@
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
+
+        /* UPDATE: Added rule to change scroll direction for RTL languages */
+        html[dir="rtl"] .offer-track.is-scrolling {
+            animation-name: scroll-right;
+        }
         
-        /* The keyframe remains the same, the magic is in the JS duplication */
+        /* The LTR keyframe animation */
         @keyframes scroll-left {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
+        }
+
+        /* UPDATE: Added new keyframe animation for RTL scrolling */
+        @keyframes scroll-right {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
         }
 
         .offer-card {
@@ -905,13 +916,13 @@ document.addEventListener('DOMContentLoaded', () => {
                  if (dom.searchInput.value === '' && state.activeCategory === 'All') {
                       // Show skeletons only on initial load before data is ready
                          if (state.allProducts.length === 0) {
-                            for (let i = 0; i < 4; i++) {
-                                const skeleton = document.createElement('div');
-                                skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
-                                skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
-                                dom.productGrid.appendChild(skeleton);
-                            }
-                        }
+                             for (let i = 0; i < 4; i++) {
+                                 const skeleton = document.createElement('div');
+                                 skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
+                                 skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
+                                 dom.productGrid.appendChild(skeleton);
+                             }
+                         }
                  }
                  return;
             }
