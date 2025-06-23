@@ -3,52 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- FIX: Added color-scheme meta tag for better dark mode handling -->
     <meta name="color-scheme" content="light dark">
     <title>neurosub</title>
-
-    <!-- Favicon -->
+    <!-- FIX: Added favicon -->
     <link rel="icon" href="https://i.imgur.com/sPngqN7.jpeg" type="image/jpeg">
-
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Google Fonts: Inter & Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    </noscript>
-    <link rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
-    </noscript>
+    
+    <!-- FIX: Preload fonts to prevent render-blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"></noscript>
+
 
     <style>
-        /* ---------- THEME VARIABLES ---------- */
+        /* CSS Variables for Theming */
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f3f4f6;
+            --bg-secondary: #f3f4f6; /* gray-100 */
             --bg-secondary-translucent: rgba(243, 244, 246, 0.7);
-            --bg-tertiary: #e5e7eb;
+            --bg-tertiary: #e5e7eb; /* gray-200 */
             --bg-modal: #ffffff;
-            --border-color: #d1d5db;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
+            --border-color: #d1d5db; /* gray-300 */
+            --text-primary: #111827; /* gray-900 */
+            --text-secondary: #4b5563; /* gray-600 */
             --text-on-accent: #ffffff;
-            --accent-primary: #0891b2;
-            --accent-primary-glow: #0ea5e9;
-            --accent-hover: #06b6d4;
-            --accent-secondary-color: #a855f7;
-            --accent-secondary-glow: #c084fc;
+            --accent-primary: #0891b2; /* cyan-600 */
+            --accent-primary-glow: #0ea5e9; /* sky-500 */
+            --accent-hover: #06b6d4; /* cyan-500 */
+            --accent-secondary-color: #a855f7; /* violet-500 */
+            --accent-secondary-glow: #c084fc; /* violet-400 */
             --header-bg: rgba(255, 255, 255, 0.5);
             --motion-text-from: #111827;
             --motion-text-via: #0ea5e9;
@@ -58,427 +49,581 @@
 
         html.dark {
             --bg-primary: #0a0a0a;
-            --bg-secondary: #0a0a0a;
+            --bg-secondary: #0a0a0a; /* black */
             --bg-secondary-translucent: rgba(31, 41, 55, 0.5);
-            --bg-tertiary: #374151;
-            --bg-modal: #1f2937;
-            --border-color: #4b5563;
-            --text-primary: #e5e7eb;
-            --text-secondary: #9ca3af;
+            --bg-tertiary: #374151; /* gray-700 */
+            --bg-modal: #1f2937; /* gray-800 */
+            --border-color: #4b5563; /* gray-600 */
+            --text-primary: #e5e7eb; /* gray-200 */
+            --text-secondary: #9ca3af; /* gray-400 */
             --text-on-accent: #ffffff;
-            --accent-primary: #0ea5e9;
+            --accent-primary: #0ea5e9; /* sky-500 */
             --accent-primary-glow: #0ea5e9;
-            --accent-hover: #38bdf8;
-            --accent-secondary-color: #c084fc;
-            --accent-secondary-glow: #a855f7;
+            --accent-hover: #38bdf8; /* sky-400 */
+            --accent-secondary-color: #c084fc; /* violet-400 */
+            --accent-secondary-glow: #a855f7; /* violet-500 */
             --header-bg: rgba(10, 10, 10, 0.3);
             --motion-text-from: #e5e7eb;
             --motion-text-via: #0ea5e9;
             --motion-text-to: #e5e7eb;
             --offer-bg: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
         }
+        
+        /* FIX: Moved base font to HTML for cleaner language override */
+        html {
+            font-family: 'Inter', sans-serif;
+        }
 
-        /* ---------- BASE STYLES ---------- */
-        html { font-family: 'Inter', sans-serif; }
+        /* Custom Styles */
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            transition: background-color .3s ease, color .3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        html[lang="ar"] { font-family: 'Cairo', sans-serif; }
 
-        /* Utility FX */
-        .neon-highlight { box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow); }
-        .card-hover-effect { transition: transform .3s ease, box-shadow .3s ease; will-change: transform, box-shadow; }
-        .card-hover-effect:hover { transform: translateY(-10px); box-shadow: 0 0 15px var(--accent-primary-glow), 0 0 30px var(--accent-primary-glow); }
-        .fade-in-card { animation: fadeIn .5s ease-out forwards; }
+        /* FIX: Override font on the HTML element for the specified language */
+        html[lang="ar"] {
+            font-family: 'Cairo', sans-serif;
+        }
 
-        @keyframes fadeIn { from {opacity:0;transform:translateY(20px);} to {opacity:1;transform:none;} }
+        .neon-highlight {
+            box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
+        }
 
-        /* Motion text */
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, box-shadow;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 15px var(--accent-primary-glow), 0 0 30px var(--accent-primary-glow);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
         .motion-light-text {
             background: linear-gradient(90deg, var(--motion-text-from), var(--motion-text-via), var(--motion-text-to));
             background-size: 200% auto;
+            color: #fff;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradient-motion 4s linear infinite;
         }
-        @keyframes gradient-motion { 0%{background-position:200% center;} 100%{background-position:-200% center;} }
 
-        /* Animated border container */
-        .animated-border-container { position: relative; padding: 2px; border-radius: 9999px; overflow: hidden; background: var(--bg-primary); transform: translateZ(0); }
+        @keyframes gradient-motion {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        .animated-border-container {
+            position: relative;
+            padding: 2px;
+            border-radius: 9999px;
+            overflow: hidden;
+            background: var(--bg-primary);
+            transform: translateZ(0);
+        }
+
         .animated-border-container::before {
-            content: ''; position: absolute; inset:0; width:250%; height:250%;
-            top:50%; left:50%; transform-origin:center;
-            background:conic-gradient(transparent,transparent,transparent,var(--accent-primary-glow),transparent);
+            content: '';
+            position: absolute;
+            z-index: 0;
+            top: 50%;
+            left: 50%;
+            width: 250%;
+            height: 250%;
+            background: conic-gradient(
+                transparent, transparent, transparent, var(--accent-primary-glow), transparent
+            );
+            transform-origin: center center;
             animation: snake-border-spin 3s linear infinite;
         }
-        @keyframes snake-border-spin { from{transform:translate(-50%,-50%) rotate(0);} to{transform:translate(-50%,-50%) rotate(360deg);} }
+        
+        @keyframes snake-border-spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .social-icon {
+            transition: transform 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
 
-        /* Social icons */
-        .social-icon { transition: transform .3s ease; }
-        .social-icon:hover { transform: scale(1.1); }
-        .telegram-glow { animation: telegram-pulse 2s infinite alternate; }
-        @keyframes telegram-pulse { from{color:#2AABEE;filter:drop-shadow(0 0 4px #2AABEE);} to{color:#87cefa;filter:drop-shadow(0 0 10px #2AABEE) drop-shadow(0 0 2px #fff);} }
+        .telegram-glow {
+            animation: telegram-pulse 2s infinite alternate;
+        }
+        @keyframes telegram-pulse {
+            from { color: #2AABEE; filter: drop-shadow(0 0 4px #2AABEE); }
+            to { color: #87cefa; filter: drop-shadow(0 0 10px #2AABEE) drop-shadow(0 0 2px #fff); }
+        }
 
-        /* Instagram CSS logo */
-        .instagram-logo-new { position:relative;width:4rem;height:4rem;border:6px solid var(--accent-secondary-color);border-radius:18px;background:transparent;box-shadow:0 0 10px var(--accent-secondary-color),inset 0 0 5px var(--accent-secondary-color); }
-        .instagram-logo-new::before { content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border:6px solid var(--accent-secondary-color);border-radius:50%;background:transparent;box-shadow:0 0 10px var(--accent-secondary-color); }
-        .instagram-logo-new::after { content:'';position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--accent-secondary-color);box-shadow:0 0 10px var(--accent-secondary-color); }
+        /* New CSS-based Instagram Logo */
+        .instagram-logo-new {
+            position: relative;
+            width: 4rem; /* 64px */
+            height: 4rem; /* 64px */
+        }
 
-        /* Filter buttons */
-        .filter-btn { background-color: var(--bg-tertiary); color: var(--text-primary); }
-        .filter-btn:hover { background-color: var(--accent-hover); color: var(--text-on-accent); }
-        .filter-btn.active { background-color: var(--accent-primary); color: var(--text-on-accent); }
+        .instagram-logo-new,
+        .instagram-logo-new::before,
+        .instagram-logo-new::after {
+            --insta-color: #a855f7; /* Violet Color */
+        }
 
-        /* Status badge */
+        .instagram-logo-new {
+            border: 6px solid var(--insta-color);
+            border-radius: 18px;
+            background-color: transparent;
+            box-shadow: 0 0 10px var(--insta-color),
+                          inset 0 0 5px var(--insta-color);
+        }
+
+        .instagram-logo-new::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 6px solid var(--insta-color);
+            border-radius: 50%;
+            background-color: transparent;
+            box-shadow: 0 0 10px var(--insta-color);
+        }
+
+        .instagram-logo-new::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--insta-color);
+            box-shadow: 0 0 10px var(--insta-color);
+        }
+
+        .filter-btn {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        .filter-btn:hover {
+            background-color: var(--accent-hover);
+            color: var(--text-on-accent);
+        }
+        .filter-btn.active {
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+        }
+        
         .status-badge {
-            position:absolute;top:1rem;right:1rem;padding:.25rem .75rem;font-size:.75rem;font-weight:700;text-transform:uppercase;border-radius:9999px;color:#fff;z-index:10;text-shadow:1px 1px 2px rgba(0,0,0,.3);
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 9999px;
+            color: white;
+            z-index: 10;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
-        html[dir="rtl"] .status-badge { right:auto;left:1rem; }
-        .status-bestseller { background-color:#f59e0b; }
-        .status-in-stock { background-color:#10b981; }
-        .status-limited { background-color:#f97316; }
-        .status-out-of-stock { background-color:#ef4444; }
-
-        /* Modal */
-        .modal-backdrop { transition: opacity .3s ease; }
-        .modal-content { transition: transform .3s ease, opacity .3s ease; background: var(--bg-modal); border: 1px solid var(--border-color); }
+        html[dir="rtl"] .status-badge {
+            right: auto;
+            left: 1rem;
+        }
+        .status-bestseller { background-color: #f59e0b; }
+        .status-in-stock { background-color: #10b981; }
+        .status-limited { background-color: #f97316; }
+        .status-out-of-stock { background-color: #ef4444; }
+        
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            background-color: var(--bg-modal);
+            border-color: var(--border-color);
+        }
         .modal-content h3 { color: var(--text-primary); }
-        .modal-content p  { color: var(--text-secondary); }
+        .modal-content p { color: var(--text-secondary); }
 
-        /* Language selector */
-        .lang-selector { background: var(--bg-tertiary); }
-        .lang-selector button { color: var(--text-secondary); transition: background-color .2s,color .2s; }
-        .lang-selector button.active { background: var(--accent-primary); color: var(--text-on-accent); }
 
-        /* Back‑to‑top */
-        #back-to-top {
-            position:fixed;right:2rem;bottom:calc(2rem + env(safe-area-inset-bottom));
-            width:3rem;height:3rem;border-radius:50%;
-            display:flex;align-items:center;justify-content:center;
-            background:var(--accent-primary);color:var(--text-on-accent);
-            box-shadow:0 4px 12px rgba(14,165,233,.4);
-            transition:opacity .3s,transform .3s;opacity:0;transform:translateY(100px);z-index:45;border:none;cursor:pointer;
+        .lang-selector {
+            background-color: var(--bg-tertiary);
         }
-        #back-to-top.visible { opacity:1;transform:none; }
-        html[dir="rtl"] #back-to-top { right:auto;left:2rem; }
+        .lang-selector button {
+            transition: background-color 0.2s, color 0.2s;
+            color: var(--text-secondary);
+        }
+        .lang-selector button.active {
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+        }
 
-        /* -------- SPECIAL OFFER -------- */
-        #special-offer-section { background: var(--offer-bg); transition: background .3s ease; }
-        .countdown-item    { text-align:center; }
-        .countdown-number  { font-family:'Inter',monospace;background:rgba(255,255,255,.1);backdrop-filter:blur(5px);border-radius:.5rem;padding:.5rem .75rem; }
-        .countdown-label   { font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-secondary);margin-top:.5rem; }
+        /* Styles for Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            right: 2rem;
+            /* Adjust for safe area on mobile browsers like Safari */
+            bottom: calc(2rem + env(safe-area-inset-bottom));
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            transform: translateY(100px);
+            z-index: 45;
+            border: none;
+            cursor: pointer;
+        }
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        html[dir="rtl"] #back-to-top {
+            right: auto;
+            left: 2rem;
+        }
 
-        .offer-cta-btn { background: var(--accent-secondary-color); box-shadow: 0 0 10px var(--accent-secondary-glow), 0 0 20px var(--accent-secondary-glow); transition: all .3s ease; }
-        .offer-cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent-secondary-glow), 0 0 30px var(--accent-secondary-glow); }
+        #scroll-prompt {
+             /* 7rem is tailwind's bottom-28. Adjust for safe area. */
+            bottom: calc(7rem + env(safe-area-inset-bottom));
+        }
 
-        .offer-scroller { width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent); }
-        html[dir="rtl"] .offer-scroller { -webkit-mask-image:linear-gradient(to left,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to left,transparent,black 10%,black 90%,transparent); }
-        .offer-scroller:hover .offer-track.is-scrolling { animation-play-state: paused; }
+        /* --- New styles for Details Button --- */
+        .details-btn {
+            background-color: var(--accent-primary);
+            color: var(--text-on-accent);
+        }
+        .details-btn:hover {
+            background-color: var(--accent-hover);
+        }
 
-        .offer-track { display:flex;gap:1.5rem;width:fit-content;will-change:transform; }
-        .offer-track.is-scrolling { animation: scroll-left linear infinite; }
-        html[dir="rtl"] .offer-track.is-scrolling { animation: scroll-right linear infinite; }
+        /* --- New styles for Special Offer Section --- */
+        #special-offer-section {
+            background: var(--offer-bg);
+            transition: background 0.3s ease;
+        }
 
-        @keyframes scroll-left  { from{transform:translateX(0);} to{transform:translateX(-50%);} }
-        @keyframes scroll-right { from{transform:translateX(-50%);} to{transform:translateX(0);} }
+        .countdown-item {
+            text-align: center;
+        }
+        .countdown-number {
+            font-family: 'Inter', monospace;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .offer-cta-btn {
+            background-color: var(--accent-secondary-color);
+            box-shadow: 0 0 10px var(--accent-secondary-glow), 0 0 20px var(--accent-secondary-glow);
+            transition: all 0.3s ease;
+        }
+        .offer-cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-secondary-glow), 0 0 30px var(--accent-secondary-glow);
+        }
+
+        /* --- Updated styles for Special Offer Scroller --- */
+        .offer-scroller {
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        
+        /* FIX: Added rule to reverse the mask gradient for RTL layouts */
+        html[dir="rtl"] .offer-scroller {
+            -webkit-mask-image: linear-gradient(to left, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to left, transparent, black 10%, black 90%, transparent);
+        }
+        
+        /* Pause animation on hover */
+        .offer-scroller:hover .offer-track.is-scrolling {
+            animation-play-state: paused;
+        }
+
+        .offer-track {
+            display: flex;
+            gap: 1.5rem; /* Corresponds to gap-6 in Tailwind */
+            width: fit-content;
+            will-change: transform;
+        }
+
+        .offer-track.is-scrolling {
+            /* Animation duration is calculated in JS. Default animation is for LTR. */
+            animation-name: scroll-left;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        
+        /* Apply the right-scrolling animation for RTL layouts */
+        html[dir="rtl"] .offer-track.is-scrolling {
+            animation-name: scroll-right;
+        }
+        
+        /* Animation for left-to-right languages (scrolls left) */
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Animation for right-to-left languages (scrolls right) */
+        @keyframes scroll-right {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+        }
 
         .offer-card {
-            flex-shrink:0;width:clamp(280px,90vw,380px);
-            background:var(--bg-secondary-translucent);border:1px solid var(--border-color);
-            border-radius:1rem;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease;
+            flex-shrink: 0;
+            width: clamp(280px, 80vw, 350px); /* Responsive card width */
+            background-color: var(--bg-secondary-translucent);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem; /* rounded-2xl */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .offer-card:hover { transform:translateY(-8px);box-shadow:0 0 15px var(--accent-secondary-glow); }
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 15px var(--accent-secondary-glow);
+        }
+        
     </style>
 </head>
-
 <body class="antialiased">
-<!-- =====================  HEADER  ===================== -->
-<header id="header-bar" role="banner"
-        class="fixed top-0 left-0 w-full px-6 md:px-12 py-4 flex justify-between items-center z-40 transition-opacity duration-500 opacity-0">
-    <div id="header-bg"
-         class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-500"
-         style="background-color: var(--header-bg);"></div>
 
-    <div class="w-full flex justify-end items-center relative gap-4">
-        <button id="theme-toggle"
-                class="p-2 rounded-full text-gray-300 dark:text-gray-400 hover:bg-gray-700/50 dark:hover:bg-gray-600 transition-colors"
-                title="Toggle theme">
-            <!-- icon inserted by JS -->
-        </button>
-        <a href="https://t.me/neurosub1"
-           target="_blank"
-           class="hidden md:inline-block bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors"
-           data-translate="contact_us">Contact Us</a>
-    </div>
-</header>
-
-<!-- =====================  CENTER LOGO / LANG  ===================== -->
-<div id="scrolling-header-content"
-     class="fixed z-50 flex flex-col justify-center space-y-4 transition-all duration-500 ease-in-out top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-     style="will-change: transform, top, left, right;">
-    <div class="flex items-center space-x-4 rtl:space-x-reverse mx-auto">
-        <img src="https://i.imgur.com/sPngqN7.jpeg"
-             alt="neurosub logo"
-             id="scrolling-logo"
-             class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full transition-all duration-500 ease-in-out">
-        <span id="scrolling-name"
-              class="text-4xl md:text-6xl font-bold motion-light-text transition-all duration-500 ease-in-out">
-            neurosub
-        </span>
-    </div>
-
-    <div id="language-selector-container"
-         class="animated-border-container transition-all duration-500 ease-in-out w-44 sm:w-52 mx-auto">
-        <div class="lang-selector grid grid-cols-2 rounded-full p-1">
-            <button data-lang="ar"
-                    class="px-4 py-1 text-sm font-semibold rounded-full">العربية</button>
-            <button data-lang="en"
-                    class="px-4 py-1 text-sm font-semibold rounded-full active">English</button>
+    <!-- FIX: Added role="banner" for accessibility -->
+    <header id="header-bar" role="banner" class="fixed top-0 left-0 w-full px-6 md:px-12 py-4 flex justify-between items-center z-40 transition-opacity duration-500 opacity-0">
+        <!-- Background element -->
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-500" id="header-bg" style="background-color: var(--header-bg);"></div>
+        <!-- Content on top of the background -->
+        <div class="w-full flex justify-end items-center relative gap-4">
+             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 dark:text-gray-400 hover:bg-gray-700/50 dark:hover:bg-gray-600 transition-colors" title="Toggle theme">
+                 <!-- Icon will be inserted by JS -->
+             </button>
+             <a href="https://t.me/neurosub1" target="_blank" class="hidden md:inline-block bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-600 transition-colors" data-translate="contact_us">Contact Us</a>
         </div>
-    </div>
-</div>
+    </header>
 
-<!-- Scroll prompt -->
-<div id="scroll-prompt"
-     class="fixed left-1/2 -translate-x-1/2 z-50 text-center transition-opacity duration-500 ease-in-out">
-    <span class="motion-light-text text-sm font-semibold tracking-widest"
-          data-translate="scroll_down">SCROLL DOWN</span>
-    <svg class="w-6 h-6 mx-auto mt-1 text-cyan-400 animate-bounce"
-         fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 9l-7 7-7-7"/>
-    </svg>
-</div>
-
-<!-- =====================  MODAL  ===================== -->
-<div id="order-modal"
-     class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center p-4 modal-backdrop opacity-0"
-     role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div
-        class="modal-content rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 opacity-0 border">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-500/20 flex items-center justify-center border-2 border-cyan-500">
-            <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+    <!-- Scrolling Logo & Name Container -->
+    <div id="scrolling-header-content" class="fixed z-50 flex flex-col justify-center space-y-4 transition-all duration-500 ease-in-out top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="will-change: transform, top, left, right;">
+        <div class="flex items-center space-x-4 rtl:space-x-reverse mx-auto">
+            <!-- Logo is now circular -->
+            <img src="https://i.imgur.com/sPngqN7.jpeg" alt="neurosub Logo" id="scrolling-logo" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full transition-all duration-500 ease-in-out">
+            <span id="scrolling-name" class="text-4xl md:text-6xl font-bold motion-light-text transition-all duration-500 ease-in-out">neurosub</span>
         </div>
-        <h3 id="modal-title" class="text-xl font-bold mb-2" data-translate="modal_title">Redirecting to Telegram</h3>
-        <p class="mb-6" data-translate="modal_text">
-            You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.
-        </p>
-        <div class="flex justify-center gap-4">
-            <button id="modal-cancel-btn"
-                    class="px-6 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 text-white font-semibold transition-colors"
-                    data-translate="modal_cancel">Cancel</button>
-            <a id="modal-proceed-btn" href="#" target="_blank"
-               class="px-6 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white font-bold transition-colors neon-highlight"
-               data-translate="modal_proceed">Proceed</a>
-        </div>
-    </div>
-</div>
-
-<!-- =====================  MAIN  ===================== -->
-<main role="main">
-    <!-- Spacer -->
-    <div class="h-screen"></div>
-
-    <!-- HERO -->
-    <section id="hero-section" class="text-center py-20 md:py-32 px-4">
-        <div>
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight"
-                data-translate="hero_title"
-                style="color: var(--text-primary);">
-                Your Gateway to Premium Digital Subscriptions
-            </h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl"
-               data-translate="hero_subtitle"
-               style="color: var(--text-secondary);">
-                We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect
-                for creators, students, and professionals.
-            </p>
-            <a href="#products"
-               class="smooth-scroll mt-8 inline-block bg-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-cyan-600 transition-all duration-300 transform hover:scale-105 neon-highlight"
-               data-translate="browse_products">
-                Browse Products
-            </a>
-        </div>
-    </section>
-
-    <!-- ========== SPECIAL OFFER SECTION ========== -->
-    <section id="special-offer-section" class="py-16 md:py-24 overflow-hidden hidden">
-        <div class="container mx-auto px-6">
-            <div
-                class="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <!-- Copy -->
-                <div class="text-center md:text-left rtl:md:text-right">
-                    <h2 id="offer-title"
-                        class="text-3xl md:text-4xl font-extrabold motion-light-text mb-4"
-                        data-translate="offer_title">
-                        Limited Time Special Offer!
-                    </h2>
-                    <p id="offer-description"
-                       class="text-base md:text-lg mb-6"
-                       data-translate="offer_description"
-                       style="color: var(--text-secondary);">
-                        Get our exclusive Lifetime Access Pass at a one-time price. Don't miss out!
-                    </p>
-
-                    <!-- COUNTDOWN -->
-                    <div id="countdown-timer" class="flex justify-center md:justify-start gap-3 sm:gap-4 my-8"></div>
-
-                    <!-- CTA -->
-                    <a id="offer-cta-btn"
-                       href="#"
-                       class="offer-cta-btn inline-block text-white font-bold py-4 px-10 rounded-full text-lg"
-                       data-translate="offer_cta">
-                        Claim Offer
-                    </a>
-                </div>
-
-                <!-- Visual -->
-                <div id="offer-visual-container" class="flex justify-center items-center relative">
-                    <img src="https://placehold.co/500x500/0ea5e9/ffffff?text=Special+Offer"
-                         alt="Special offer placeholder"
-                         class="rounded-2xl shadow-2xl max-w-sm w-full">
-                </div>
+        <!-- FIX: Made language selector width responsive -->
+        <div id="language-selector-container" class="animated-border-container transition-all duration-500 ease-in-out w-44 sm:w-52 mx-auto">
+            <div class="lang-selector relative z-10 grid grid-cols-2 rounded-full p-1">
+                <button data-lang="ar" class="px-4 py-1 text-sm font-semibold rounded-full">العربية</button>
+                <button data-lang="en" class="px-4 py-1 text-sm font-semibold rounded-full active">English</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- =====================  PRODUCTS  ===================== -->
-    <section id="products" class="py-16 md:py-24" style="background-color: var(--bg-secondary-translucent);">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-8" data-translate="our_products">Our Products</h2>
 
-            <!-- Filters -->
-            <div
-                class="flex flex-col md:flex-row gap-4 justify-center items-center mb-8 flex-wrap"
-                id="filter-controls">
-                <div id="category-filters" class="flex flex-wrap justify-center gap-2"></div>
+    <!-- Scroll Down Prompt -->
+    <div id="scroll-prompt" class="fixed left-1/2 -translate-x-1/2 z-50 text-center transition-opacity duration-500 ease-in-out">
+        <span class="motion-light-text text-sm font-semibold tracking-widest" data-translate="scroll_down">SCROLL DOWN</span>
+        <svg class="w-6 h-6 mx-auto mt-1 text-cyan-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+    </div>
 
-                <div class="w-full md:w-auto">
-                    <select id="sort-options"
-                            class="w-full md:w-auto rounded-full py-2 px-4 focus:outline-none focus:ring-2"
-                            style="background-color: var(--bg-tertiary);border: 1px solid var(--border-color);color: var(--text-primary);focus-ring-color: var(--accent-primary);">
-                        <option value="default" data-translate="sort_default">Sort by...</option>
-                        <option value="price-asc" data-translate="sort_price_asc">Price: Low to High</option>
-                        <option value="price-desc" data-translate="sort_price_desc">Price: High to Low</option>
-                        <option value="name-asc" data-translate="sort_name_asc">Name: A‑Z</option>
-                    </select>
-                </div>
+    <!-- Order Confirmation Modal -->
+    <div id="order-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center p-4 modal-backdrop opacity-0" 
+         role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 opacity-0 border">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-500/20 flex items-center justify-center border-2 border-cyan-500">
+                <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
+            <h3 id="modal-title" class="text-xl font-bold mb-2" data-translate="modal_title">Redirecting to Telegram</h3>
+            <p class="mb-6" data-translate="modal_text">You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.</p>
+            <div class="flex justify-center gap-4">
+                <button id="modal-cancel-btn" class="px-6 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 text-white font-semibold transition-colors" data-translate="modal_cancel">Cancel</button>
+                <a id="modal-proceed-btn" href="#" target="_blank" class="px-6 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white font-bold transition-colors neon-highlight" data-translate="modal_proceed">Proceed</a>
+            </div>
+        </div>
+    </div>
 
-            <!-- Search -->
-            <div class="w-full max-w-md mx-auto mb-12">
-                <div class="animated-border-container">
-                    <div class="relative w-full">
-                        <input type="text" id="search-input"
-                               placeholder="Search for products..."
-                               class="relative z-10 w-full border-transparent rounded-full py-3 pl-12 pr-6 placeholder-gray-400 focus:outline-none"
-                               style="background-color: var(--bg-tertiary);color: var(--text-primary);"
-                               data-translate-placeholder="search_placeholder">
-                        <div
-                            class="absolute inset-y-0 start-0 flex items-center ps-6 z-20 pointer-events-none"
-                            style="color: var(--text-secondary);">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-                            </svg>
+
+    <!-- FIX: Added role="main" for accessibility -->
+    <main role="main">
+        <!-- Intro Spacer Section -->
+        <div class="h-screen"></div>
+
+        <!-- Hero Section -->
+        <section id="hero-section" class="text-center py-20 md:py-32 px-4">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight" data-translate="hero_title" style="color: var(--text-primary);">
+                    Your Gateway to Premium Digital Subscriptions
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl" data-translate="hero_subtitle" style="color: var(--text-secondary);">
+                    We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.
+                </p>
+                <a href="#products" class="smooth-scroll mt-8 inline-block bg-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-cyan-600 transition-all duration-300 transform hover:scale-105 neon-highlight" data-translate="browse_products">
+                    Browse Products
+                </a>
+            </div>
+        </section>
+
+        <!-- Special Offer Section -->
+        <section id="special-offer-section" class="py-16 md:py-24 overflow-hidden hidden">
+            <div class="container mx-auto px-6">
+                <div class="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="text-center md:text-left rtl:md:text-right">
+                        <h2 id="offer-title" class="text-3xl md:text-4xl font-extrabold motion-light-text mb-4" data-translate="offer_title">
+                            Limited Time Special Offer!
+                        </h2>
+                        <p id="offer-description" class="text-base md:text-lg mb-6" data-translate="offer_description" style="color: var(--text-secondary);">
+                            Get our exclusive Lifetime Access Pass at a one-time price. Don't miss out!
+                        </p>
+
+                        <!-- Countdown Timer -->
+                        <div id="countdown-timer" class="flex justify-center md:justify-start gap-3 sm:gap-4 my-8">
+                            <!-- Items will be inserted by JS -->
                         </div>
-                        <button id="clear-search-btn"
-                                class="absolute inset-y-0 end-0 flex items-center pe-6 z-20 hover:text-white transition-colors hidden"
-                                style="color: var(--text-secondary);">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </button>
+
+                        <a id="offer-cta-btn" href="#" class="offer-cta-btn inline-block text-white font-bold py-4 px-10 rounded-full text-lg" data-translate="offer_cta">
+                            Claim Offer
+                        </a>
+                    </div>
+                    <!-- This container will hold either a static image or the new scroller -->
+                    <div id="offer-visual-container" class="flex justify-center items-center relative">
+                        <!-- Content (static image or scroller) is now generated by JavaScript -->
+                        <img src="https://placehold.co/500x500/0ea5e9/ffffff?text=Special+Offer" alt="Special Offer Placeholder" class="rounded-2xl shadow-2xl max-w-sm w-full">
                     </div>
                 </div>
             </div>
+        </section>
+
+
+        <!-- Products Section -->
+        <section id="products" class="py-16 md:py-24" style="background-color: var(--bg-secondary-translucent);">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-8" data-translate="our_products">Our Products</h2>
+                
+                <!-- Filters and Sorting Controls -->
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-8 flex-wrap" id="filter-controls">
+                    <div id="category-filters" class="flex flex-wrap justify-center gap-2">
+                        <!-- Category buttons will be inserted here -->
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <select id="sort-options" class="w-full md:w-auto rounded-full py-2 px-4 focus:outline-none focus:ring-2" style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); focus-ring-color: var(--accent-primary);">
+                            <option value="default" data-translate="sort_default">Sort by...</option>
+                            <option value="price-asc" data-translate="sort_price_asc">Price: Low to High</option>
+                            <option value="price-desc" data-translate="sort_price_desc">Price: High to Low</option>
+                            <option value="name-asc" data-translate="sort_name_asc">Name: A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="w-full max-w-md mx-auto mb-12">
+                    <div class="animated-border-container">
+                        <div class="relative w-full">
+                            <input type="text" id="search-input" placeholder="Search for products..." class="relative z-10 w-full border-transparent rounded-full py-3 pl-12 pr-6 placeholder-gray-400 focus:outline-none" style="background-color: var(--bg-tertiary); color: var(--text-primary);" data-translate-placeholder="search_placeholder">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-6 z-20 pointer-events-none" style="color: var(--text-secondary);">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </div>
+                            <button id="clear-search-btn" class="absolute inset-y-0 end-0 flex items-center pe-6 z-20 hover:text-white transition-colors hidden" style="color: var(--text-secondary);">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error-message" class="hidden text-center text-yellow-300 max-w-4xl mx-auto mb-8 p-4 bg-yellow-900/50 border border-yellow-700 rounded-lg"></div>
+            <div id="product-grid" class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
+                <!-- Skeletons and product cards are now generated entirely by JavaScript -->
+            </div>
+            <div id="no-results-message" class="hidden text-center mt-8 text-lg" style="color: var(--text-secondary);">
+                <p data-translate="no_products_found">No products found matching your search.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- FIX: Added role="contentinfo" for accessibility -->
+    <footer role="contentinfo" class="text-center py-20 md:py-32 px-4" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-bottom: calc(5rem + env(safe-area-inset-bottom));">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" data-translate="follow_us">Follow Us</h2>
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="https://t.me/neurosub1" target="_blank" class="social-icon telegram-glow">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" aria-label="Telegram Logo"><path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" /></svg>
+                </a>
+                <a href="https://www.instagram.com/neurosub?igsh=MTU0aXFlZHN3MXE0YQ==" target="_blank" class="social-icon">
+                    <div class="instagram-logo-new"></div>
+                </a>
+            </div>
+            <p class="text-sm" data-translate="footer_copyright" style="color: var(--text-secondary);">&copy; 2024 neurosub. All Rights Reserved.</p>
         </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
 
-        <div id="error-message"
-             class="hidden text-center text-yellow-300 max-w-4xl mx-auto mb-8 p-4 bg-yellow-900/50 border border-yellow-700 rounded-lg"></div>
 
-        <div id="product-grid"
-             class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
-            <!-- product cards generated by JS -->
-        </div>
-
-        <div id="no-results-message"
-             class="hidden text-center mt-8 text-lg"
-             style="color: var(--text-secondary);">
-            <p data-translate="no_products_found">No products found matching your search.</p>
-        </div>
-    </section>
-</main>
-
-<!-- =====================  FOOTER  ===================== -->
-<footer role="contentinfo"
-        class="text-center py-20 md:py-32 px-4"
-        style="background-color: var(--bg-secondary);border-top:1px solid var(--border-color);padding-bottom:calc(5rem + env(safe-area-inset-bottom));">
-    <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6" data-translate="follow_us">Follow Us</h2>
-        <div class="flex justify-center space-x-8 mb-8">
-            <a href="https://t.me/neurosub1" target="_blank" class="social-icon telegram-glow"
-               aria-label="Telegram">
-                <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
-                </svg>
-            </a>
-            <a href="https://www.instagram.com/neurosub?igsh=MTU0aXFlZHN3MXE0YQ==" target="_blank"
-               class="social-icon" aria-label="Instagram">
-                <div class="instagram-logo-new" title="Instagram"></div>
-            </a>
-        </div>
-        <p class="text-sm" data-translate="footer_copyright"
-           style="color: var(--text-secondary);">
-            &copy; 2024 neurosub. All Rights Reserved.
-        </p>
-    </div>
-</footer>
-
-<!-- Back‑to‑top -->
-<button id="back-to-top" title="Back to top">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M5 15l7-7 7 7"/>
-    </svg>
-</button>
-
-<!-- =====================  SCRIPT  ===================== -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    /*********   SELF‑INVOKING APP MODULE   *********/
+    
+    // Self-invoking function to encapsulate all logic and avoid polluting the global scope
     const neurosubApp = (() => {
-        /* ---------- CONFIG ---------- */
-        const DATA_FILE_PATH = 'data/data.json';
+
+        // --- CONFIGURATION ---
+        const DATA_FILE_PATH = 'data/data.json'; // Relative path to the JSON file
+        
         const ICONS = {
             sun: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
-            moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`
+            moon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
         };
 
-        /* ---------- STATE ---------- */
+        // --- STATE ---
         let state = {
-            allProducts: [],
-            currentLang: 'ar',
-            activeCategory: 'All',
+            allProducts: [], // Holds all products fetched from JSON
+            currentLang: 'ar', // Default language is now Arabic
+            activeCategory: 'All', // This will store the ENGLISH category key
             sortOption: 'default',
             isModalOpen: false,
-            theme: 'dark',
+            theme: 'dark', // default theme, will be overridden by user preference or system setting
             countdownInterval: null,
-            offerEndDate: null
+            offerEndDate: null, // FIX: To be loaded from JSON
         };
 
-        /* ---------- DOM ---------- */
+        // --- DOM ELEMENTS ---
         const dom = {
             html: document.documentElement,
             productGrid: document.getElementById('product-grid'),
@@ -501,109 +646,61 @@ document.addEventListener('DOMContentLoaded', () => {
             backToTopBtn: document.getElementById('back-to-top'),
             productsSection: document.getElementById('products'),
             themeToggleBtn: document.getElementById('theme-toggle'),
-
-            /* Special offer */
+            // Elements for the special offer section
             specialOfferSection: document.getElementById('special-offer-section'),
             offerTitle: document.getElementById('offer-title'),
             offerDescription: document.getElementById('offer-description'),
             offerCtaBtn: document.getElementById('offer-cta-btn'),
             offerVisualContainer: document.getElementById('offer-visual-container'),
-            countdownTimer: document.getElementById('countdown-timer')
+            countdownTimer: document.getElementById('countdown-timer'),
         };
 
-        /* ---------- TRANSLATIONS ---------- */
+        // --- TRANSLATIONS ---
         const translations = {
-            en: {
-                contact_us: "Contact Us", scroll_down: "SCROLL DOWN",
-                hero_title: "Your Gateway to Premium Digital Subscriptions",
-                hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.",
-                browse_products: "Browse Products",
-                our_products: "Our Products",
-                sort_default: "Sort by...", sort_price_asc: "Price: Low to High",
-                sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A‑Z",
-                search_placeholder: "Search for products...",
-                no_products_found: "No products found matching your search.",
-                footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.",
-                follow_us: "Follow Us",
-                modal_title: "Redirecting to Telegram",
-                modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.",
-                modal_cancel: "Cancel", modal_proceed: "Proceed",
-                view_details: "View Details", out_of_stock: "Out of Stock",
-                all_category: "All",
-                error_title: "Could Not Load Products!",
-                error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`,
-                offer_title: "Limited Time Special Offers!",
-                offer_description: "Check out these exclusive deals, available for a short time only. Don't miss out!",
-                offer_cta: "Claim Offer",
-                countdown_days: "Days", countdown_hours: "Hours",
-                countdown_minutes: "Mins", countdown_seconds: "Secs",
-                offer_expired: "Offer Expired!",
-
-                /* Dynamic */
-                "status_Bestseller": "Bestseller",
-                "status_In_Stock": "In Stock",
-                "status_Limited": "Limited",
-                "status_Out_of_Stock": "Out of Stock",
-                "category_Design": "Design", "category_Development": "Development",
-                "category_Productivity": "Productivity", "category_Streaming": "Streaming"
+            en: { 
+                contact_us: "Contact Us", scroll_down: "SCROLL DOWN", hero_title: "Your Gateway to Premium Digital Subscriptions", hero_subtitle: "We provide fast, reliable, and affordable access to the digital tools and entertainment you love. Perfect for creators, students, and professionals.", browse_products: "Browse Products", our_products: "Our Products", sort_default: "Sort by...", sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_name_asc: "Name: A-Z", search_placeholder: "Search for products...", no_products_found: "No products found matching your search.", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", view_details: "View Details", out_of_stock: "Out of Stock", all_category: "All", error_title: "Could Not Load Products!", error_instructions: `<p class="mt-2">We couldn't fetch the product data. Please check if the <code>${DATA_FILE_PATH}</code> file exists and is correctly formatted.</p>`, offer_title: "Limited Time Special Offers!", offer_description: "Check out these exclusive deals, available for a short time only. Don't miss out!", offer_cta: "Claim Offer", countdown_days: "Days", countdown_hours: "Hours", countdown_minutes: "Mins", countdown_seconds: "Secs", offer_expired: "Offer Expired!",
+                // DYNAMIC TRANSLATIONS
+                "status_bestseller": "Bestseller", "status_in_stock": "In Stock", "status_limited": "Limited", "status_out_of_stock": "Out of Stock",
+                "category_Design": "Design", "category_Development": "Development", "category_Productivity": "Productivity", "category_Streaming": "Streaming"
             },
-            ar: {
-                contact_us: "تواصل معنا", scroll_down: "مرر للأسفل",
-                hero_title: "بوابتك للاشتراكات الرقمية المميزة",
-                hero_subtitle: "نحن نوفر وصولًا سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.",
-                browse_products: "تصفح المنتجات",
-                our_products: "منتجاتنا",
-                sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى",
-                sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ‑ي",
-                search_placeholder: "ابحث عن المنتجات...",
-                no_products_found: "لم يتم العثور على منتجات تطابق بحثك.",
-                footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.",
-                follow_us: "تابعنا",
-                modal_title: "التوجيه إلى تيليجرام",
-                modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.",
-                modal_cancel: "إلغاء", modal_proceed: "متابعة",
-                view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية",
-                all_category: "الكل",
-                error_title: "تعذر تحميل المنتجات!",
-                error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`,
-                offer_title: "عروض خاصة لفترة محدودة!",
-                offer_description: "اكتشف هذه العروض الحصرية، متاحة لفترة قصيرة فقط. لا تفوت الفرصة!",
-                offer_cta: "احصل على العرض",
-                countdown_days: "أيام", countdown_hours: "ساعات",
-                countdown_minutes: "دقائق", countdown_seconds: "ثواني",
-                offer_expired: "انتهى العرض!",
-
-                /* Dynamic */
-                "status_Bestseller": "الأكثر مبيعاً",
-                "status_In_Stock": "متوفر",
-                "status_Limited": "محدود",
-                "status_Out_of_Stock": "نفدت الكمية",
-                "category_Design": "تصميم", "category_Development": "تطوير",
-                "category_Productivity": "إنتاجية", "category_Streaming": "بث"
+            ar: { 
+                contact_us: "تواصل معنا", scroll_down: "مرر للأسفل", hero_title: "بوابتك للاشتراكات الرقمية المميزة", hero_subtitle: "نحن نوفر وصولاً سريعًا وموثوقًا وبأسعار معقولة للأدوات الرقمية والترفيه الذي تحبه. مثالي للمبدعين والطلاب والمحترفين.", browse_products: "تصفح المنتجات", our_products: "منتجاتنا", sort_default: "الترتيب حسب...", sort_price_asc: "السعر: من الأقل إلى الأعلى", sort_price_desc: "السعر: من الأعلى إلى الأقل", sort_name_asc: "الاسم: أ-ي", search_placeholder: "ابحث عن المنتجات...", no_products_found: "لم يتم العثور على منتجات تطابق بحثك.", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", view_details: "عرض التفاصيل", out_of_stock: "نفدت الكمية", all_category: "الكل", error_title: "تعذر تحميل المنتجات!", error_instructions: `<p class="mt-2 text-right">لم نتمكن من جلب بيانات المنتج. يرجى التحقق من وجود ملف <code>${DATA_FILE_PATH}</code> وأنه مهيأ بشكل صحيح.</p>`, offer_title: "عروض خاصة لفترة محدودة!", offer_description: "اكتشف هذه العروض الحصرية، متاحة لفترة قصيرة فقط. لا تفوت الفرصة!", offer_cta: "احصل على العرض", countdown_days: "أيام", countdown_hours: "ساعات", countdown_minutes: "دقائق", countdown_seconds: "ثواني", offer_expired: "انتهى العرض!",
+                // DYNAMIC TRANSLATIONS
+                "status_bestseller": "الأكثر مبيعاً", "status_in_stock": "متوفر", "status_limited": "محدود", "status_out_of_stock": "نفدت الكمية",
+                "category_Design": "تصميم", "category_Development": "تطوير", "category_Productivity": "إنتاجية", "category_Streaming": "بث"
             }
         };
 
-        /* ---------- UTILS ---------- */
-        const debounce = (fn, delay) => {
-            let t; return (...args) => { clearTimeout(t); t = setTimeout(()=>fn.apply(this,args),delay); };
-        };
-        const storage = {
-            get: (k, d) => localStorage.getItem(k) ?? d,
-            set: (k, v) => localStorage.setItem(k, v)
+        // --- UTILITY FUNCTIONS ---
+        const debounce = (func, delay) => {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
         };
 
-        /** Translate dynamic tokens (status / category) */
+        const storage = {
+            get: (key, defaultValue) => localStorage.getItem(key) || defaultValue,
+            set: (key, value) => localStorage.setItem(key, value),
+        };
+        
+        /**
+         * Translates dynamic data like Status and Category.
+         * @param {('status'|'category')} type - The type of data to translate.
+         * @param {string} key - The English key from the JSON file (e.g., "In Stock").
+         * @returns {string} The translated string or the original key if not found.
+         */
         const translateDynamic = (type, key) => {
             if (!key) return '';
-            const base = key.replace(/\s+/g, '_');
-            const rawKey   = `${type}_${base}`;
-            const lowerKey = `${type}_${base.toLowerCase()}`;
-            const langMap = translations[state.currentLang] || {};
-            return langMap[rawKey] ?? langMap[lowerKey] ?? key;
+            // Create a lookup key e.g., "status_in_stock" or "category_Design"
+            const translationKey = `${type}_${key.replace(/\s+/g, '_')}`;
+            return translations[state.currentLang][translationKey] || key;
         };
 
-        /* ---------- THEME ---------- */
-        const applyTheme = theme => {
+
+        // --- THEME LOGIC ---
+        const applyTheme = (theme) => {
             state.theme = theme;
             if (theme === 'dark') {
                 dom.html.classList.add('dark');
@@ -613,397 +710,620 @@ document.addEventListener('DOMContentLoaded', () => {
                 dom.themeToggleBtn.innerHTML = ICONS.moon;
             }
         };
+
         const toggleTheme = () => {
             const newTheme = state.theme === 'dark' ? 'light' : 'dark';
             storage.set('neurosub-theme', newTheme);
             applyTheme(newTheme);
         };
+        
         const initTheme = () => {
-            const media = window.matchMedia('(prefers-color-scheme: dark)');
-            const init = () => {
-                const saved = storage.get('neurosub-theme');
-                applyTheme(saved || (media.matches ? 'dark' : 'light'));
+            const systemMedia = window.matchMedia('(prefers-color-scheme: dark)');
+            const decideAndApplyTheme = () => {
+                const savedTheme = storage.get('neurosub-theme');
+                applyTheme(savedTheme || (systemMedia.matches ? 'dark' : 'light'));
             };
-            init(); media.addEventListener('change', init);
+            decideAndApplyTheme();
+            systemMedia.addEventListener('change', decideAndApplyTheme);
         };
 
-        /* ---------- LANGUAGE ---------- */
-        const setLanguage = (lang, isInitial=false) => {
+        // --- CORE LOGIC ---
+        const setLanguage = (lang, isInitial = false) => {
             state.currentLang = lang;
             dom.html.lang = lang;
-            dom.html.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+            dom.html.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-            document.querySelectorAll('[data-translate]').forEach(el=>{
-                const k = el.getAttribute('data-translate');
-                if (translations[lang][k]) el.innerHTML = translations[lang][k];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang][key]) el.innerHTML = translations[lang][key];
             });
-            document.querySelectorAll('[data-translate-placeholder]').forEach(el=>{
-                const k = el.getAttribute('data-translate-placeholder');
-                if (translations[lang][k]) el.placeholder = translations[lang][k];
+            
+            document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-translate-placeholder');
+                if (translations[lang][key]) el.placeholder = translations[lang][key];
             });
 
-            dom.langSelectorContainer.querySelectorAll('button')
-                .forEach(btn=>btn.classList.toggle('active',btn.dataset.lang===lang));
+            dom.langSelectorContainer.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
 
-            if (!dom.specialOfferSection.classList.contains('hidden')) startCountdown();
+            // REFACTORED: Re-render countdown timer only if the section is visible
+            if (!dom.specialOfferSection.classList.contains('hidden')) {
+                startCountdown();
+            }
+
+            // FIX: On language change by user, save pref and re-initialize the app content
             if (!isInitial) {
                 storage.set('neurosub-lang', lang);
-                initAppWithData(true);
+                initAppWithData(true); // Re-initialize with new language
             }
         };
 
-        /* ---------- SCROLL BEHAVIOR ---------- */
         const handleScroll = () => {
-            const pos = window.scrollY, threshold = 50;
-            dom.scrollPrompt.classList.toggle('opacity-0', pos>20);
+            const scrollPosition = window.scrollY;
+            const scrollThreshold = 50;
+            
+            // Scroll Prompt Fade
+            dom.scrollPrompt.classList.toggle('opacity-0', scrollPosition > 20);
 
-            if (pos > threshold) {
+            // Header Transformation
+            if (scrollPosition > scrollThreshold) {
                 dom.headerBar.classList.add('opacity-100');
-                dom.scrollingHeaderContent.classList.remove('top-1/2','left-1/2','-translate-x-1/2','-translate-y-1/2','flex-col','space-y-4');
-                dom.scrollingHeaderContent.classList.add('top-4','start-6','md:start-12','flex-row','items-center');
-                dom.scrollingHeaderContent.querySelector('.flex').classList.add('space-x-4','rtl:space-x-reverse');
-                dom.scrollingLogo.classList.replace('w-24','w-8'); dom.scrollingLogo.classList.replace('h-24','h-8');
-                dom.scrollingName.classList.replace('text-4xl','text-xl');
+                dom.scrollingHeaderContent.classList.remove('top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'flex-col', 'space-y-4');
+                dom.scrollingHeaderContent.classList.add('top-4', 'start-6', 'md:start-12', 'flex-row', 'items-center');
+                dom.scrollingHeaderContent.querySelector('.flex').classList.add('space-x-4', 'rtl:space-x-reverse');
+                dom.scrollingLogo.classList.remove('w-24', 'h-24', 'md:w-32', 'md:h-32');
+                dom.scrollingLogo.classList.add('w-8', 'h-8');
+                dom.scrollingName.classList.remove('text-4xl', 'md:text-6xl');
+                dom.scrollingName.classList.add('text-xl');
                 dom.langSelectorContainer.classList.add('hidden');
             } else {
                 dom.headerBar.classList.remove('opacity-100');
-                dom.scrollingHeaderContent.classList.add('top-1/2','left-1/2','-translate-x-1/2','-translate-y-1/2','flex-col','space-y-4');
-                dom.scrollingHeaderContent.classList.remove('top-4','start-6','md:start-12','flex-row','items-center');
-                dom.scrollingHeaderContent.querySelector('.flex').classList.remove('space-x-4','rtl:space-x-reverse');
-                dom.scrollingLogo.classList.replace('w-8','w-24'); dom.scrollingLogo.classList.replace('h-8','h-24');
-                dom.scrollingName.classList.replace('text-xl','text-4xl');
+                dom.scrollingHeaderContent.classList.add('top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'flex-col', 'space-y-4');
+                dom.scrollingHeaderContent.classList.remove('top-4', 'start-6', 'md:start-12', 'flex-row', 'items-center');
+                dom.scrollingHeaderContent.querySelector('.flex').classList.remove('space-x-4', 'rtl:space-x-reverse');
+                dom.scrollingLogo.classList.add('w-24', 'h-24', 'md:w-32', 'md:h-32');
+                dom.scrollingLogo.classList.remove('w-8', 'h-8');
+                dom.scrollingName.classList.add('text-4xl', 'md:text-6xl');
+                dom.scrollingName.classList.remove('text-xl');
                 dom.langSelectorContainer.classList.remove('hidden');
             }
-            dom.backToTopBtn.classList.toggle('visible', pos>300);
+
+            // Back to Top Button
+            dom.backToTopBtn.classList.toggle('visible', scrollPosition > 300);
         };
 
-        /* ---------- MODAL ---------- */
-        const showModal = link => {
+        const showModal = (link) => {
             state.isModalOpen = true;
             dom.modalProceedBtn.href = link;
             dom.orderModal.classList.remove('hidden');
-            dom.orderModal.style.display='flex';
-            requestAnimationFrame(()=>{ // allow DOM update
+            dom.orderModal.style.display = 'flex'; // Make it a flex container to center content
+            setTimeout(() => {
                 dom.orderModal.classList.remove('opacity-0');
-                dom.modalContent.classList.remove('scale-95','opacity-0');
+                dom.modalContent.classList.remove('scale-95', 'opacity-0');
                 dom.modalProceedBtn.focus();
-            });
+            }, 10);
         };
+
         const hideModal = () => {
             state.isModalOpen = false;
             dom.orderModal.classList.add('opacity-0');
-            dom.modalContent.classList.add('scale-95','opacity-0');
-            setTimeout(()=>{dom.orderModal.classList.add('hidden');dom.orderModal.style.display='none';},300);
+            dom.modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                dom.orderModal.classList.add('hidden');
+                dom.orderModal.style.display = 'none';
+            }, 300);
         };
 
-        /* ---------- DISPLAY ---------- */
-        const updateDisplay = (scrollToTop=false) => {
-            let products = state.allProducts.filter(p=>!p.isSpecialOffer);
+        const updateDisplay = (shouldScroll = false) => {
+            // Filter out the special offer product(s) from the main grid
+            let productsToDisplay = state.allProducts.filter(p => !p.isSpecialOffer);
+            
             const lang = state.currentLang;
-            const search = dom.searchInput.value.toLowerCase();
+            const searchTerm = dom.searchInput.value.toLowerCase();
 
-            if (state.activeCategory !== 'All') products = products.filter(p=>p.Category===state.activeCategory);
+            // 1. Filter by Category
+            if (state.activeCategory !== 'All') {
+                // IMPORTANT: We filter using the original English category name from the JSON
+                productsToDisplay = productsToDisplay.filter(p => p.Category === state.activeCategory);
+            }
 
-            if (search) {
-                products = products.filter(p=>{
-                    const name = (p[`Name_${lang}`]||p.Name||'').toLowerCase();
-                    const desc = (p[`Description_${lang}`]||p.Description||'').toLowerCase();
-                    const inMain = name.includes(search) || desc.includes(search);
-                    const inOpts = p.options.some(o=>{
-                        const n = (lang==='ar'?o.name_ar:o.name).toLowerCase();
-                        const i = (lang==='ar'?o.info_ar:o.info).toLowerCase();
-                        return n.includes(search)||i.includes(search);
+            // 2. Filter by Search
+            if (searchTerm) {
+                productsToDisplay = productsToDisplay.filter(p => {
+                    const name = (p[`Name_${lang}`] || p.Name || '').toLowerCase();
+                    const description = (p[`Description_${lang}`] || p.Description || '').toLowerCase();
+                    
+                    if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Also search within options
+                    return p.options.some(opt => {
+                        const optionName = (lang === 'ar' ? opt.name_ar : opt.name).toLowerCase();
+                        const optionInfo = (lang === 'ar' ? opt.info_ar : opt.info).toLowerCase();
+                        return optionName.includes(searchTerm) || optionInfo.includes(searchTerm);
                     });
-                    return inMain || inOpts;
                 });
             }
 
-            switch(state.sortOption){
-                case 'price-asc':
-                    products.sort((a,b)=>{
-                        const pa = parseFloat(String(a.options[0]?.price||'0').replace(/[^0-9.-]+/g,''));
-                        const pb = parseFloat(String(b.options[0]?.price||'0').replace(/[^0-9.-]+/g,''));
-                        return pa-pb;
-                    }); break;
-                case 'price-desc':
-                    products.sort((a,b)=>{
-                        const pa = parseFloat(String(a.options[0]?.price||'0').replace(/[^0-9.-]+/g,''));
-                        const pb = parseFloat(String(b.options[0]?.price||'0').replace(/[^0-9.-]+/g,''));
-                        return pb-pa;
-                    }); break;
-                case 'name-asc':
-                    products.sort((a,b)=>{
-                        const na = a[`Name_${lang}`]||a.Name||'';
-                        const nb = b[`Name_${lang}`]||b.Name||'';
-                        return na.localeCompare(nb, lang==='ar'?'ar-EG':'en-US');
-                    }); break;
+            // 3. Sort
+            const sortValue = state.sortOption;
+            if (sortValue === 'price-asc') {
+                productsToDisplay.sort((a, b) => {
+                    const priceA = parseFloat((a.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
+                    const priceB = parseFloat((b.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
+                    return priceA - priceB;
+                });
+            } else if (sortValue === 'price-desc') {
+                productsToDisplay.sort((a, b) => {
+                    const priceA = parseFloat((a.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
+                    const priceB = parseFloat((b.options[0]?.price || '0').replace(/[^0-9.-]+/g, ""));
+                    return priceB - priceA;
+                });
+            } else if (sortValue === 'name-asc') {
+                productsToDisplay.sort((a, b) => {
+                    const nameA = a[`Name_${lang}`] || a.Name || '';
+                    const nameB = b[`Name_${lang}`] || b.Name || '';
+                    return nameA.localeCompare(nameB, lang === 'ar' ? 'ar-EG' : 'en-US');
+                });
             }
+            
+            renderProducts(productsToDisplay);
 
-            renderProducts(products);
-            const allCount = state.allProducts.filter(p=>!p.isSpecialOffer).length;
-            dom.noResultsMessage.classList.toggle('hidden', products.length>0 || !allCount);
-
-            if(scrollToTop) dom.productsSection.scrollIntoView({behavior:'smooth',block:'start'});
+            const hasAllProducts = state.allProducts.filter(p => !p.isSpecialOffer).length > 0;
+            dom.noResultsMessage.classList.toggle('hidden', productsToDisplay.length > 0 || !hasAllProducts);
+            
+            if (shouldScroll) {
+                dom.productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         };
-
-        /* ---------- CATEGORY FILTERS ---------- */
+        
         const setupCategoryFilters = () => {
-            const allText = translations[state.currentLang].all_category;
-            const productsForCat = state.allProducts.filter(p=>!p.isSpecialOffer);
-            const uniqueCats = [...new Set(productsForCat.map(p=>p.Category).filter(Boolean))];
+            const allCatText = translations[state.currentLang].all_category;
 
-            dom.categoryFilters.innerHTML='';
-            const createBtn = (text,key) => {
-                const b=document.createElement('button');
-                b.textContent=text;
-                b.dataset.categoryKey=key;
-                b.className='filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
-                if(key===state.activeCategory) b.classList.add('active');
-                dom.categoryFilters.appendChild(b);
-            };
-            createBtn(allText,'All');
-            uniqueCats.forEach(cat=>createBtn(translateDynamic('category',cat),cat));
+            // Use non-special-offer products for categories
+            const productsForCategories = state.allProducts.filter(p => !p.isSpecialOffer);
+            // Get unique ENGLISH category names from the data
+            const uniqueEnglishCategories = [...new Set(productsForCategories.map(p => p.Category).filter(Boolean))];
+
+            dom.categoryFilters.innerHTML = ''; // Clear previous buttons
+            
+            // Create "All" button
+            const allButton = document.createElement('button');
+            allButton.textContent = allCatText;
+            allButton.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
+            allButton.dataset.categoryKey = 'All'; // The key to filter by
+            if (state.activeCategory === 'All') {
+                allButton.classList.add('active');
+            }
+            dom.categoryFilters.appendChild(allButton);
+
+            // Create buttons for each unique category
+            uniqueEnglishCategories.forEach(englishCategory => {
+                const button = document.createElement('button');
+                // Display the translated name, but store the English key
+                button.textContent = translateDynamic('category', englishCategory);
+                button.dataset.categoryKey = englishCategory; // Store the original English key
+                button.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors';
+                
+                if (englishCategory === state.activeCategory) {
+                    button.classList.add('active');
+                }
+                dom.categoryFilters.appendChild(button);
+            });
         };
 
-        /* ---------- PRODUCT CARD GENERATION ---------- */
-        const renderProducts = products => {
-            dom.productGrid.innerHTML='';
-            if(!products.length){
-                if(!state.allProducts.length)return; // only show skeleton until data loads
-                return;
+
+        const renderProducts = (products) => {
+            dom.productGrid.innerHTML = '';
+            
+            if (!products || products.length === 0) {
+                 if (dom.searchInput.value === '' && state.activeCategory === 'All') {
+                      // Show skeletons only on initial load before data is ready
+                       if (state.allProducts.length === 0) {
+                            for (let i = 0; i < 4; i++) {
+                                const skeleton = document.createElement('div');
+                                skeleton.className = 'product-skeleton rounded-2xl animate-pulse overflow-hidden';
+                                skeleton.innerHTML = `<div class="aspect-square w-full" style="background-color: var(--bg-tertiary);"></div><div class="p-4" style="background-color: var(--bg-secondary);"><div class="h-5 rounded w-3/4 mx-auto mb-3" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-full mb-2" style="background-color: var(--bg-tertiary);"></div><div class="h-3 rounded w-5/6 mx-auto" style="background-color: var(--bg-tertiary);"></div><div class="h-9 rounded-lg mt-4 w-full" style="background-color: var(--accent-primary-glow); opacity: 0.5;"></div></div>`;
+                                dom.productGrid.appendChild(skeleton);
+                            }
+                       }
+                }
+                 return;
             }
-            products.forEach(p=>dom.productGrid.appendChild(createProductCard(p)));
+
+            products.forEach(product => {
+                if (product.Name && product.options.length > 0) {
+                    dom.productGrid.appendChild(createProductCard(product));
+                }
+            });
         };
 
-        const createProductCard = product => {
-            const card=document.createElement('div');
-            card.className='backdrop-blur-sm rounded-2xl flex flex-col card-hover-effect fade-in-card overflow-hidden relative';
-            card.style.background='var(--bg-secondary-translucent)';
-            card.style.border='1px solid var(--border-color)';
+        const createProductCard = (product) => {
+            const card = document.createElement('div');
+            card.className = 'backdrop-blur-sm rounded-2xl flex flex-col card-hover-effect fade-in-card overflow-hidden relative';
+            card.style.backgroundColor = 'var(--bg-secondary-translucent)';
+            card.style.border = '1px solid var(--border-color)';
 
-            const lang=state.currentLang;
-            const name = product[`Name_${lang}`]||product.Name;
-            const desc = product[`Description_${lang}`]||product.Description||'';
-            const outOfStock = product.Status?.toLowerCase()==='out of stock';
-            const slug=(product.id||name).replace(/[^a-zA-Z0-9]/g,'-').toLowerCase();
-
-            const prices=product.options.map(o=>parseFloat(String(o.price).replace(/[^0-9.]+/g,''))).filter(n=>!isNaN(n));
-            const min=Math.min(...prices),max=Math.max(...prices);
-            const currency=(product.options[0]?.price||'').replace(/[0-9.,\s]/g,'');
-            const priceDisplay=prices.length?(min===max?`${min} ${currency}`:`${min}-${max} ${currency}`):'N/A';
-
-            let statusBadge='';
-            if(product.Status){
-                const cls='status-'+product.Status.toLowerCase().replace(/ /g,'-');
-                statusBadge=`<div class="status-badge ${cls}">${translateDynamic('status',product.Status)}</div>`;
+            const lang = state.currentLang;
+            
+            if (!product.options || product.options.length === 0) {
+                return document.createDocumentFragment(); // Return empty if no options
             }
 
-            const action = outOfStock
+            const productName = product[`Name_${lang}`] || product.Name;
+            const productDescription = product[`Description_${lang}`] || product.Description || '';
+            const isOutOfStock = product.Status && product.Status.toLowerCase() === 'out of stock';
+            const productSlug = (product.id || productName).replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+            
+            let statusBadge = '';
+            if (product.Status) {
+                const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
+                const translatedStatus = translateDynamic('status', product.Status); // Use the translator
+                statusBadge = `<div class="status-badge ${statusClass}">${translatedStatus}</div>`;
+            }
+
+            // --- Price Range Logic ---
+            const prices = product.options
+                .map(opt => parseFloat(String(opt.price).replace(/[^0-9.]+/g, '')))
+                .filter(p => !isNaN(p));
+            
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+
+            // Extract currency symbol/text from the first price string
+            const currency = (product.options[0]?.price || '').replace(/[0-9.,\s]/g, '');
+
+            let priceDisplay;
+            if (prices.length > 0) {
+                if (minPrice === maxPrice) {
+                    priceDisplay = `${minPrice} ${currency}`;
+                } else {
+                    priceDisplay = `${minPrice} - ${maxPrice} ${currency}`;
+                }
+            } else {
+                 priceDisplay = 'N/A'; // Fallback if no valid prices
+            }
+            // --- End Price Range Logic ---
+
+            const actionButtonHTML = isOutOfStock
                 ? `<button disabled class="mt-auto bg-red-500 text-white font-bold py-3 px-4 rounded-lg w-full text-base cursor-not-allowed">${translations[lang].out_of_stock}</button>`
-                : `<a href="product-details.html?id=${slug}" class="details-btn text-center mt-auto font-bold py-3 px-4 rounded-lg transition-colors w-full text-base block">${translations[lang].view_details}</a>`;
-
+                : `<a href="product-details.html?id=${productSlug}" class="details-btn text-center mt-auto font-bold py-3 px-4 rounded-lg transition-colors w-full text-base block">${translations[lang].view_details}</a>`;
+            
+            // FIX: Improved image alt text and onerror placeholder
             card.innerHTML = `
-                <div class="relative">${statusBadge}
-                    <img src="${product.ImageURL}"
-                         alt="${name}"
-                         loading="lazy"
-                         class="w-full aspect-square object-cover"
-                         onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=${encodeURIComponent(name)}';">
+                <div class="relative">
+                    ${statusBadge}
+                    <img src="${product.ImageURL}" alt="Image for ${productName}" loading="lazy" class="w-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=${encodeURIComponent(productName)}';">
                 </div>
                 <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-base md:text-lg font-bold" style="color:var(--text-primary);">${name}</h3>
-                    <p class="text-sm my-2 flex-grow" style="color:var(--text-secondary);">${desc}</p>
-                    <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${priceDisplay}</p>${action}
-                </div>`;
+                    <h3 class="text-base md:text-lg font-bold" style="color: var(--text-primary);">${productName}</h3>
+                    <p class="text-sm my-2 flex-grow" style="color: var(--text-secondary);">${productDescription}</p>
+                    
+                    <p class="text-lg md:text-xl font-extrabold text-cyan-400 my-4">${priceDisplay}</p>
+                    
+                    ${actionButtonHTML}
+                </div>
+            `;
+            
             return card;
         };
 
-        /* ---------- SPECIAL OFFER ---------- */
-        const createSpecialOfferCard = product => {
-            const lang = state.currentLang, name = product[`Name_${lang}`]||product.Name;
-            const slug = (product.id||name).replace(/[^a-zA-Z0-9]/g,'-').toLowerCase();
-            const priceDisplay = product.options[0] ? `${product.options[0].price}` : '';
-            const buttonText = translations[lang].offer_cta;
+        const createSpecialOfferCard = (product) => {
+            const lang = state.currentLang;
+            const productName = product[`Name_${lang}`] || product.Name;
+            const productSlug = (product.id || productName).replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
 
-            const c=document.createElement('div');c.className='offer-card flex flex-col';
-            c.innerHTML=`
+            const card = document.createElement('div');
+            card.className = 'offer-card flex flex-col';
+
+            const priceDisplay = product.options[0] ? `${product.options[0].price}` : '';
+            const ctaText = translations[lang].offer_cta;
+
+            // FIX: Improved image alt text and onerror placeholder
+            card.innerHTML = `
                 <div class="relative">
-                    <img src="${product.ImageURL}"
-                         alt="${name}"
-                         loading="lazy"
-                         class="w-full aspect-square object-cover"
-                         onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=${encodeURIComponent(name)}';">
+                    <img src="${product.ImageURL}" alt="Image for ${productName}" loading="lazy" class="w-full aspect-square object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0a0a0a/e5e7eb?text=${encodeURIComponent(productName)}';">
                 </div>
                 <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-base md:text-lg font-bold" style="color:var(--text-primary);">${name}</h3>
+                    <h3 class="text-base md:text-lg font-bold" style="color: var(--text-primary);">${productName}</h3>
                     <p class="text-lg font-extrabold text-cyan-400 my-2">${priceDisplay}</p>
-                    <a href="product-details.html?id=${slug}"
-                       class="offer-cta-btn mt-auto inline-block text-white font-bold py-2 px-6 rounded-full text-base">${buttonText}</a>
+                    <a href="product-details.html?id=${productSlug}" class="offer-cta-btn mt-auto inline-block text-white font-bold py-2 px-6 rounded-full text-base">
+                        ${ctaText}
+                    </a>
                 </div>`;
-            return c;
+            return card;
         };
-
+        
         const setupSpecialOffers = (products) => {
-            dom.offerVisualContainer.innerHTML='';
-            if(products.length===1){
-                dom.offerVisualContainer.classList.add('flex','justify-center','items-center');
-                const p=products[0], lang=state.currentLang;
-                dom.offerTitle.textContent   = p[`Name_${lang}`]||p.Name;
-                dom.offerDescription.textContent = p[`Description_${lang}`]||p.Description;
-                const slug=(p.id||p.Name).replace(/[^a-zA-Z0-9]/g,'-').toLowerCase();
-                dom.offerCtaBtn.href=`product-details.html?id=${slug}`;
+            dom.offerVisualContainer.innerHTML = ''; // Clear existing content
+
+            if (products.length === 1) {
+                // SINGLE OFFER: Display a static card, and ensure it's centered.
+                dom.offerVisualContainer.classList.add('flex', 'justify-center', 'items-center');
+                const product = products[0];
+                const lang = state.currentLang;
+                
+                dom.offerTitle.textContent = product[`Name_${lang}`] || product.Name;
+                dom.offerDescription.textContent = product[`Description_${lang}`] || product.Description;
+
+                const productSlug = (product.id || product.Name).replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                dom.offerCtaBtn.href = `product-details.html?id=${productSlug}`;
                 dom.offerCtaBtn.classList.remove('hidden');
 
-                let badge=''; if(p.Status){
-                    badge=`<div class="status-badge status-${p.Status.toLowerCase().replace(/ /g,'-')}">
-                            ${translateDynamic('status',p.Status)}</div>`;
+                let statusBadgeHTML = '';
+                if (product.Status) {
+                    const statusClass = 'status-' + product.Status.toLowerCase().replace(/ /g, '-');
+                    const translatedStatus = translateDynamic('status', product.Status);
+                    statusBadgeHTML = `<div class="status-badge ${statusClass}">${translatedStatus}</div>`;
                 }
-                dom.offerVisualContainer.innerHTML=`${badge}
-                    <img src="${p.ImageURL}"
-                         alt="${p.Name}"
-                         class="rounded-2xl shadow-2xl max-w-sm w-full card-hover-effect"
-                         onerror="this.onerror=null;this.src='https://placehold.co/500x500/0ea5e9/ffffff?text=${encodeURIComponent(p.Name)}';">`;
+                dom.offerVisualContainer.innerHTML = `
+                    ${statusBadgeHTML}
+                    <img src="${product.ImageURL}" alt="Special Offer: ${product.Name}" class="rounded-2xl shadow-2xl max-w-sm w-full card-hover-effect" onerror="this.onerror=null;this.src='https://placehold.co/500x500/0ea5e9/ffffff?text=${encodeURIComponent(product.Name)}';">`;
 
-            } else if(products.length>1){
-                dom.offerVisualContainer.classList.remove('flex','justify-center','items-center');
-                dom.offerTitle.innerHTML = translations[state.currentLang].offer_title;
-                dom.offerDescription.innerHTML = translations[state.currentLang].offer_description;
+            } else if (products.length > 1) {
+                // MULTIPLE OFFERS: Display scroller, remove centering classes to prevent layout issues.
+                dom.offerVisualContainer.classList.remove('flex', 'justify-center', 'items-center');
+                
+                dom.offerTitle.textContent = translations[state.currentLang].offer_title;
+                dom.offerDescription.textContent = translations[state.currentLang].offer_description;
                 dom.offerCtaBtn.classList.add('hidden');
 
-                const scroller=document.createElement('div');scroller.className='offer-scroller';
-                const track=document.createElement('div');track.className='offer-track';
-                [...products,...products].forEach(p=>track.appendChild(createSpecialOfferCard(p)));
-                scroller.appendChild(track);dom.offerVisualContainer.appendChild(scroller);
-                track.style.animationDuration=`${products.length*10}s`;
-                setTimeout(()=>track.classList.add('is-scrolling'),100);
+                const scroller = document.createElement('div');
+                scroller.className = 'offer-scroller';
+
+                const track = document.createElement('div');
+                track.className = 'offer-track';
+
+                // Duplicate products for a seamless loop
+                const duplicatedProducts = [...products, ...products];
+                duplicatedProducts.forEach(p => track.appendChild(createSpecialOfferCard(p)));
+
+                scroller.appendChild(track);
+                dom.offerVisualContainer.appendChild(scroller);
+                
+                const animationDuration = products.length * 10;
+                track.style.animationDuration = `${animationDuration}s`;
+
+                setTimeout(() => track.classList.add('is-scrolling'), 100);
             }
         };
 
-        /* ---------- COUNTDOWN ---------- */
-        const startCountdown = () => {
-            if(state.countdownInterval) clearInterval(state.countdownInterval);
-            let endDate;
-            if(state.offerEndDate && !isNaN(new Date(state.offerEndDate))) {
-                endDate=new Date(state.offerEndDate);
-            } else {
-                const now=new Date();
-                endDate=new Date(now.getFullYear(), now.getMonth()+2, 0, 23,59,59);
+        /**
+         * FIX: Replaced .map().filter() with a more efficient .reduce()
+         * Processes raw JSON data into a structured product array.
+         */
+        const processJsonData = (rawData) => {
+            if (!Array.isArray(rawData)) {
+                console.error("Product data is not an array:", rawData);
+                return [];
             }
-
-            const tick = () => {
-                const now = Date.now(), diff = endDate-now;
-                if(diff<0){
-                    clearInterval(state.countdownInterval);
-                    dom.countdownTimer.innerHTML=`<div class="text-2xl font-bold text-red-500">${translations[state.currentLang].offer_expired}</div>`;
-                    return;
+            return rawData.reduce((acc, p) => {
+                // Ensure the product has the minimum required fields
+                if (p && p.Name && Array.isArray(p.options) && p.options.length > 0) {
+                    const isSpecial = p.special_offer === true;
+                    acc.push({ ...p, isSpecialOffer: isSpecial });
                 }
-                const d=Math.floor(diff/864e5);
-                const h=Math.floor((diff%864e5)/36e5);
-                const m=Math.floor((diff%36e5)/6e4);
-                const s=Math.floor((diff%6e4)/1e3);
-                const t=translations[state.currentLang];
-                dom.countdownTimer.innerHTML=`
-                <div class="countdown-item"><span class="countdown-number text-2xl md:text-3xl font-bold">${String(d).padStart(2,'0')}</span><div class="countdown-label">${t.countdown_days}</div></div>
-                <div class="countdown-item"><span class="countdown-number text-2xl md:text-3xl font-bold">${String(h).padStart(2,'0')}</span><div class="countdown-label">${t.countdown_hours}</div></div>
-                <div class="countdown-item"><span class="countdown-number text-2xl md:text-3xl font-bold">${String(m).padStart(2,'0')}</span><div class="countdown-label">${t.countdown_minutes}</div></div>
-                <div class="countdown-item"><span class="countdown-number text-2xl md:text-3xl font-bold">${String(s).padStart(2,'0')}</span><div class="countdown-label">${t.countdown_seconds}</div></div>`;
-            };
-            tick(); state.countdownInterval=setInterval(tick,1e3);
+                return acc;
+            }, []);
         };
 
-        /* ---------- DATA ---------- */
-        const processJsonData = raw => Array.isArray(raw)?raw:raw.products||[];
         const fetchData = async () => {
-            renderProducts([]); // show skeleton
+            renderProducts([]); // Show skeletons while fetching
+            console.log("Fetching products from JSON file...");
+
             try {
-                const res=await fetch(DATA_FILE_PATH);
-                if(!res.ok) throw new Error(`HTTP error ${res.status}`);
-                const json=await res.json();
-                let settings={};
-                state.allProducts=processJsonData(json).map(p=>({...p,isSpecialOffer:p.special_offer===true}));
-                if(!Array.isArray(json)) settings=json.settings||{};
-                state.offerEndDate=settings.offerEndDate||null;
+                const response = await fetch(DATA_FILE_PATH);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const rawJsonData = await response.json();
+                
+                // FIX: Handle both array and object-based JSON for backward compatibility
+                let products, settings;
+                if (Array.isArray(rawJsonData)) {
+                    console.warn("JSON data is an array. Consider wrapping it in an object with 'products' and 'settings' keys for new features like `offerEndDate`.");
+                    products = rawJsonData;
+                    settings = {};
+                } else {
+                    products = rawJsonData.products || [];
+                    settings = rawJsonData.settings || {};
+                }
+
+                state.allProducts = processJsonData(products);
+                state.offerEndDate = settings.offerEndDate || null; // Store offer end date
+
+                if (state.allProducts.length === 0) console.warn("JSON file might be empty, formatted incorrectly, or no valid products were found.");
 
                 dom.errorMessage.classList.add('hidden');
                 initAppWithData();
-            } catch (err) {
-                console.error(err);
-                const t=translations[state.currentLang];
-                dom.errorMessage.innerHTML=`<strong>${t.error_title}</strong>${t.error_instructions}`;
+
+            } catch (error) {
+                console.error("Could not load from JSON file:", error);
+                const lang = state.currentLang;
+                dom.errorMessage.innerHTML = `<strong>${translations[lang].error_title}</strong>${translations[lang].error_instructions}`;
                 dom.errorMessage.classList.remove('hidden');
-                state.allProducts=[]; initAppWithData();
+                
+                // Clear products and update display to show no results
+                state.allProducts = [];
+                initAppWithData();
             }
         };
 
-        /* ---------- EVENTS ---------- */
+        const startCountdown = () => {
+            if (state.countdownInterval) clearInterval(state.countdownInterval);
+
+            // FIX: Use configurable end date from JSON with a fallback
+            const endDateString = state.offerEndDate;
+            let endDate;
+
+            if (endDateString && !isNaN(new Date(endDateString))) {
+                endDate = new Date(endDateString);
+            } else {
+                // Fallback to original logic if not provided or invalid
+                const now = new Date();
+                endDate = new Date(now.getFullYear(), now.getMonth() + 2, 0, 23, 59, 59); // End of next month
+                if(state.allProducts.length > 0){ // Only warn if data was supposed to be loaded
+                    if (!endDateString) {
+                        console.warn(`"offerEndDate" not found in data.json settings. Using fallback date.`);
+                    } else {
+                        console.warn(`Invalid "offerEndDate" in data.json: "${endDateString}". Using fallback date.`);
+                    }
+                }
+            }
+
+
+            const updateTimer = () => {
+                const now_ms = new Date().getTime();
+                const distance = endDate - now_ms;
+
+                if (distance < 0) {
+                    clearInterval(state.countdownInterval);
+                    dom.countdownTimer.innerHTML = `<div class="text-2xl font-bold text-red-500">${translations[state.currentLang].offer_expired}</div>`;
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                const lang = state.currentLang;
+                const labels = {
+                    days: translations[lang].countdown_days,
+                    hours: translations[lang].countdown_hours,
+                    minutes: translations[lang].countdown_minutes,
+                    seconds: translations[lang].countdown_seconds
+                };
+                
+                dom.countdownTimer.innerHTML = `
+                    <div class="countdown-item">
+                        <span class="countdown-number text-2xl md:text-3xl font-bold">${String(days).padStart(2, '0')}</span>
+                        <div class="countdown-label">${labels.days}</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number text-2xl md:text-3xl font-bold">${String(hours).padStart(2, '0')}</span>
+                        <div class="countdown-label">${labels.hours}</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number text-2xl md:text-3xl font-bold">${String(minutes).padStart(2, '0')}</span>
+                        <div class="countdown-label">${labels.minutes}</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number text-2xl md:text-3xl font-bold">${String(seconds).padStart(2, '0')}</span>
+                        <div class="countdown-label">${labels.seconds}</div>
+                    </div>
+                `;
+            };
+
+            updateTimer(); // Initial call
+            state.countdownInterval = setInterval(updateTimer, 1000);
+        };
+
         const bindEvents = () => {
-            window.addEventListener('scroll', debounce(handleScroll,15));
+            window.addEventListener('scroll', debounce(handleScroll, 15));
             dom.themeToggleBtn.addEventListener('click', toggleTheme);
-            dom.langSelectorContainer.addEventListener('click', e=>{
-                const btn=e.target.closest('button'); if(btn?.dataset.lang) setLanguage(btn.dataset.lang);
+            dom.langSelectorContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (btn?.dataset.lang) setLanguage(btn.dataset.lang);
             });
 
             dom.modalCancelBtn.addEventListener('click', hideModal);
-            dom.orderModal.addEventListener('click',e=>{if(e.target===dom.orderModal) hideModal();});
-            dom.modalProceedBtn.addEventListener('click',()=>setTimeout(hideModal,200));
-            window.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.isModalOpen)hideModal();});
+            dom.orderModal.addEventListener('click', (e) => { if (e.target === dom.orderModal) hideModal(); });
+            dom.modalProceedBtn.addEventListener('click', () => setTimeout(hideModal, 200));
+            
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && state.isModalOpen) hideModal();
+            });
 
-            dom.searchInput.addEventListener('input', debounce(()=>{
-                dom.clearSearchBtn.classList.toggle('hidden',!dom.searchInput.value);
+            dom.searchInput.addEventListener('input', debounce(() => {
+                dom.clearSearchBtn.classList.toggle('hidden', !dom.searchInput.value);
                 updateDisplay();
-            },300));
-            dom.clearSearchBtn.addEventListener('click',()=>{
-                dom.searchInput.value='';dom.clearSearchBtn.classList.add('hidden');updateDisplay(true);
+            }, 300));
+            dom.clearSearchBtn.addEventListener('click', () => {
+                dom.searchInput.value = '';
+                dom.clearSearchBtn.classList.add('hidden');
+                updateDisplay(true);
             });
 
-            dom.sortOptions.addEventListener('change',e=>{
-                state.sortOption=e.target.value;storage.set('neurosub-sort',e.target.value);updateDisplay(true);
+            dom.sortOptions.addEventListener('change', (e) => {
+                state.sortOption = e.target.value;
+                storage.set('neurosub-sort', e.target.value);
+                updateDisplay(true);
             });
 
-            dom.backToTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-            document.querySelector('.smooth-scroll').addEventListener('click',e=>{
-                e.preventDefault();dom.productsSection.scrollIntoView({behavior:'smooth'});
+            dom.backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            dom.categoryFilters.addEventListener('click',e=>{
-                const btn=e.target.closest('button');if(!btn)return;
-                state.activeCategory=btn.dataset.categoryKey;
-                storage.set('neurosub-category',state.activeCategory);
-                dom.categoryFilters.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-                btn.classList.add('active');updateDisplay(true);
+            document.querySelector('.smooth-scroll').addEventListener('click', function(e) {
+                e.preventDefault();
+                dom.productsSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // FIX: Moved category filter event listener here to avoid re-binding. This uses event delegation.
+            dom.categoryFilters.addEventListener('click', (e) => {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                const englishCategoryKey = button.dataset.categoryKey;
+                state.activeCategory = englishCategoryKey; // Update state with the English key
+                storage.set('neurosub-category', englishCategoryKey);
+                
+                // Update UI
+                dom.categoryFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                updateDisplay(true);
             });
         };
 
-        /* ---------- PREFERENCES ---------- */
         const loadPreferences = () => {
-            state.currentLang = storage.get('neurosub-lang','ar');
-            state.activeCategory = storage.get('neurosub-category','All');
-            state.sortOption = storage.get('neurosub-sort','default');
+            // UPDATED: Set 'ar' as the fallback language
+            state.currentLang = storage.get('neurosub-lang', 'ar'); 
+            // Load the English key for the category
+            state.activeCategory = storage.get('neurosub-category', 'All');
+            state.sortOption = storage.get('neurosub-sort', 'default');
             dom.sortOptions.value = state.sortOption;
         };
 
-        /* ---------- INITIALIZE WITH DATA ---------- */
-        const initAppWithData = (languageChanged=false) => {
-            if(!languageChanged) setLanguage(state.currentLang,true);
-            const specials = state.allProducts.filter(p=>p.isSpecialOffer);
-            if(specials.length){
+        const initAppWithData = (languageChanged = false) => {
+            // This function is the single source of truth for re-rendering content
+            // after data is loaded or a setting (like language) changes.
+            if (!languageChanged) {
+                setLanguage(state.currentLang, true);
+            }
+            
+            // Setup Special Offer based on processed data
+            const specialOfferProducts = state.allProducts.filter(p => p.isSpecialOffer);
+
+            if (specialOfferProducts.length > 0) {
                 dom.specialOfferSection.classList.remove('hidden');
-                setupSpecialOffers(specials); startCountdown();
+                setupSpecialOffers(specialOfferProducts);
+                startCountdown();
             } else {
                 dom.specialOfferSection.classList.add('hidden');
             }
-            setupCategoryFilters(); updateDisplay();
+
+            setupCategoryFilters();
+            updateDisplay();
+        };
+        
+        // --- INITIALIZATION ---
+        const init = () => {
+            loadPreferences();
+            initTheme(); // Set theme early, based on saved preference or system setting
+            bindEvents();
+            handleScroll(); // Initial check
+            fetchData(); // Fetch from JSON
         };
 
-        /* ---------- INIT ---------- */
-        const init = () => {
-            loadPreferences(); initTheme(); bindEvents(); handleScroll(); fetchData();
-        };
-        return {init};
+        return { init };
+
     })();
 
     neurosubApp.init();
 });
 </script>
+
 </body>
 </html>
