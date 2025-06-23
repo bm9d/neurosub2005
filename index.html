@@ -380,16 +380,27 @@
         }
 
         .offer-track.is-scrolling {
-            /* Animation duration is now calculated in JS based on content */
+            /* Animation duration is calculated in JS. Default animation is for LTR. */
             animation-name: scroll-left;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
         
-        /* The keyframe remains the same, the magic is in the JS duplication */
+        /* Apply the right-scrolling animation for RTL layouts */
+        html[dir="rtl"] .offer-track.is-scrolling {
+            animation-name: scroll-right;
+        }
+        
+        /* Animation for left-to-right languages (scrolls left) */
         @keyframes scroll-left {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
+        }
+
+        /* Animation for right-to-left languages (scrolls right) */
+        @keyframes scroll-right {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
         }
 
         .offer-card {
