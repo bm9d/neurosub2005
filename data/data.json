@@ -1,20 +1,3 @@
 {
-  "products": [
-    {
-      "Status": "In Stock",
-      "options": [
-        {
-          "info": "Tttt",
-          "name": "Ee",
-          "price": "9000 IQD"
-        }
-      ],
-      "TelegramLink": "https://i.imgur.com/zzfgAD9.png",
-      "Description": "https://i.imgur.com/zzfgAD9.png",
-      "id": "aaaa",
-      "Name": "Aaaa",
-      "ImageURL": "https://i.imgur.com/zzfgAD9.png",
-      "Category": ""
-    }
-  ]
+  "products": []
 }
