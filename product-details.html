@@ -117,7 +117,7 @@
 
         /* Product Details Specific Styles */
         .neon-highlight {
-             box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
+              box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
         }
 
         .product-option input[type="radio"]:checked + .option-label {
@@ -126,7 +126,7 @@
             box-shadow: 0 0 10px var(--accent-primary-glow);
         }
         html:not(.dark) .product-option input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-primary);
+              background-color: var(--accent-primary);
         }
         .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
             border-color: var(--accent-secondary-color);
@@ -134,7 +134,7 @@
             box-shadow: 0 0 10px var(--accent-secondary-glow);
         }
         html:not(.dark) .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-secondary-color);
+              background-color: var(--accent-secondary-color);
         }
         
         .product-options-container { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
@@ -342,8 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // --- TRANSLATIONS ---
         const translations = {
-            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", details: "Details", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", back_button_text: "Back" },
-            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة للمنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", back_button_text: "رجوع" }
+            en: { contact_us: "Contact Us", order_now: "Order on Telegram", modal_title: "Redirecting to Telegram", modal_text: "You will be redirected to our Telegram account to complete your order. Press 'Proceed' to continue.", modal_cancel: "Cancel", modal_proceed: "Proceed", product_not_found_title: "Product Not Found", product_not_found_text: "Sorry, we couldn't find the product you're looking for.", back_to_products: "Back to Products", out_of_stock: "Out of Stock", details: "Details", footer_copyright: "&copy; 2024 neurosub. All Rights Reserved.", follow_us: "Follow Us", back_button_text: "Back", error_title: "An Error Occurred", error_text: "Sorry, we couldn't load the data. The following error was reported:" },
+            ar: { contact_us: "تواصل معنا", order_now: "اطلب عبر تيليجرام", modal_title: "التوجيه إلى تيليجرام", modal_text: "سيتم توجيهك إلى حسابنا على تيليجرام لإكمال طلبك. اضغط على 'متابعة' للاستمرار.", modal_cancel: "إلغاء", modal_proceed: "متابعة", product_not_found_title: "المنتج غير موجود", product_not_found_text: "عذراً، لم نتمكن من العثور على المنتج الذي تبحث عنه.", back_to_products: "العودة للمنتجات", out_of_stock: "نفدت الكمية", details: "التفاصيل", footer_copyright: "&copy; 2024 نيوروسب. كل الحقوق محفوظة.", follow_us: "تابعنا", back_button_text: "رجوع", error_title: "حدث خطأ", error_text: "عذراً، لم نتمكن من تحميل البيانات. تم الإبلاغ عن الخطأ التالي:" }
         };
 
         // --- UTILITY & THEME ---
@@ -422,6 +422,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- CORE APPLICATION LOGIC ---
         const renderProductDetails = () => {
             if (!state.currentProduct) return;
+            
+            // Ensure the correct containers are displayed
+            dom.notFoundContainer.classList.add('hidden');
+            dom.detailsContainer.style.display = ''; // Use style.display to override 'none'
+            dom.detailsContainer.classList.remove('opacity-0');
+
             const product = state.currentProduct;
 
             dom.skeletonLoader.style.display = 'none';
@@ -512,8 +518,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        const displayNotFound = () => {
+        const displayNotFound = (error = null) => {
             dom.skeletonLoader.style.display = 'none';
+            dom.detailsContainer.style.display = 'none'; // Hide the main product view
+
+            const lang = state.currentLang;
+            const titleEl = dom.notFoundContainer.querySelector('h1');
+            const textEl = dom.notFoundContainer.querySelector('p');
+
+            if (error) {
+                titleEl.innerHTML = translations[lang].error_title;
+                textEl.innerHTML = `${translations[lang].error_text}
+                    <pre class="mt-4 p-4 text-left text-sm bg-gray-100 dark:bg-gray-800 rounded-lg overflow-x-auto whitespace-pre-wrap break-all">${error.toString()}</pre>`;
+                titleEl.classList.add('text-red-500');
+            } else {
+                titleEl.innerHTML = translations[lang].product_not_found_title;
+                textEl.innerHTML = translations[lang].product_not_found_text;
+                titleEl.classList.remove('text-red-500');
+            }
+
             dom.notFoundContainer.classList.remove('hidden');
         };
         
@@ -525,11 +548,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const fetchAndFindProduct = async () => {
             const params = new URLSearchParams(window.location.search);
             const productId = params.get('id');
-            if (!productId) { displayNotFound(); return; }
+            if (!productId) {
+                displayNotFound(new Error("No product ID was found in the URL. Make sure the URL is correct (e.g., ?id=product-name)."));
+                return;
+            }
             
             try {
                 const response = await fetch(DATA_FILE_PATH);
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data file: ${response.status} ${response.statusText}. Please check if 'data/data.json' exists and is accessible.`);
+                }
                 const rawJsonData = await response.json();
                 const products = processJsonData(rawJsonData);
                 state.currentProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
@@ -541,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error("Error fetching product data:", error);
-                displayNotFound();
+                displayNotFound(error);
             }
         };
 
