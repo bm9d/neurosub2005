@@ -1,25 +1,105 @@
 {
   "products": [
     {
-      "id": "chat-gpt",
+      "id": "netflix-premium-1m",
+      "Name": "Netflix Premium",
+      "Name_ar": "نتفلكس بريميوم",
+      "Description": "Ultra HD streaming on 4 screens. The ultimate entertainment experience.",
+      "Description_ar": "بث فائق الدقة على 4 شاشات. تجربة الترفيه المطلقة.",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Netflix&bgColor=%23e50914&textColor=%23ffffff",
+      "Category": "Streaming",
+      "Status": "Bestseller",
       "options": [
         {
-          "name": "خاص",
-          "price": "17,000 IQD",
-          "info": "One-time payment for lifetime pro access.",
+          "name": "1 Month Subscription",
+          "name_ar": "اشتراك لمدة شهر",
+          "info": "Full access for 30 days.",
+          "price": "15 USD"
         },
         {
-          "name": "مشترك",
-          "price": "4,000 IQD",
-          "info": "One-time payment for lifetime pro access.",
+          "name": "3 Month Subscription",
+          "name_ar": "اشتراك لمدة 3 أشهر",
+          "info": "Save 10% with a quarterly plan.",
+          "info_ar": "وفر 10% مع الخطة الربع سنوية.",
+          "price": "40 USD"
         }
-      ],
-      "Category": "",
+      ]
+    },
+    {
+      "id": "adobe-creative-cloud-all-apps",
+      "Name": "Adobe Creative Cloud",
+      "Name_ar": "أدوبي كرييتف كلاود",
+      "Description": "Access to all Adobe creative apps including Photoshop, Illustrator, and Premiere Pro.",
+      "Description_ar": "الوصول إلى جميع تطبيقات Adobe الإبداعية بما في ذلك Photoshop و Illustrator و Premiere Pro.",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Adobe&bgColor=%23ff0000&textColor=%23ffffff",
+      "Category": "Design",
       "Status": "In Stock",
-      "ImageURL": "https://i.imgur.com/zzfgAD9.png",
-      "TelegramLink": "https://t.me/neurosub1",
-      "Name": "Chat GPT",
-      "Description": ""
+      "options": [
+        {
+          "name": "1 Year All Apps",
+          "name_ar": "سنة كاملة لكل التطبيقات",
+          "info": "For desktop and mobile.",
+          "info_ar": "لأجهزة الكمبيوتر والجوال.",
+          "price": "599 USD"
+        }
+      ]
+    },
+    {
+      "id": "spotify-premium-1y",
+      "Name": "Spotify Premium",
+      "Name_ar": "سبوتيفاي بريميوم",
+      "Description": "Ad-free music, offline listening. Your personal soundtrack.",
+      "Description_ar": "موسيقى بدون إعلانات، استماع بدون انترنت. الموسيقى التصويرية الشخصية الخاصة بك.",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Spotify&bgColor=%231db954&textColor=%23ffffff",
+      "Category": "Streaming",
+      "Status": "Limited",
+      "options": [
+        {
+          "name": "1 Year Family Plan",
+          "name_ar": "خطة عائلية لمدة عام",
+          "info": "Up to 6 accounts.",
+          "info_ar": "حتى 6 حسابات.",
+          "price": "180 USD"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-office-365",
+      "Name": "Microsoft 365",
+      "Name_ar": "مايكروسوفت 365",
+      "Description": "Full suite of Microsoft Office applications and cloud services.",
+      "Description_ar": "مجموعة كاملة من تطبيقات Microsoft Office والخدمات السحابية.",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Office%20365&bgColor=%23d83b01&textColor=%23ffffff",
+      "Category": "Productivity",
+      "Status": "Out of Stock",
+      "options": [
+        {
+          "name": "1 Year Personal",
+          "name_ar": "اشتراك شخصي لمدة عام",
+          "info": "For one person.",
+          "info_ar": "لشخص واحد.",
+          "price": "70 USD"
+        }
+      ]
+    },
+    {
+      "id": "canva-pro-special",
+      "Name": "Canva Pro",
+      "Name_ar": "كانفا برو",
+      "Description": "Unlock premium tools and content to create professional designs with ease.",
+      "Description_ar": "افتح الأدوات والمحتوى المتميز لإنشاء تصميمات احترافية بسهولة.",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Canva%20Pro&bgColor=%238d49f3&textColor=%23ffffff",
+      "Category": "Special Offers",
+      "Status": "Special Offer",
+      "options": [
+        {
+          "name": "Lifetime Access",
+          "name_ar": "وصول مدى الحياة",
+          "info": "One-time payment for lifetime pro access.",
+          "info_ar": "دفعة لمرة واحدة للوصول الاحترافي مدى الحياة.",
+          "price": "120 USD"
+        }
+      ]
     }
   ]
 }
