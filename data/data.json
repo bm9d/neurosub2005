@@ -1,84 +1,90 @@
 {
   "products": [
     {
-      "id": "netflix-premium-1m",
-      "Name": "Netflix Premium",
-      "Description": "Ultra HD streaming on 4 screens. The ultimate entertainment experience.",
-      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Netflix&bgColor=%23e50914&textColor=%23ffffff",
-      "Category": "Streaming",
-      "Status": "Bestseller",
       "options": [
         {
-          "name": "1 Month Subscription",
+          "price": "15 USD",
           "info": "Full access for 30 days.",
-          "price": "15 USD"
+          "name": "1 Month Subscription"
         },
         {
           "name": "3 Month Subscription",
           "info": "Save 10% with a quarterly plan.",
           "price": "40 USD"
         }
-      ]
+      ],
+      "Description": "Ultra HD streaming on 4 screens. The ultimate entertainment experience.",
+      "Category": "Streaming",
+      "id": "netflix-premium-1m",
+      "Status": "Bestseller",
+      "Name": "Netflix Premium",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Netflix&bgColor=%23e50914&textColor=%23ffffff"
     },
     {
+      "Status": "In Stock",
+      "Category": "Design",
       "id": "adobe-creative-cloud-all-apps",
       "Name": "Adobe Creative Cloud",
       "Description": "Access to all Adobe creative apps including Photoshop, Illustrator, and Premiere Pro.",
-      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Adobe&bgColor=%23ff0000&textColor=%23ffffff",
-      "Category": "Design",
-      "Status": "In Stock",
       "options": [
         {
           "name": "1 Year All Apps",
-          "info": "For desktop and mobile.",
-          "price": "599 USD"
+          "price": "599 USD",
+          "info": "For desktop and mobile."
         }
-      ]
+      ],
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Adobe&bgColor=%23ff0000&textColor=%23ffffff"
     },
     {
-      "id": "spotify-premium-1y",
-      "Name": "Spotify Premium",
       "Description": "Ad-free music, offline listening. Your personal soundtrack.",
-      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Spotify&bgColor=%231db954&textColor=%23ffffff",
-      "Category": "Streaming",
-      "Status": "Limited",
       "options": [
         {
-          "name": "1 Year Family Plan",
+          "price": "180 USD",
           "info": "Up to 6 accounts.",
-          "price": "180 USD"
+          "name": "1 Year Family Plan"
         }
-      ]
+      ],
+      "Status": "Limited",
+      "Category": "Streaming",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Spotify&bgColor=%231db954&textColor=%23ffffff",
+      "id": "spotify-premium-1y",
+      "Name": "Spotify Premium"
     },
     {
-      "id": "microsoft-office-365",
-      "Name": "Microsoft 365",
-      "Description": "Full suite of Microsoft Office applications and cloud services.",
-      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Office%20365&bgColor=%23d83b01&textColor=%23ffffff",
-      "Category": "Productivity",
-      "Status": "Out of Stock",
       "options": [
         {
-          "name": "1 Year Personal",
+          "price": "70 USD",
           "info": "For one person.",
-          "price": "70 USD"
+          "name": "1 Year Personal"
         }
-      ]
+      ],
+      "Status": "Out of Stock",
+      "Description": "Full suite of Microsoft Office applications and cloud services.",
+      "Category": "Productivity",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Office%20365&bgColor=%23d83b01&textColor=%23ffffff",
+      "id": "microsoft-office-365",
+      "Name": "Microsoft 365"
     },
     {
-      "id": "canva-pro-special",
       "Name": "Canva Pro",
-      "Description": "Unlock premium tools and content to create professional designs with ease.",
-      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Canva%20Pro&bgColor=%238d49f3&textColor=%23ffffff",
-      "Category": "Special Offers",
-      "Status": "Special Offer",
+      "TelegramLink": "",
       "options": [
         {
-          "name": "Lifetime Access",
           "info": "One-time payment for lifetime pro access.",
+          "name": "Lifetime Access",
           "price": "120 USD"
+        },
+        {
+          "name": "Fttr",
+          "info": "Gggg",
+          "price": "5,000 IQD"
         }
-      ]
+      ],
+      "Category": "Special Offers",
+      "ImageURL": "https://images.placeholders.dev/?width=400&height=400&text=Canva%20Pro&bgColor=%238d49f3&textColor=%23ffffff",
+      "Status": "Special Offer",
+      "id": "canva-pro-special",
+      "Description": "Unlock premium tools and content to create professional designs with ease."
     }
   ]
 }
