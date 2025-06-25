@@ -117,7 +117,7 @@
 
         /* Product Details Specific Styles */
         .neon-highlight {
-             box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
+              box-shadow: 0 0 5px var(--accent-primary-glow), 0 0 10px var(--accent-primary-glow), 0 0 15px var(--accent-primary-glow);
         }
 
         .product-option input[type="radio"]:checked + .option-label {
@@ -126,7 +126,7 @@
             box-shadow: 0 0 10px var(--accent-primary-glow);
         }
         html:not(.dark) .product-option input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-primary);
+              background-color: var(--accent-primary);
         }
         .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
             border-color: var(--accent-secondary-color);
@@ -134,7 +134,7 @@
             box-shadow: 0 0 10px var(--accent-secondary-glow);
         }
         html:not(.dark) .product-option:nth-child(2) input[type="radio"]:checked + .option-label {
-             background-color: var(--accent-secondary-color);
+              background-color: var(--accent-secondary-color);
         }
         
         .product-options-container { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
@@ -240,7 +240,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
                  <a href="index.html" class="logo-container flex items-center text-xl md:text-2xl font-bold">
-                     <span class="motion-light-text">neurosub</span>
+                       <span class="motion-light-text">neurosub</span>
                  </a>
             </div>
             <div class="flex items-center gap-4">
@@ -323,7 +323,48 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productDetailsApp = (() => {
         // --- CONFIG & STATE ---
-        const DATA_FILE_PATH = 'data/data.json';
+        // I've moved the data from an external file into this script.
+        // This avoids the error caused by trying to fetch a local file.
+        const productData = [
+            {
+                "Name": "Neuro Vision Pro",
+                "Name_ar": "نيورو فيجن برو",
+                "ImageURL": "https://placehold.co/600x600/0ea5e9/ffffff?text=Neuro+Vision",
+                "Status": "In Stock",
+                "TelegramLink": "https://t.me/neurosub1",
+                "options": [
+                    {
+                        "name": "Standard Subscription",
+                        "name_ar": "الاشتراك العادي",
+                        "price": "$9.99/mo",
+                        "info": "### Standard Access\n\n- Access to all core features.\n- Community support.\n- Monthly updates.",
+                        "info_ar": "### الوصول القياسي\n\n- الوصول إلى جميع الميزات الأساسية.\n- دعم المجتمع.\n- تحديثات شهرية."
+                    },
+                    {
+                        "name": "Premium Subscription",
+                        "name_ar": "الاشتراك المميز",
+                        "price": "$19.99/mo",
+                        "info": "### Premium Access\n\n- All features from Standard.\n- **Priority** support.\n- **Exclusive** beta features.",
+                        "info_ar": "### الوصول المميز\n\n- جميع ميزات الاشتراك العادي.\n- دعم **ذو أولوية**.\n- ميزات **حصرية** تجريبية."
+                    }
+                ]
+            },
+            {
+                "Name": "Synapse Amplifier",
+                "Name_ar": "مضخم التشابك العصبي",
+                "ImageURL": "https://placehold.co/600x600/a855f7/ffffff?text=Synapse+Amp",
+                "Status": "Out of Stock",
+                "options": [
+                    {
+                        "name": "Gen 1 Model",
+                        "name_ar": "نموذج الجيل الأول",
+                        "price": "$150",
+                        "info": "The original Synapse Amplifier. A classic choice for enthusiasts.",
+                        "info_ar": "مضخم التشابك العصبي الأصلي. خيار كلاسيكي للمتحمسين."
+                    }
+                ]
+            }
+        ];
         let state = { currentLang: 'en', theme: 'dark', isModalOpen: false, currentProduct: null };
         
         // --- DOM ELEMENTS ---
@@ -361,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const applyTheme = (theme) => {
             state.theme = theme;
-            // Note: We don't save the theme here because this page should only reflect the theme set on index.html
             dom.html.classList.toggle('dark', theme === 'dark');
         };
 
@@ -522,25 +562,21 @@ document.addEventListener('DOMContentLoaded', () => {
             return rawData.map(p => ({ ...p })).filter(p => p && p.Name && p.options && p.options.length > 0);
         };
 
-        const fetchAndFindProduct = async () => {
+        // This function now uses the embedded `productData` instead of fetching a file.
+        const findProduct = () => {
             const params = new URLSearchParams(window.location.search);
             const productId = params.get('id');
-            if (!productId) { displayNotFound(); return; }
+            if (!productId) { 
+                displayNotFound(); 
+                return; 
+            }
             
-            try {
-                const response = await fetch(DATA_FILE_PATH);
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const rawJsonData = await response.json();
-                const products = processJsonData(rawJsonData);
-                state.currentProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
-                
-                if (state.currentProduct) { 
-                    renderProductDetails();
-                } else { 
-                    displayNotFound();
-                }
-            } catch (error) {
-                console.error("Error fetching product data:", error);
+            const products = processJsonData(productData);
+            state.currentProduct = products.find(p => p.Name.replace(/ /g, '-').toLowerCase() === productId);
+            
+            if (state.currentProduct) { 
+                renderProductDetails();
+            } else { 
                 displayNotFound();
             }
         };
@@ -565,11 +601,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const init = () => {
             const savedLang = storage.get('neurosub-lang', 'en');
-            initTheme(); // Initialize the theme on page load
-            setLanguage(savedLang, true); // Set language initially
+            initTheme();
+            setLanguage(savedLang, true);
             bindEvents();
-            fetchAndFindProduct();
-            handleScroll(); // Initial check
+            // Call the updated function
+            findProduct();
+            handleScroll();
         };
 
         return { init };
