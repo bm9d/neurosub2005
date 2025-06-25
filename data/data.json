@@ -1,19 +1,24 @@
 {
   "products": [
     {
+      "TelegramLink": "https://t.me/neurosub1",
       "Name": "Chat GPT",
+      "ImageURL": "https://i.imgur.com/zzfgAD9.png",
+      "id": "chat-gpt",
       "Category": "",
       "options": [
         {
-          "info": "",
           "price": "17,000 IQD",
+          "info": "",
           "name": "???"
+        },
+        {
+          "price": "14,000 IQD",
+          "info": "",
+          "name": "?????"
         }
       ],
       "Status": "In Stock",
-      "ImageURL": "https://i.imgur.com/zzfgAD9.png",
-      "TelegramLink": "https://t.me/neurosub1",
-      "id": "chat-gpt",
       "Description": ""
     }
   ]
