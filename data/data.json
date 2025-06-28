@@ -1,25 +1,3 @@
 {
-  "products": [
-    {
-      "Description": "Fyf",
-      "Category": "Fyf",
-      "Status": "In Stock",
-      "ImageURL": "https://raw.githubusercontent.com/bm9d/neurosub2005/main/images/IMG_7067.png",
-      "id": "ccfgf",
-      "options": [
-        {
-          "name": "Vhf",
-          "info": "Fgfg",
-          "price": "6 IQD"
-        },
-        {
-          "name": "Cgc",
-          "price": "7 IQD",
-          "info": "Hg"
-        }
-      ],
-      "TelegramLink": "fy",
-      "Name": "Ccfgf"
-    }
-  ]
+  "products": []
 }
