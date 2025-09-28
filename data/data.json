@@ -2,19 +2,19 @@
   "products": [
     {
       "Name": "F",
+      "Category": "T",
       "Description": "T",
       "TelegramLink": "t",
+      "Status": "In Stock",
+      "ImageURL": "https://i.ibb.co/pt3B3xY/5682b649ad47.jpg",
+      "id": "f",
       "options": [
         {
+          "price": "5",
           "name": "T",
-          "info": "T",
-          "price": "5"
+          "info": "T"
         }
-      ],
-      "Status": "In Stock",
-      "id": "f",
-      "ImageURL": "https://i.ibb.co/pt3B3xY/5682b649ad47.jpg",
-      "Category": "T"
+      ]
     }
   ]
 }
